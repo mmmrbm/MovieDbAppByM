@@ -62,6 +62,8 @@ namespace MovieDbAppByM.ViewModel
         private void ToolCommandHandler()
         {
             //this.DisplayToolWindow();
+            Service.MoviePersistanceService service = new Service.MoviePersistanceService();
+            service.PersistMoive();
         }
 
         private void SettingCommandHandler()

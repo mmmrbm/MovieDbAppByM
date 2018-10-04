@@ -1,14 +1,22 @@
-﻿namespace MovieDbAppByM.Dto
+﻿using Newtonsoft.Json;
+
+namespace MovieDbAppByM.Dto
 {
     /// <summary>
     /// Dto to represent movie collection information obtained via TMDB API.
-    /// Variable names deviates from .NET standards due to JSON conversion.
     /// </summary>
     public class TmdbBelongsToCollectionDto
     {
+        [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
+
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
-        public string Poster_path { get; set; }
-        public string Backdrop_path { get; set; }
+
+        [JsonProperty(PropertyName = "poster_path")]
+        public string PosterPath { get; set; }
+
+        [JsonProperty(PropertyName = "backdrop_path")]
+        public string BackdropPath { get; set; }
     }
 }

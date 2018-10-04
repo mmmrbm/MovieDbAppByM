@@ -1,12 +1,16 @@
-﻿namespace MovieDbAppByM.Dto
+﻿using Newtonsoft.Json;
+
+namespace MovieDbAppByM.Dto
 {
     /// <summary>
     /// Dto to represent movie production country information obtained via TMDB API.
-    /// Variable names deviates from .NET standards due to JSON conversion.
     /// </summary>
     public class TmdbProductionCountryDto
     {
-        public string Iso_3166_1 { get; set; }
+        [JsonProperty(PropertyName = "iso_3166_1")]
+        public string CountryCode { get; set; }
+
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
     }
 }

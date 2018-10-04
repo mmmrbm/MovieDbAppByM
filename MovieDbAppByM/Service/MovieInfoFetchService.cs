@@ -1,14 +1,17 @@
 ﻿using MovieDbAppByM.Dto;
 using MovieDbAppByM.Model;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace MovieDbAppByM.Service
 {
     public class MovieInfoFetchService
     {
-        private HttpClient client = null;
+        private WebClient webClient = null;
 
         private const string infoFetchUrl = @"https://api.themoviedb.org/3/movie/{0}?api_key={1}";
         private const string creditFetchUrl = @"http://api.themoviedb.org/3/movie/{0}/credits?api_key={1}";
@@ -16,55 +19,21 @@ namespace MovieDbAppByM.Service
 
         public MovieInfoFetchService()
         {
-            client = new HttpClient();
+            webClient = new WebClient();
         }
 
-        public async Task<TmdbMovieInformatonDto> GetMovieAsync()
+        public TmdbMovieInformatonDto GetMovieAsync(string imdbId)
         {
-            TmdbMovieInformatonDto movie = null;
-            string currentID = "tt0133093";
-            HttpResponseMessage response = await client.GetAsync(string.Format(infoFetchUrl, currentID, apiKey));
-            if (response.IsSuccessStatusCode)
-            {
-                movie = await response.Content.ReadAsAsync<TmdbMovieInformatonDto>();
-            }
+            string apiUrl = string.Format(infoFetchUrl, imdbId, apiKey);
+            TmdbMovieInformatonDto movie = JsonConvert.DeserializeObject<TmdbMovieInformatonDto>(webClient.DownloadString(apiUrl));
             return movie;
         }
 
-        public async Task<TmdbMovieCastInfoDto> GetMovieCreditsAsync()
+        public TmdbMovieCastInfoDto GetMovieCreditsAsync(string imdbId)
         {
-            TmdbMovieCastInfoDto movieCast = null;
-            string currentID = "tt0133093";
-            HttpResponseMessage response = await client.GetAsync(string.Format(creditFetchUrl, currentID, apiKey));
-            if (response.IsSuccessStatusCode)
-            {
-                movieCast = await response.Content.ReadAsAsync<TmdbMovieCastInfoDto>();
-            }
+            string apiUrl = string.Format(creditFetchUrl, imdbId, apiKey);
+            TmdbMovieCastInfoDto movieCast = JsonConvert.DeserializeObject<TmdbMovieCastInfoDto>(webClient.DownloadString(apiUrl));
             return movieCast;
-        }
-
-        private List<MovieActor> PopulateMovieActors(TmdbMovieCastInfoDto castInfoDto)
-        {
-            List<MovieActor> movieActors = new List<MovieActor>();
-
-            foreach (var movieCast in castInfoDto.Cast)
-            {
-                MovieActor movieActor = new MovieActor()
-                {
-                    MovieId = castInfoDto.Id,
-                    ActorId = movieCast.Id,
-                    CastOrder = movieCast.Order
-                };
-
-                movieActors.Add(movieActor);
-
-                if (movieActors.Capacity > 5)
-                {
-                    break;
-                }
-            }
-
-            return movieActors;
         }
     }
 }

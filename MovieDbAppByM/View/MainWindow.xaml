@@ -156,7 +156,7 @@
         </Button>
         <Button Name="btnTools" Grid.Column="14" Grid.Row="12" Width="32" Height="32" ToolTip="Launch Scraper tool"
                 Style="{DynamicResource EmptyButtonStyle}" Command="{Binding ToolCommand}">
-            <Image Source="/Icons/Magic-Wand-128.png"/>
+            <Image Source="/Icons/Add-New-128.png"/>
         </Button>
         <Button Name="btnSettings" Grid.Column="15" Grid.Row="12" Width="32" Height="32" ToolTip="Settings"
                 Style="{DynamicResource EmptyButtonStyle}" Command="{Binding SettingCommand}">

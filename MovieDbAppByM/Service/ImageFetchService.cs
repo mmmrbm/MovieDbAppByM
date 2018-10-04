@@ -8,7 +8,7 @@ namespace MovieDbAppByM.Service
         private const string actorImageUrlPath = @"w45";
         private const string thumbnailImageUrlPath = @"w92";
         private const string posterImageUrlPath = @"w500";
-        private const string BACKDROP_IMAGE_URL_PATH = @"w1280";
+        private const string backdropImageUrlPath = @"w1280";
 
         public byte[] FetchFromUrl(MovieImageTypes imageType, string imageName)
         {
@@ -26,7 +26,7 @@ namespace MovieDbAppByM.Service
                     url = imageBaseUrl + posterImageUrlPath + imageName;
                     break;
                 case MovieImageTypes.Backdrop:
-                    url = imageBaseUrl + BACKDROP_IMAGE_URL_PATH + imageName;
+                    url = imageBaseUrl + backdropImageUrlPath + imageName;
                     break;
                 default:
                     break;

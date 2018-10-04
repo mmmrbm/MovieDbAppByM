@@ -9,12 +9,12 @@ namespace MovieDbAppByM.Model
     [Table("Actor")]
     public class Actor
     {
-        [KeyAttribute()]
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [MaxLength(200)]
         public string Name { get; set; }
 
         public byte[] ProfileImage { get; set; }

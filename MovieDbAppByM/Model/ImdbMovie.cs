@@ -10,11 +10,14 @@ namespace MovieDbAppByM.Model
     [Table("ImdbMovie")]
     public class ImdbMovie
     {
-        [KeyAttribute()]
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ImdbId { get; set; }
 
         [Required]
         public string MovieName { get; set; }
+
+        [Required]
+        public string LoadedFileName { get; set; }
     }
 }

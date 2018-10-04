@@ -14,12 +14,8 @@ namespace MovieDbAppByM.Persistance
 
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new System.Data.Entity.Infrastructure.UnintentionalCodeFirstException();
-        }
-
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Actor> Actors { get; set; }
+        public DbSet<MovieActor> MovieActors { get; set; }
     }
 }
