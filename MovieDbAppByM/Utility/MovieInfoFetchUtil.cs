@@ -1,15 +1,10 @@
 ﻿using MovieDbAppByM.Dto;
-using MovieDbAppByM.Model;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
-namespace MovieDbAppByM.Service
+namespace MovieDbAppByM.Utility
 {
-    public class MovieInfoFetchService
+    public class MovieInfoFetchUtil
     {
         private WebClient webClient = null;
 
@@ -17,7 +12,7 @@ namespace MovieDbAppByM.Service
         private const string creditFetchUrl = @"http://api.themoviedb.org/3/movie/{0}/credits?api_key={1}";
         private const string apiKey = "37aec05da628be043091f9639c579d7e";
 
-        public MovieInfoFetchService()
+        public MovieInfoFetchUtil()
         {
             webClient = new WebClient();
         }

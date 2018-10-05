@@ -1,4 +1,4 @@
-﻿namespace MovieDbAppByM.Service
+﻿namespace MovieDbAppByM.Utility
 {
     public enum MovieImageTypes
     {

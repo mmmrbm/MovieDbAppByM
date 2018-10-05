@@ -1,5 +1,7 @@
-﻿using MovieDbAppByM.Core;
-using System;
+﻿using Autofac;
+using MovieDbAppByM.Core;
+using MovieDbAppByM.DependencyInjection;
+using MovieDbAppByM.Service;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -453,7 +455,8 @@ namespace MovieDbAppByM.ViewModel
         private void ToolCommandHandler()
         {
             //this.DisplayToolWindow();
-            Service.MoviePersistanceService service = new Service.MoviePersistanceService();
+            IContainer continer = IocContainerSingleton.Instance.Container;
+            MoviePersistanceService service = continer.Resolve<MoviePersistanceService>();
             service.PersistMoive();
         }
 

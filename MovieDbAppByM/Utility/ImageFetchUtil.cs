@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace MovieDbAppByM.Service
+namespace MovieDbAppByM.Utility
 {
-    public class ImageFetchService
+    public class ImageFetchUtil
     {
         private const string imageBaseUrl = @"https://image.tmdb.org/t/p/";
         private const string crewImageUrlPath = @"w45";

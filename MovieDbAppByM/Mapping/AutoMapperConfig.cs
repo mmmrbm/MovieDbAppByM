@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using MovieDbAppByM.Dto;
 using MovieDbAppByM.Model;
-using MovieDbAppByM.Service;
+using MovieDbAppByM.Utility;
 using System.Collections.Generic;
 using System.Text;
 
-public static class AutoMapperConfig
+public class AutoMapperConfig
 {
-    public static IMapper GetMapper()
+    public IMapper GetMapper()
     {
         var config = new MapperConfiguration(cfg => {
             cfg.CreateMap<TmdbCastDto, Actor>()
@@ -43,7 +43,7 @@ public static class AutoMapperConfig
 
     private static byte[] GetImage(MovieImageTypes imageType, string imageName)
     {
-        ImageFetchService imageFetch = new ImageFetchService();
+        ImageFetchUtil imageFetch = new ImageFetchUtil();
         return imageFetch.FetchFromUrl(imageType, imageName);
     }
 

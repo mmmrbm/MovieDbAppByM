@@ -6,7 +6,7 @@ namespace MovieDbAppByM.Persistance
     /// <summary>
     /// EF Database context for the application.
     /// </summary>
-    class MovieAppDbContext : DbContext
+    public class MovieAppDbContext : DbContext
     {
         public MovieAppDbContext()
             : base("name=MovieDbEntities")

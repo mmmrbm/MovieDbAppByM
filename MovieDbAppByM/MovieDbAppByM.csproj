@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
@@ -75,6 +78,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\ByteToImageConverter.cs" />
+    <Compile Include="DependencyInjection\IocContainerSingleton.cs" />
+    <Compile Include="DependencyInjection\MappingModule.cs" />
+    <Compile Include="DependencyInjection\PersistanceModule.cs" />
+    <Compile Include="DependencyInjection\RepositoryModule.cs" />
+    <Compile Include="DependencyInjection\ServiceModule.cs" />
+    <Compile Include="DependencyInjection\UtilityModule.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Migrations\201810051250248_MovieDB_V1.0.cs" />
     <Compile Include="Migrations\201810051250248_MovieDB_V1.0.Designer.cs">
@@ -83,10 +92,22 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Director.cs" />
     <Compile Include="Model\MovieDirector.cs" />
+    <Compile Include="Persistance\Repository\Implementation\ActorRepository.cs" />
+    <Compile Include="Persistance\Repository\Implementation\DirectorRepository.cs" />
+    <Compile Include="Persistance\Repository\Contract\IActorRepository.cs" />
+    <Compile Include="Persistance\Repository\Contract\IDirectorRepository.cs" />
+    <Compile Include="Persistance\Repository\Contract\IMovieActorRepository.cs" />
+    <Compile Include="Persistance\Repository\Contract\IMovieDirectorRepository.cs" />
+    <Compile Include="Persistance\Repository\Contract\IMovieRepository.cs" />
+    <Compile Include="Persistance\Repository\Implementation\MovieActorRepository.cs" />
+    <Compile Include="Persistance\Repository\Implementation\MovieDirectorRepository.cs" />
+    <Compile Include="Persistance\Repository\Implementation\MovieRepository.cs" />
+    <Compile Include="Persistance\UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="Persistance\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Service\AppSettings.cs" />
-    <Compile Include="Service\ImageFetchService.cs" />
-    <Compile Include="Service\MovieImageTypes.cs" />
-    <Compile Include="Service\MovieInfoFetchService.cs" />
+    <Compile Include="Utility\ImageFetchUtil.cs" />
+    <Compile Include="Utility\MovieImageTypes.cs" />
+    <Compile Include="Utility\MovieInfoFetchUtil.cs" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -182,9 +203,6 @@
     <Resource Include="Images\empty_poster.png" />
     <Resource Include="Images\empty_thumbnal.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Persistance\Repository\" />
-    <Folder Include="Utility\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
