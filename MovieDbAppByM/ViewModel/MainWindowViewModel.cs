@@ -23,24 +23,26 @@ namespace MovieDbAppByM.ViewModel
         #endregion
 
         #region Class variables
-        private string castTextValue;
-        private string directorTextValue;
-        private string statusTextValue;
-        private string genreTextValue;
-        private string overviewTextValue;
         private string titleTextValue;
+        private string directorTextValue;
         private string taglineTextValue;
+        private string runtimeTextValue;
         private string ratingTextValue;
         private string releaseYearTextValue;
+        private string genreTextValue;
+        private string overviewTextValue;
         private string actorOneTextValue;
         private string actorTwoTextValue;
         private string actorThreeTextValue;
         private string actorFourTextValue;
         private string actorFiveTextValue;
         private string actorSixTextValue;
+        private string castTextValue;
+        private string statusTextValue;
 
         private byte[] backdropImgRawData;
         private byte[] posterImgRawData;
+        private byte[] directorImgRawData;
         private byte[] actorOneImgRawData;
         private byte[] actorTwoImgRawData;
         private byte[] actorThreeImgRawData;
@@ -48,19 +50,21 @@ namespace MovieDbAppByM.ViewModel
         private byte[] actorFiveImgRawData;
         private byte[] actorSixImgRawData;
 
+
+        private SolidColorBrush backgroundFillColor;
+        private SolidColorBrush appNameBackgroundColor;
+        private SolidColorBrush topLeftRectangleFillColor;
+        private SolidColorBrush headerBarRectangleFillColor;
+        private SolidColorBrush searchBoxBackgroundColor;
+        private SolidColorBrush searchBarFillColor;
         private SolidColorBrush titleTextForegroundColor;
+        private SolidColorBrush directorTextForegroundColor;
         private SolidColorBrush taglineTextForegroundColor;
+        private SolidColorBrush runtimeTextForegroundColor;
         private SolidColorBrush ratingTextForegroundColor;
         private SolidColorBrush yearTextForegroundColor;
         private SolidColorBrush overviewTextForegroundColor;
         private SolidColorBrush castTextForegroundColor;
-        private SolidColorBrush directorTextForegroundColor;
-        private SolidColorBrush topLeftRectangleFillColor;
-        private SolidColorBrush headerBarRectangleFillColor;
-        private SolidColorBrush backgroundFillColor;
-        private SolidColorBrush searchBoxBackgroundColor;
-        private SolidColorBrush searchBarFillColor;
-        private SolidColorBrush appNameBackgroundColor;
         private SolidColorBrush actorOneTextForegroundColor;
         private SolidColorBrush actorTwoTextForegroundColor;
         private SolidColorBrush actorThreeTextForegroundColor;
@@ -90,10 +94,22 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.titleTextValue, value); }
         }
 
+        public string DirectorTextValue
+        {
+            get { return this.directorTextValue; }
+            set { this.SetProperty(ref this.directorTextValue, value); }
+        }
+
         public string TaglineTextValue
         {
             get { return this.taglineTextValue; }
             set { this.SetProperty(ref this.taglineTextValue, value); }
+        }
+
+        public string RuntimeTextValue
+        {
+            get { return this.runtimeTextValue; }
+            set { this.SetProperty(ref this.runtimeTextValue, value); }
         }
 
         public string RatingTextValue
@@ -108,18 +124,6 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.releaseYearTextValue, value); }
         }
 
-        public string DirectorTextValue
-        {
-            get { return this.directorTextValue; }
-            set { this.SetProperty(ref this.directorTextValue, value); }
-        }
-
-        public string StatusTextValue
-        {
-            get { return this.statusTextValue; }
-            set { this.SetProperty(ref this.statusTextValue, value); }
-        }
-
         public string GenreTextValue
         {
             get { return this.genreTextValue; }
@@ -130,54 +134,6 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.overviewTextValue; }
             set { this.SetProperty(ref this.overviewTextValue, value); }
-        }
-
-        public byte[] BackdropImgRawData
-        {
-            get { return this.backdropImgRawData; }
-            set { this.SetProperty(ref this.backdropImgRawData, value); }
-        }
-
-        public byte[] PosterImgRawData
-        {
-            get { return this.posterImgRawData; }
-            set { this.SetProperty(ref this.posterImgRawData, value); }
-        }
-
-        public byte[] ActorOneImgRawData
-        {
-            get { return this.actorOneImgRawData; }
-            set { this.SetProperty(ref this.actorOneImgRawData, value); }
-        }
-
-        public byte[] ActorTwoImgRawData
-        {
-            get { return this.actorTwoImgRawData; }
-            set { this.SetProperty(ref this.actorTwoImgRawData, value); }
-        }
-
-        public byte[] ActorThreeImgRawData
-        {
-            get { return this.actorThreeImgRawData; }
-            set { this.SetProperty(ref this.actorThreeImgRawData, value); }
-        }
-
-        public byte[] ActorFourImgRawData
-        {
-            get { return this.actorFourImgRawData; }
-            set { this.SetProperty(ref this.actorFourImgRawData, value); }
-        }
-
-        public byte[] ActorFiveImgRawData
-        {
-            get { return this.actorFiveImgRawData; }
-            set { this.SetProperty(ref this.actorFiveImgRawData, value); }
-        }
-
-        public byte[] ActorSixImgRawData
-        {
-            get { return this.actorSixImgRawData; }
-            set { this.SetProperty(ref this.actorSixImgRawData, value); }
         }
 
         public string ActorOneTextValue
@@ -216,16 +172,126 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.actorSixTextValue, value); }
         }
 
+        public string StatusTextValue
+        {
+            get { return this.statusTextValue; }
+            set { this.SetProperty(ref this.statusTextValue, value); }
+        }
+
+        public byte[] BackdropImgRawData
+        {
+            get { return this.backdropImgRawData; }
+            set { this.SetProperty(ref this.backdropImgRawData, value); }
+        }
+
+        public byte[] PosterImgRawData
+        {
+            get { return this.posterImgRawData; }
+            set { this.SetProperty(ref this.posterImgRawData, value); }
+        }
+
+        public byte[] DirectorImgRawData
+        {
+            get { return this.directorImgRawData; }
+            set { this.SetProperty(ref this.directorImgRawData, value); }
+        }
+
+        public byte[] ActorOneImgRawData
+        {
+            get { return this.actorOneImgRawData; }
+            set { this.SetProperty(ref this.actorOneImgRawData, value); }
+        }
+
+        public byte[] ActorTwoImgRawData
+        {
+            get { return this.actorTwoImgRawData; }
+            set { this.SetProperty(ref this.actorTwoImgRawData, value); }
+        }
+
+        public byte[] ActorThreeImgRawData
+        {
+            get { return this.actorThreeImgRawData; }
+            set { this.SetProperty(ref this.actorThreeImgRawData, value); }
+        }
+
+        public byte[] ActorFourImgRawData
+        {
+            get { return this.actorFourImgRawData; }
+            set { this.SetProperty(ref this.actorFourImgRawData, value); }
+        }
+
+        public byte[] ActorFiveImgRawData
+        {
+            get { return this.actorFiveImgRawData; }
+            set { this.SetProperty(ref this.actorFiveImgRawData, value); }
+        }
+
+        public byte[] ActorSixImgRawData
+        {
+            get { return this.actorSixImgRawData; }
+            set { this.SetProperty(ref this.actorSixImgRawData, value); }
+        }
+
+
+
+        public SolidColorBrush BackgroundFillColor
+        {
+            get { return this.backgroundFillColor; }
+            set { this.SetProperty(ref this.backgroundFillColor, value); }
+        }
+
+        public SolidColorBrush TopLeftRectangleFillColor
+        {
+            get { return this.topLeftRectangleFillColor; }
+            set { this.SetProperty(ref this.topLeftRectangleFillColor, value); }
+        }
+
+        public SolidColorBrush HeaderBarRectangleFillColor
+        {
+            get { return this.headerBarRectangleFillColor; }
+            set { this.SetProperty(ref this.headerBarRectangleFillColor, value); }
+        }
+
+        public SolidColorBrush AppNameBackgroundColor
+        {
+            get { return this.appNameBackgroundColor; }
+            set { this.SetProperty(ref this.appNameBackgroundColor, value); }
+        }
+
+        public SolidColorBrush SearchBoxBackgroundColor
+        {
+            get { return this.searchBoxBackgroundColor; }
+            set { this.SetProperty(ref this.searchBoxBackgroundColor, value); }
+        }
+
+        public SolidColorBrush SearchBarFillColor
+        {
+            get { return this.searchBarFillColor; }
+            set { this.SetProperty(ref this.searchBarFillColor, value); }
+        }
+
         public SolidColorBrush TitleTextForegroundColor
         {
             get { return this.titleTextForegroundColor; }
             set { this.SetProperty(ref this.titleTextForegroundColor, value); }
         }
 
+        public SolidColorBrush DirectorTextForegroundColor
+        {
+            get { return this.directorTextForegroundColor; }
+            set { this.SetProperty(ref this.directorTextForegroundColor, value); }
+        }
+
         public SolidColorBrush TaglineTextForegroundColor
         {
             get { return this.taglineTextForegroundColor; }
             set { this.SetProperty(ref this.taglineTextForegroundColor, value); }
+        }
+
+        public SolidColorBrush RuntimeTextForegroundColor
+        {
+            get { return this.ratingTextForegroundColor; }
+            set { this.SetProperty(ref this.ratingTextForegroundColor, value); }
         }
 
         public SolidColorBrush RatingTextForegroundColor
@@ -256,48 +322,6 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.castTextForegroundColor; }
             set { this.SetProperty(ref this.castTextForegroundColor, value); }
-        }
-
-        public SolidColorBrush DirectorTextForegroundColor
-        {
-            get { return this.directorTextForegroundColor; }
-            set { this.SetProperty(ref this.directorTextForegroundColor, value); }
-        }
-
-        public SolidColorBrush TopLeftRectangleFillColor
-        {
-            get { return this.topLeftRectangleFillColor; }
-            set { this.SetProperty(ref this.topLeftRectangleFillColor, value); }
-        }
-
-        public SolidColorBrush HeaderBarRectangleFillColor
-        {
-            get { return this.headerBarRectangleFillColor; }
-            set { this.SetProperty(ref this.headerBarRectangleFillColor, value); }
-        }
-
-        public SolidColorBrush BackgroundFillColor
-        {
-            get { return this.backgroundFillColor; }
-            set { this.SetProperty(ref this.backgroundFillColor, value); }
-        }
-
-        public SolidColorBrush SearchBoxBackgroundColor
-        {
-            get { return this.searchBoxBackgroundColor; }
-            set { this.SetProperty(ref this.searchBoxBackgroundColor, value); }
-        }
-
-        public SolidColorBrush SearchBarFillColor
-        {
-            get { return this.searchBarFillColor; }
-            set { this.SetProperty(ref this.searchBarFillColor, value); }
-        }
-
-        public SolidColorBrush AppNameBackgroundColor
-        {
-            get { return this.appNameBackgroundColor; }
-            set { this.SetProperty(ref this.appNameBackgroundColor, value); }
         }
 
         public string CastTextValue

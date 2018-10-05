@@ -29,6 +29,12 @@ public static class AutoMapperConfig
                 .ForMember(movie => movie.BackdropImage, opt => opt.MapFrom(dto => GetImage(MovieImageTypes.Backdrop, dto.BackdropPath)))
                 .ForMember(movie => movie.PosterImage, opt => opt.MapFrom(dto => GetImage(MovieImageTypes.Poster, dto.PosterPath)))
                 .ForMember(movie => movie.Genres, opt => opt.MapFrom(dto => GetGenreAsString(dto.Genres)));
+
+            cfg.CreateMap<TmdbCrewDto, Director>()
+                .ForMember(director => director.Id, opt => opt.MapFrom(dto => dto.Id))
+                .ForMember(director => director.Name, opt => opt.MapFrom(dto => dto.Name))
+                .ForMember(director => director.ProfileImage, opt => opt.MapFrom(dto => GetImage(MovieImageTypes.Director, dto.ProfilePath)));
+
         });
 
         IMapper mapper = config.CreateMapper();

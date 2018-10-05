@@ -76,11 +76,13 @@
     </ApplicationDefinition>
     <Compile Include="Converter\ByteToImageConverter.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
-    <Compile Include="Migrations\201810041002219_MovieDB_v1.0.cs" />
-    <Compile Include="Migrations\201810041002219_MovieDB_v1.0.Designer.cs">
-      <DependentUpon>201810041002219_MovieDB_v1.0.cs</DependentUpon>
+    <Compile Include="Migrations\201810051250248_MovieDB_V1.0.cs" />
+    <Compile Include="Migrations\201810051250248_MovieDB_V1.0.Designer.cs">
+      <DependentUpon>201810051250248_MovieDB_V1.0.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\Director.cs" />
+    <Compile Include="Model\MovieDirector.cs" />
     <Compile Include="Service\AppSettings.cs" />
     <Compile Include="Service\ImageFetchService.cs" />
     <Compile Include="Service\MovieImageTypes.cs" />
@@ -136,8 +138,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201810041002219_MovieDB_v1.0.resx">
-      <DependentUpon>201810041002219_MovieDB_v1.0.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810051250248_MovieDB_V1.0.resx">
+      <DependentUpon>201810051250248_MovieDB_V1.0.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -182,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Persistance\Repository\" />
+    <Folder Include="Utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

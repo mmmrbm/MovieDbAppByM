@@ -3,7 +3,7 @@ namespace MovieDbAppByM.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MovieDB_v10 : DbMigration
+    public partial class MovieDB_V10 : DbMigration
     {
         public override void Up()
         {
@@ -16,6 +16,26 @@ namespace MovieDbAppByM.Migrations
                         ProfileImage = c.Binary(),
                     })
                 .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Director",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 200),
+                        ProfileImage = c.Binary(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.ImdbMovie",
+                c => new
+                    {
+                        ImdbId = c.Int(nullable: false),
+                        MovieName = c.String(nullable: false),
+                        LoadedFileName = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.ImdbId);
             
             CreateTable(
                 "dbo.MovieActor",
@@ -46,8 +66,8 @@ namespace MovieDbAppByM.Migrations
                         Genres = c.String(nullable: false, maxLength: 200),
                         Runtime = c.Int(nullable: false),
                         ReleaseDate = c.String(nullable: false),
-                        BackdropImage = c.Binary(nullable: false),
-                        PosterImage = c.Binary(nullable: false),
+                        BackdropImage = c.Binary(),
+                        PosterImage = c.Binary(),
                         Homepage = c.String(maxLength: 200),
                         HasWatched = c.Boolean(nullable: false),
                         PersonalComments = c.String(maxLength: 4000),
@@ -59,16 +79,37 @@ namespace MovieDbAppByM.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
+            CreateTable(
+                "dbo.MovieDirector",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        MovieId = c.Int(nullable: false),
+                        DirectorId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Director", t => t.DirectorId, cascadeDelete: true)
+                .ForeignKey("dbo.Movie", t => t.MovieId, cascadeDelete: true)
+                .Index(t => t.MovieId)
+                .Index(t => t.DirectorId);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.MovieDirector", "MovieId", "dbo.Movie");
+            DropForeignKey("dbo.MovieDirector", "DirectorId", "dbo.Director");
             DropForeignKey("dbo.MovieActor", "MovieId", "dbo.Movie");
             DropForeignKey("dbo.MovieActor", "ActorId", "dbo.Actor");
+            DropIndex("dbo.MovieDirector", new[] { "DirectorId" });
+            DropIndex("dbo.MovieDirector", new[] { "MovieId" });
             DropIndex("dbo.MovieActor", new[] { "ActorId" });
             DropIndex("dbo.MovieActor", new[] { "MovieId" });
+            DropTable("dbo.MovieDirector");
             DropTable("dbo.Movie");
             DropTable("dbo.MovieActor");
+            DropTable("dbo.ImdbMovie");
+            DropTable("dbo.Director");
             DropTable("dbo.Actor");
         }
     }

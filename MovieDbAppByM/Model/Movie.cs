@@ -47,10 +47,8 @@ namespace MovieDbAppByM.Model
         [Required]
         public string ReleaseDate { get; set; }
 
-        [Required]
         public byte[] BackdropImage { get; set; }
 
-        [Required]
         public byte[] PosterImage { get; set; }
 
         [MaxLength(200)]

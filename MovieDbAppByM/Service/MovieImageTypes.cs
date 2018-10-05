@@ -6,5 +6,6 @@
         Thumbnail = 0x02,
         Poster = 0x03,
         Backdrop = 0x04,
+        Director = 0x05
     }
 }

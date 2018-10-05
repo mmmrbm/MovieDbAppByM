@@ -5,7 +5,7 @@ namespace MovieDbAppByM.Service
     public class ImageFetchService
     {
         private const string imageBaseUrl = @"https://image.tmdb.org/t/p/";
-        private const string actorImageUrlPath = @"w45";
+        private const string crewImageUrlPath = @"w45";
         private const string thumbnailImageUrlPath = @"w92";
         private const string posterImageUrlPath = @"w500";
         private const string backdropImageUrlPath = @"w1280";
@@ -17,7 +17,10 @@ namespace MovieDbAppByM.Service
             switch (imageType)
             {
                 case MovieImageTypes.Actor:
-                    url = imageBaseUrl + actorImageUrlPath + imageName;
+                    url = imageBaseUrl + crewImageUrlPath + imageName;
+                    break;
+                case MovieImageTypes.Director:
+                    url = imageBaseUrl + crewImageUrlPath + imageName;
                     break;
                 case MovieImageTypes.Thumbnail:
                     url = imageBaseUrl + thumbnailImageUrlPath + imageName;

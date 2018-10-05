@@ -21,6 +21,10 @@ namespace MovieDbAppByM.Dto
 
         public string Genres { get; set; }
 
+        public string Director { get; set; }
+
+        public byte[] DirectorImage { get; set; }
+
         public byte[] BackdropImage { get; set; }
 
         public byte[] PosterImage { get; set; }

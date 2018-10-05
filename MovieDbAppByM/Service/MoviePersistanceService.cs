@@ -2,10 +2,7 @@
 using MovieDbAppByM.Dto;
 using MovieDbAppByM.Model;
 using MovieDbAppByM.Persistance;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace MovieDbAppByM.Service
 {
@@ -46,6 +43,20 @@ namespace MovieDbAppByM.Service
                 };
                 dbContext.MovieActors.Add(movieActor);
             }
+
+            TmdbCrewDto directorDtoFromApi = movieCastFromApi.Crew
+                .Where(crew => crew.Job == "Director")
+                .FirstOrDefault();
+
+            Director director = mapper.Map<Director>(directorDtoFromApi);
+            dbContext.Directors.Add(director);
+
+            MovieDirector movieDirector = new MovieDirector()
+            {
+                MovieId = movieCastFromApi.Id,
+                DirectorId = directorDtoFromApi.Id
+            };
+            dbContext.MovieDirectors.Add(movieDirector);
 
             dbContext.SaveChanges();
         }
