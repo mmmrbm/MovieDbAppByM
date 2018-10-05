@@ -1,4 +1,4 @@
-﻿namespace MovieDbAppByM.ViewModel
+﻿namespace MovieDbAppByM.View.Contract
 {
     public interface IMinimizable
     {

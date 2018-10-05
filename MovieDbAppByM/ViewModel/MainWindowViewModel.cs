@@ -2,6 +2,7 @@
 using MovieDbAppByM.Core;
 using MovieDbAppByM.DependencyInjection;
 using MovieDbAppByM.Service;
+using MovieDbAppByM.View.Contract;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -30,6 +31,7 @@ namespace MovieDbAppByM.ViewModel
         private string taglineTextValue;
         private string runtimeTextValue;
         private string ratingTextValue;
+        private string homepageTextValue;
         private string releaseYearTextValue;
         private string genreTextValue;
         private string overviewTextValue;
@@ -62,6 +64,7 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush titleTextForegroundColor;
         private SolidColorBrush directorTextForegroundColor;
         private SolidColorBrush taglineTextForegroundColor;
+        private SolidColorBrush homepageTextForegroundColor;
         private SolidColorBrush runtimeTextForegroundColor;
         private SolidColorBrush ratingTextForegroundColor;
         private SolidColorBrush yearTextForegroundColor;
@@ -124,6 +127,12 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.releaseYearTextValue; }
             set { this.SetProperty(ref this.releaseYearTextValue, value); }
+        }
+
+        public string HomepageTextValue
+        {
+            get { return this.homepageTextValue; }
+            set { this.SetProperty(ref this.homepageTextValue, value); }
         }
 
         public string GenreTextValue
@@ -234,8 +243,7 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.actorSixImgRawData, value); }
         }
 
-
-
+        
         public SolidColorBrush BackgroundFillColor
         {
             get { return this.backgroundFillColor; }
@@ -292,8 +300,8 @@ namespace MovieDbAppByM.ViewModel
 
         public SolidColorBrush RuntimeTextForegroundColor
         {
-            get { return this.ratingTextForegroundColor; }
-            set { this.SetProperty(ref this.ratingTextForegroundColor, value); }
+            get { return this.runtimeTextForegroundColor; }
+            set { this.SetProperty(ref this.runtimeTextForegroundColor, value); }
         }
 
         public SolidColorBrush RatingTextForegroundColor
@@ -308,6 +316,13 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.yearTextForegroundColor, value); }
         }
 
+        public SolidColorBrush HomepageTextForegroundColor
+        {
+            get { return this.homepageTextForegroundColor; }
+            set { this.SetProperty(ref this.homepageTextForegroundColor, value); }
+        }
+
+        
         public SolidColorBrush GenreTextForegroundColor
         {
             get { return this.genreTextForegroundColor; }
@@ -484,6 +499,8 @@ namespace MovieDbAppByM.ViewModel
             this.TaglineTextForegroundColor = foregroundColor;
             this.RatingTextForegroundColor = foregroundColor;
             this.YearTextForegroundColor = foregroundColor;
+            this.HomepageTextForegroundColor = foregroundColor;
+            this.RuntimeTextForegroundColor = foregroundColor;
             this.OverviewTextForegroundColor = foregroundColor;
             this.CastTextForegroundColor = foregroundColor;
             this.DirectorTextForegroundColor = foregroundColor;

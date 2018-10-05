@@ -1,4 +1,4 @@
-﻿using MovieDbAppByM.ViewModel;
+﻿using MovieDbAppByM.View.Contract;
 using System.Windows;
 
 namespace MovieDbAppByM.View

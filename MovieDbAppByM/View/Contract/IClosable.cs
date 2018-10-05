@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MovieDbAppByM.ViewModel
+﻿namespace MovieDbAppByM.View.Contract
 {
     /// <summary>
     /// Based on the works found @https://stackoverflow.com/questions/16172462/close-window-from-viewmodel

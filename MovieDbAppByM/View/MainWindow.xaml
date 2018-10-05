@@ -182,15 +182,14 @@
                    Foreground="{Binding Path=TaglineTextForegroundColor}">
         </TextBlock>
 
-        <TextBlock Name="txtRuntime" 
+        <TextBlock Name="txtYear" 
                    Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="3" 
-                   VerticalAlignment="Center" 
-                   TextWrapping="Wrap" 
-                   Margin="0 0 10 0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"
                    FontFamily="Segoe UI Light" 
                    FontSize="20" 
-                   Text="{Binding Path=RuntimeTextValue}" 
-                   Foreground="{Binding Path=RuntimeTextForegroundColor}">
+                   Text="{Binding Path=ReleaseYearTextValue}" 
+                   Foreground="{Binding Path=YearTextForegroundColor}">
         </TextBlock>
 
         <!--Rating and Year-->
@@ -202,20 +201,21 @@
                    Text="{Binding Path=RatingTextValue}" 
                    Foreground="{Binding Path=RatingTextForegroundColor}">
         </TextBlock>
-        
-        <TextBlock Name="txtYear" 
+
+        <TextBlock Name="txtHomePage" 
                    Grid.Column="11" Grid.ColumnSpan="5" Grid.Row="4" 
                    VerticalAlignment="Center"
+                   HorizontalAlignment="Right"
                    FontFamily="Segoe UI Light" 
                    FontSize="20" 
-                   Text="{Binding Path=ReleaseYearTextValue}" 
-                   Foreground="{Binding Path=YearTextForegroundColor}">
+                   Text="{Binding Path=HomepageTextValue}" 
+                   Foreground="{Binding Path=HomepageTextForegroundColor}">
         </TextBlock>
 
 
-        <!--Genre-->
+        <!--Genre and Run time-->
         <TextBlock Name="txtGenre" 
-                   Grid.Column="6" Grid.ColumnSpan="10" Grid.Row="5" 
+                   Grid.Column="6" Grid.ColumnSpan="8" Grid.Row="5" 
                    VerticalAlignment="Center" 
                    FontFamily="Segoe UI Light" 
                    FontSize="20" 
@@ -223,6 +223,16 @@
                    Foreground="{Binding Path=GenreTextForegroundColor}">
         </TextBlock>
 
+        <TextBlock Name="txtRuntime" 
+                   Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="5" 
+                   VerticalAlignment="Center" 
+                   TextWrapping="Wrap" 
+                   Margin="0 0 10 0"
+                   FontFamily="Segoe UI Light" 
+                   FontSize="20" 
+                   Text="{Binding Path=RuntimeTextValue}" 
+                   Foreground="{Binding Path=RuntimeTextForegroundColor}">
+        </TextBlock>
 
         <!--Overview-->
         <TextBlock Name="txtOverview" 

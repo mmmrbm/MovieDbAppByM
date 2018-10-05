@@ -126,8 +126,8 @@
     <Compile Include="Dto\TmdbMovieCastInfoDto.cs" />
     <Compile Include="Service\MoviePersistanceService.cs" />
     <Compile Include="Service\MovieRetrieveService.cs" />
-    <Compile Include="ViewModel\IClosable.cs" />
-    <Compile Include="ViewModel\IMinimizable.cs" />
+    <Compile Include="View\Contract\IClosable.cs" />
+    <Compile Include="View\Contract\IMinimizable.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
