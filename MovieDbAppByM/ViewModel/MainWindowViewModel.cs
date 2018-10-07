@@ -1,8 +1,11 @@
 ﻿using Autofac;
 using MovieDbAppByM.Core;
 using MovieDbAppByM.DependencyInjection;
+using MovieDbAppByM.Dto;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
+using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -23,6 +26,9 @@ namespace MovieDbAppByM.ViewModel
         private static readonly string purpleLight = "#CDBFD8";
         private static readonly string orangeDeep = "#984907";
         private static readonly string orangeLight = "#FCD4B1";
+
+        private static readonly string homepagePlaceHolderText = "Homepage";
+        private static readonly string runtimeUnitText = " mins";
         #endregion
 
         #region Class variables
@@ -43,6 +49,7 @@ namespace MovieDbAppByM.ViewModel
         private string actorSixTextValue;
         private string castTextValue;
         private string statusTextValue;
+        private string homepageTextPlaceHolder;
 
         private byte[] backdropImgRawData;
         private byte[] posterImgRawData;
@@ -60,6 +67,7 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush topLeftRectangleFillColor;
         private SolidColorBrush headerBarRectangleFillColor;
         private SolidColorBrush searchBoxBackgroundColor;
+        private SolidColorBrush searchBoxForegroundColor;
         private SolidColorBrush searchBarFillColor;
         private SolidColorBrush titleTextForegroundColor;
         private SolidColorBrush directorTextForegroundColor;
@@ -77,6 +85,13 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush actorFiveTextForegroundColor;
         private SolidColorBrush actorSixTextForegroundColor;
         private SolidColorBrush genreTextForegroundColor;
+        private SolidColorBrush movieListBackgroundColor;
+        private SolidColorBrush movieListItemPanelBackgroundColor;
+        private SolidColorBrush movieListItemTemplateBackgroundColor;
+
+        private ObservableCollection<AppMovieListItemDto> appMovieListItemCollection;
+        private AppMovieListItemDto selectedMovie;
+        private Visibility shouldDisplayHomepage;
         #endregion
 
         public MainWindowViewModel()
@@ -90,6 +105,7 @@ namespace MovieDbAppByM.ViewModel
             this.SettingCommand = new RelayCommand(this.SettingCommandHandler);
             this.ScrollRightCommand = new RelayCommand(this.ScrollRightCommandHandler);
             this.ScrollLeftCommand = new RelayCommand(this.ScrollLeftCommandHandler);
+            this.NavigateToMovieHomepageCommand = new RelayCommand(this.NavigateToMovieHomepageCommandHandler);
         }
 
         #region Properties
@@ -189,6 +205,19 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.statusTextValue, value); }
         }
 
+        public string HomepageTextPlaceHolder
+        {
+            get { return this.homepageTextPlaceHolder; }
+            set { this.SetProperty(ref this.homepageTextPlaceHolder, value); }
+        }
+
+        public string CastTextValue
+        {
+            get { return this.castTextValue; }
+            set { this.SetProperty(ref this.castTextValue, value); }
+        }
+
+
         public byte[] BackdropImgRawData
         {
             get { return this.backdropImgRawData; }
@@ -274,6 +303,12 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.searchBoxBackgroundColor, value); }
         }
 
+        public SolidColorBrush SearchBoxForegroundColor
+        {
+            get { return this.searchBoxForegroundColor; }
+            set { this.SetProperty(ref this.searchBoxForegroundColor, value); }
+        }
+        
         public SolidColorBrush SearchBarFillColor
         {
             get { return this.searchBarFillColor; }
@@ -322,7 +357,6 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.homepageTextForegroundColor, value); }
         }
 
-        
         public SolidColorBrush GenreTextForegroundColor
         {
             get { return this.genreTextForegroundColor; }
@@ -340,13 +374,6 @@ namespace MovieDbAppByM.ViewModel
             get { return this.castTextForegroundColor; }
             set { this.SetProperty(ref this.castTextForegroundColor, value); }
         }
-
-        public string CastTextValue
-        {
-            get { return this.castTextValue; }
-            set { this.SetProperty(ref this.castTextValue, value); }
-        }
-
 
         public SolidColorBrush ActorOneTextForegroundColor
         {
@@ -383,6 +410,47 @@ namespace MovieDbAppByM.ViewModel
             get { return this.actorSixTextForegroundColor; }
             set { this.SetProperty(ref this.actorSixTextForegroundColor, value); }
         }
+
+        public SolidColorBrush MovieListBackgroundColor
+        {
+            get { return this.movieListBackgroundColor; }
+            set { this.SetProperty(ref this.movieListBackgroundColor, value); }
+        }
+
+        public SolidColorBrush MovieListItemPanelBackgroundColor
+        {
+            get { return this.movieListItemPanelBackgroundColor; }
+            set { this.SetProperty(ref this.movieListItemPanelBackgroundColor, value); }
+        }
+
+        public SolidColorBrush MovieListItemTemplateBackgroundColor
+        {
+            get { return this.movieListItemTemplateBackgroundColor; }
+            set { this.SetProperty(ref this.movieListItemTemplateBackgroundColor, value); }
+        }
+
+
+        public ObservableCollection<AppMovieListItemDto> AppMovieListItemCollection
+        {
+            get { return this.appMovieListItemCollection; }
+            set { this.SetProperty(ref this.appMovieListItemCollection, value); }
+        }
+
+        public AppMovieListItemDto SelectedMovie
+        {
+            get { return this.selectedMovie; }
+            set {
+                this.ResizePreivouslySelectedPosted();
+                this.SetProperty(ref this.selectedMovie, value);
+                this.PopulateSelectedMovieInfo();
+            }
+        }
+
+        public Visibility ShouldDisplayHomepage
+        {
+            get { return this.shouldDisplayHomepage; }
+            set { this.SetProperty(ref this.shouldDisplayHomepage, value); }
+        }
         #endregion
 
         #region Commands
@@ -403,42 +471,15 @@ namespace MovieDbAppByM.ViewModel
         public ICommand ScrollRightCommand { get; private set; }
 
         public ICommand ScrollLeftCommand { get; private set; }
+
+        public ICommand NavigateToMovieHomepageCommand { get; private set; }
         #endregion
 
         #region Command Handlers
         private void WindowLoadedCommandHandler()
         {
-            string selectedTheme = new Service.AppSettings()["Theme"].ToString();
-            switch (selectedTheme)
-            {
-                case "Red":
-                    SetMainWindowElements(redLight, redDeep);
-                    break;
-
-                case "Green":
-                    SetMainWindowElements(greenLight, greenDeep);
-                    break;
-
-                case "Blue":
-                    SetMainWindowElements(blueLight, blueDeep);
-                    break;
-
-                case "Grey":
-                    SetMainWindowElements(greyLight, greyDeep);
-                    break;
-
-                case "Purple":
-                    SetMainWindowElements(purpleLight, purpleDeep);
-                    break;
-
-                case "Orange":
-                    SetMainWindowElements(orangeLight, orangeDeep);
-                    break;
-
-                default:
-                    SetMainWindowElements(greyLight, greyDeep);
-                    break;
-            }
+            SetupApplicationTheme();
+            PopulateScrollviewWithMovies();
         }
 
         private void CloseCommandHandler(IClosable window)
@@ -482,16 +523,64 @@ namespace MovieDbAppByM.ViewModel
 
         private void ScrollRightCommandHandler()
         {
-            //this.ScrollRight();
+            int indexOfCurrentlySelectedItem = this.AppMovieListItemCollection.IndexOf(this.SelectedMovie);
+            if (indexOfCurrentlySelectedItem < (this.AppMovieListItemCollection.Count - 1))
+            {
+                this.SelectedMovie = this.AppMovieListItemCollection[(indexOfCurrentlySelectedItem + 1)];
+            }
         }
 
         private void ScrollLeftCommandHandler()
         {
-            //this.ScrollLeft();
+            int indexOfCurrentlySelectedItem = this.AppMovieListItemCollection.IndexOf(this.SelectedMovie);
+            if (indexOfCurrentlySelectedItem > 0)
+            {
+                this.SelectedMovie = this.AppMovieListItemCollection[(indexOfCurrentlySelectedItem - 1)];
+            }
+        }
+
+        private void NavigateToMovieHomepageCommandHandler()
+        {
+            System.Diagnostics.Process.Start(this.HomepageTextValue);
         }
         #endregion
 
         #region Implementation Methods
+        private void SetupApplicationTheme()
+        {
+            string selectedTheme = new AppSettings()["Theme"].ToString();
+            switch (selectedTheme)
+            {
+                case "Red":
+                    SetMainWindowElements(redLight, redDeep);
+                    break;
+
+                case "Green":
+                    SetMainWindowElements(greenLight, greenDeep);
+                    break;
+
+                case "Blue":
+                    SetMainWindowElements(blueLight, blueDeep);
+                    break;
+
+                case "Grey":
+                    SetMainWindowElements(greyLight, greyDeep);
+                    break;
+
+                case "Purple":
+                    SetMainWindowElements(purpleLight, purpleDeep);
+                    break;
+
+                case "Orange":
+                    SetMainWindowElements(orangeLight, orangeDeep);
+                    break;
+
+                default:
+                    SetMainWindowElements(greyLight, greyDeep);
+                    break;
+            }
+        }
+
         private void SetMainWindowElements(string lightColor, string deepColor)
         {
             SolidColorBrush foregroundColor = (SolidColorBrush)(new BrushConverter().ConvertFrom(lightColor));
@@ -505,7 +594,15 @@ namespace MovieDbAppByM.ViewModel
             this.CastTextForegroundColor = foregroundColor;
             this.DirectorTextForegroundColor = foregroundColor;
             this.GenreTextForegroundColor = foregroundColor;
-            SearchBoxBackgroundColor = foregroundColor;
+
+            this.ActorOneTextForegroundColor = foregroundColor;
+            this.ActorTwoTextForegroundColor = foregroundColor;
+            this.ActorThreeTextForegroundColor = foregroundColor;
+            this.ActorFourTextForegroundColor = foregroundColor;
+            this.ActorFiveTextForegroundColor = foregroundColor;
+            this.ActorSixTextForegroundColor = foregroundColor;
+
+            this.SearchBoxBackgroundColor = foregroundColor;
 
             SolidColorBrush backgroundColor = (SolidColorBrush)(new BrushConverter().ConvertFrom(deepColor));
             BackgroundFillColor = backgroundColor;
@@ -513,6 +610,12 @@ namespace MovieDbAppByM.ViewModel
             this.TopLeftRectangleFillColor = backgroundColor;
             this.HeaderBarRectangleFillColor = backgroundColor;
             this.AppNameBackgroundColor = backgroundColor;
+            this.SearchBoxForegroundColor = backgroundColor;
+
+
+            this.MovieListBackgroundColor = Brushes.Transparent;
+            this.MovieListItemPanelBackgroundColor = Brushes.Transparent;
+            this.MovieListItemTemplateBackgroundColor = Brushes.Transparent;
 
             this.TitleTextValue = "Welcome to your Movie Catalog";
             this.TaglineTextValue = "Let's get started...";
@@ -520,6 +623,93 @@ namespace MovieDbAppByM.ViewModel
 Click + below to launch Scraper Tool add movies to your collection.
 Load the file containing IMDB IDs of the movie and click on Start button.
 The tool will add your movies to the collection automatically.";
+
+            this.ShouldDisplayHomepage = Visibility.Hidden;
+        }
+
+        private void PopulateScrollviewWithMovies()
+        {
+            IContainer continer = IocContainerSingleton.Instance.Container;
+            MovieRetrieveService service = continer.Resolve<MovieRetrieveService>();
+            this.AppMovieListItemCollection = service.GetScrollViewInfo();
+        }
+
+        private void ResizePreivouslySelectedPosted()
+        {
+            if (this.selectedMovie != null)
+            {
+                this.selectedMovie.PosterWidth = 60;
+                this.selectedMovie.PosterHeight = 120;
+            }
+        }
+
+        private void PopulateSelectedMovieInfo()
+        {
+            if (this.selectedMovie != null)
+            {
+                this.selectedMovie.PosterWidth = 100;
+                this.selectedMovie.PosterHeight = 200;
+
+                IContainer continer = IocContainerSingleton.Instance.Container;
+                MovieRetrieveService service = continer.Resolve<MovieRetrieveService>();
+                AppMovieDto selectedMovieInfo = service.GetSelectedMovieInfo(this.selectedMovie.MovieId);
+
+                this.TitleTextValue = selectedMovieInfo.Title;
+                this.DirectorImgRawData = selectedMovieInfo.Director.ProfileImage;
+                this.DirectorTextValue = selectedMovieInfo.Director.Name;
+                this.TaglineTextValue = selectedMovieInfo.Tagline;
+                this.ReleaseYearTextValue = selectedMovieInfo.ReleasedDate;
+                this.RatingTextValue = selectedMovieInfo.ImdbVote.ToString();
+                this.HomepageTextValue = selectedMovieInfo.Homepage;
+                this.HomepageTextPlaceHolder = homepagePlaceHolderText;
+                this.GenreTextValue = selectedMovieInfo.Genres;
+                this.RuntimeTextValue = selectedMovieInfo.Runtime.ToString() + runtimeUnitText;
+                this.OverviewTextValue = selectedMovieInfo.Overview;
+                this.PosterImgRawData = selectedMovieInfo.PosterImage;
+                this.BackdropImgRawData = selectedMovieInfo.BackdropImage;
+
+                if (this.HomepageTextValue != null || this.HomepageTextValue != string.Empty)
+                {
+                    this.ShouldDisplayHomepage = Visibility.Visible;
+                }
+
+                if (selectedMovieInfo.MovieActors[0] != null)
+                {
+                    this.ActorOneTextValue = selectedMovieInfo.MovieActors[0].Name;
+                    this.ActorOneImgRawData = selectedMovieInfo.MovieActors[0].ProfileImage;
+                }
+
+                if (selectedMovieInfo.MovieActors[1] != null)
+                {
+                    this.ActorTwoTextValue = selectedMovieInfo.MovieActors[1].Name;
+                    this.ActorTwoImgRawData = selectedMovieInfo.MovieActors[1].ProfileImage;
+                }
+
+                if (selectedMovieInfo.MovieActors[2] != null)
+                {
+                    this.ActorThreeTextValue = selectedMovieInfo.MovieActors[2].Name;
+                    this.ActorThreeImgRawData = selectedMovieInfo.MovieActors[2].ProfileImage;
+                }
+
+                if (selectedMovieInfo.MovieActors[3] != null)
+                {
+                    this.ActorFourTextValue = selectedMovieInfo.MovieActors[3].Name;
+                    this.ActorFourImgRawData = selectedMovieInfo.MovieActors[3].ProfileImage;
+                }
+
+                if (selectedMovieInfo.MovieActors[4] != null)
+                {
+                    this.ActorFiveTextValue = selectedMovieInfo.MovieActors[4].Name;
+                    this.ActorFiveImgRawData = selectedMovieInfo.MovieActors[4].ProfileImage;
+                }
+
+
+                if (selectedMovieInfo.MovieActors[5] != null)
+                {
+                    this.ActorSixTextValue = selectedMovieInfo.MovieActors[5].Name;
+                    this.ActorSixImgRawData = selectedMovieInfo.MovieActors[5].ProfileImage;
+                }
+            }
         }
         #endregion
 

@@ -17,19 +17,21 @@ namespace MovieDbAppByM.Dto
 
         public string Tagline { get; set; }
 
+        public string ReleasedDate { get; set; }
+
         public string Overview { get; set; }
 
         public string Genres { get; set; }
 
-        public string Director { get; set; }
-
-        public byte[] DirectorImage { get; set; }
+        public int Runtime { get; set; }
 
         public byte[] BackdropImage { get; set; }
 
         public byte[] PosterImage { get; set; }
 
         public string Homepage { get; set; }
+
+        public AppMovieDirectorDto Director { get; set; }
 
         public List<AppMovieActorDto> MovieActors { get; set; }
 

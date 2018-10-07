@@ -84,6 +84,8 @@
     <Compile Include="DependencyInjection\RepositoryModule.cs" />
     <Compile Include="DependencyInjection\ServiceModule.cs" />
     <Compile Include="DependencyInjection\UtilityModule.cs" />
+    <Compile Include="Dto\AppMovieDirectorDto.cs" />
+    <Compile Include="Dto\AppMovieListItemDto.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Migrations\201810051250248_MovieDB_V1.0.cs" />
     <Compile Include="Migrations\201810051250248_MovieDB_V1.0.Designer.cs">
@@ -203,6 +205,8 @@
     <Resource Include="Images\empty_poster.png" />
     <Resource Include="Images\empty_thumbnal.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\hyperlink.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

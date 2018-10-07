@@ -8,7 +8,12 @@
         xmlns:viewModel="clr-namespace:MovieDbAppByM.ViewModel"
         xmlns:converter="clr-namespace:MovieDbAppByM.Converter"
         mc:Ignorable="d"
-        Title="Movie Collection" Height="600" Width="800" WindowState="Maximized" WindowStyle="None" Background="{Binding Path=BackgroundFillColor}">
+        Title="Movie Collection" 
+        Height="600" Width="800" 
+        WindowState="Maximized" 
+        WindowStyle="None" 
+        Background="{Binding Path=BackgroundFillColor}"
+        AllowsTransparency="True">
 
     <Window.DataContext>
         <viewModel:MainWindowViewModel />
@@ -97,7 +102,7 @@
             <TextBox Name="txtSearchBox" HorizontalAlignment="Left" Margin="0 0 10 0" VerticalContentAlignment="Center"
              BorderThickness="0" Height="24" Width="200" 
                      Background="{Binding Path=SearchBoxBackgroundColor}"
-                     Foreground="White"></TextBox>
+                     Foreground="{Binding Path=SearchBoxForegroundColor}"></TextBox>
             <Button Name="btnSearch" Width="32" Height="32" Command="{Binding SearchCommand}"
                 Style="{DynamicResource EmptyButtonStyle}">
                 <Image Source="/Icons/Search-128.png"/>
@@ -144,7 +149,7 @@
 
         <!--Title and Director-->
         <TextBlock Name="txtTitle" 
-                   Grid.Column="6" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="2"
+                   Grid.Column="6" Grid.ColumnSpan="7" Grid.Row="1" Grid.RowSpan="2"
                    TextWrapping="Wrap"  
                    VerticalAlignment="Center"
                    FontFamily="Segoe UI Light" 
@@ -154,25 +159,25 @@
         </TextBlock>
 
         <Image Name="imgDirector" 
-               Grid.Column="12" Grid.Row="1" Grid.RowSpan="2" 
+               Grid.Column="13" Grid.Row="1" Grid.RowSpan="2" 
                VerticalAlignment="Top" 
                Margin="0 10 0 0"
                Source="{Binding DirectorImgRawData, Converter={StaticResource binaryConverter}}">
         </Image>
 
         <TextBlock Name="txtDirector" 
-                   Grid.Column="13" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2"
+                   Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2"
                    TextWrapping="Wrap"  
                    VerticalAlignment="Center"
                    FontFamily="Segoe UI Light" 
-                   FontSize="40" 
+                   FontSize="20" 
                    Text="{Binding Path=DirectorTextValue}"
                    Foreground="{Binding Path=DirectorTextForegroundColor}">
         </TextBlock>
 
-        <!--Tagline and Runtime-->
+        <!--Tagline and Year-->
         <TextBlock Name="txtTagline" 
-                   Grid.Column="6" Grid.ColumnSpan="8" Grid.Row="3" 
+                   Grid.Column="6" Grid.ColumnSpan="7" Grid.Row="3" 
                    VerticalAlignment="Center" 
                    TextWrapping="Wrap" 
                    Margin="0 0 10 0"
@@ -183,18 +188,19 @@
         </TextBlock>
 
         <TextBlock Name="txtYear" 
-                   Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="3" 
+                   Grid.Column="13" Grid.ColumnSpan="3" Grid.Row="3" 
                    VerticalAlignment="Center"
-                   HorizontalAlignment="Right"
+                   HorizontalAlignment="Left"
                    FontFamily="Segoe UI Light" 
                    FontSize="20" 
+                   Padding="10 10 10 10"
                    Text="{Binding Path=ReleaseYearTextValue}" 
                    Foreground="{Binding Path=YearTextForegroundColor}">
         </TextBlock>
 
-        <!--Rating and Year-->
+        <!--Rating and Homepage-->
         <TextBlock Name="txtRating" 
-                   Grid.Column="6" Grid.ColumnSpan="5" Grid.Row="4" 
+                   Grid.Column="6" Grid.ColumnSpan="7" Grid.Row="4" 
                    VerticalAlignment="Center"
                    FontFamily="Segoe UI Light" 
                    FontSize="20" 
@@ -202,20 +208,20 @@
                    Foreground="{Binding Path=RatingTextForegroundColor}">
         </TextBlock>
 
-        <TextBlock Name="txtHomePage" 
-                   Grid.Column="11" Grid.ColumnSpan="5" Grid.Row="4" 
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Right"
-                   FontFamily="Segoe UI Light" 
-                   FontSize="20" 
-                   Text="{Binding Path=HomepageTextValue}" 
-                   Foreground="{Binding Path=HomepageTextForegroundColor}">
-        </TextBlock>
+        <Button Name="btnNavigateToHomepage" 
+                Grid.Column="13" Grid.Row="4" 
+                Width="32" Height="32" 
+                ToolTip="Navigate to movie homepage"
+                Visibility="{Binding Path=ShouldDisplayHomepage}"
+                Style="{DynamicResource EmptyButtonStyle}" 
+                Command="{Binding NavigateToMovieHomepageCommand}">
+            <Image Source="/Icons/hyperlink.png" Cursor="Hand"/>
+        </Button>
 
 
         <!--Genre and Run time-->
         <TextBlock Name="txtGenre" 
-                   Grid.Column="6" Grid.ColumnSpan="8" Grid.Row="5" 
+                   Grid.Column="6" Grid.ColumnSpan="7" Grid.Row="5" 
                    VerticalAlignment="Center" 
                    FontFamily="Segoe UI Light" 
                    FontSize="20" 
@@ -224,10 +230,10 @@
         </TextBlock>
 
         <TextBlock Name="txtRuntime" 
-                   Grid.Column="14" Grid.ColumnSpan="2" Grid.Row="5" 
+                   Grid.Column="13" Grid.ColumnSpan="2" Grid.Row="5" 
                    VerticalAlignment="Center" 
                    TextWrapping="Wrap" 
-                   Margin="0 0 10 0"
+                   Padding="10 10 10 10"
                    FontFamily="Segoe UI Light" 
                    FontSize="20" 
                    Text="{Binding Path=RuntimeTextValue}" 
@@ -246,7 +252,8 @@
         </TextBlock>
 
         <!--Cast-->
-        <Grid Name="gridCastInfo" Grid.Column="6" Grid.ColumnSpan="10" Grid.Row="9" Grid.RowSpan="3">
+        <Grid Name="gridCastInfo" 
+              Grid.Column="6" Grid.ColumnSpan="10" Grid.Row="9" Grid.RowSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -254,29 +261,40 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
             <!--Row 1-->
             <Image  Name="imgActorOneProfile" 
                     Grid.Column="0" Grid.Row="0" 
-	                VerticalAlignment="Top" Margin="0 10 0 0"></Image>
+	                VerticalAlignment="Top" 
+                    Margin="0 10 0 0"
+                    Source="{Binding ActorOneImgRawData, Converter={StaticResource binaryConverter}}"></Image>
             <TextBlock  Name="tbActorOne" 
 		                Grid.Column="1" Grid.Row="0" 
                         FontFamily="Segoe UI Light" FontSize="20" 
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
                         Margin="10 0 0 5"
 		                Text="{Binding Path=ActorOneTextValue}" 
                         Foreground="{Binding Path=ActorOneTextForegroundColor}"/>
 
             <Image  Name="imgActorTwoProfile" 
                     Grid.Column="3" Grid.Row="0" 
-	                VerticalAlignment="Top" Margin="0 10 0 0"></Image>
+	                VerticalAlignment="Top" 
+                    Margin="0 10 0 0"
+                    Source="{Binding ActorTwoImgRawData, Converter={StaticResource binaryConverter}}"></Image>
             <TextBlock  Name="tbActorTwo" 
 		                Grid.Column="4" Grid.Row="0" 
                         FontFamily="Segoe UI Light" FontSize="20" 
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
 		                Margin="10 0 0 5"
                         Text="{Binding Path=ActorTwoTextValue}" 
                         Foreground="{Binding Path=ActorTwoTextForegroundColor}"/>
@@ -284,20 +302,28 @@
             <!--Row 2-->
             <Image  Name="imgActorThreeProfile" 
                     Grid.Column="0" Grid.Row="1" 
-	                VerticalAlignment="Top" Margin="0 10 0 0"></Image>
+	                VerticalAlignment="Top" 
+                    Margin="0 10 0 0"
+                    Source="{Binding ActorThreeImgRawData, Converter={StaticResource binaryConverter}}"></Image>
             <TextBlock  Name="tbActorThree" 
 		                Grid.Column="1" Grid.Row="1" 
                         FontFamily="Segoe UI Light" FontSize="20" 
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
                         Margin="10 0 0 5"
 		                Text="{Binding Path=ActorThreeTextValue}" 
                         Foreground="{Binding Path=ActorThreeTextForegroundColor}"/>
 
             <Image  Name="imgActorFourProfile" 
                     Grid.Column="3" Grid.Row="1" 
-	                VerticalAlignment="Top" Margin="0 10 0 0"></Image>
+	                VerticalAlignment="Top" 
+                    Margin="0 10 0 0"
+                    Source="{Binding ActorFourImgRawData, Converter={StaticResource binaryConverter}}"></Image>
             <TextBlock  Name="tbActorFour" 
 		                Grid.Column="4" Grid.Row="1" 
                         FontFamily="Segoe UI Light" FontSize="20" 
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
 		                Margin="10 0 0 5"
                         Text="{Binding Path=ActorFourTextValue}" 
                         Foreground="{Binding Path=ActorFourTextForegroundColor}"/>
@@ -305,20 +331,28 @@
             <!--Row 3-->
             <Image  Name="imgActorFiveProfile" 
                     Grid.Column="0" Grid.Row="2" 
-	                VerticalAlignment="Top" Margin="0 10 0 0"></Image>
+	                VerticalAlignment="Top" 
+                    Margin="0 10 0 0"
+                    Source="{Binding ActorFiveImgRawData, Converter={StaticResource binaryConverter}}"></Image>
             <TextBlock  Name="tbActorFive" 
 		                Grid.Column="1" Grid.Row="2" 
                         FontFamily="Segoe UI Light" FontSize="20" 
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
                         Margin="10 0 0 5"
 		                Text="{Binding Path=ActorFiveTextValue}" 
                         Foreground="{Binding Path=ActorFiveTextForegroundColor}"/>
 
             <Image  Name="imgActorSixProfile" 
                     Grid.Column="3" Grid.Row="2" 
-	                VerticalAlignment="Top" Margin="0 10 0 0"></Image>
+	                VerticalAlignment="Top" 
+                    Margin="0 10 0 0"
+                    Source="{Binding ActorSixImgRawData, Converter={StaticResource binaryConverter}}"></Image>
             <TextBlock  Name="tbActorSix" 
 		                Grid.Column="4" Grid.Row="2" 
                         FontFamily="Segoe UI Light" FontSize="20" 
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
 		                Margin="10 0 0 5"
                         Text="{Binding Path=ActorSixTextValue}" 
                         Foreground="{Binding Path=ActorSixTextForegroundColor}"/>
@@ -377,19 +411,44 @@
             <Image Source="/Icons/Arrowhead-Left-01-128.png"/>
         </Button>
 
-        <ScrollViewer Name="scrlView" 
-                      Margin="0 0 0 0"
-                      Grid.Column="1" Grid.ColumnSpan="14" Grid.Row="13" Grid.RowSpan="3" 
-                      VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden"
-                      CanContentScroll="True" SnapsToDevicePixels="True">
+        <ListBox Name="movieListScrollView" 
+                 Grid.Column="1" Grid.ColumnSpan="14" Grid.Row="13" Grid.RowSpan="3" 
+                 Margin="0 0 0 0"
+                 BorderThickness="0"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                 ScrollViewer.CanContentScroll="True" 
+                 SnapsToDevicePixels="True"
+                 Background="{Binding Path=MovieListBackgroundColor}"
+                 Foreground="{Binding Path=MovieListBackgroundColor}"
+                 ItemsSource="{Binding AppMovieListItemCollection}"
+                 SelectedItem="{Binding SelectedMovie}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="{Binding Path=MovieListItemPanelBackgroundColor}"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
             
-            <StackPanel Name="spCoverFlow"
-                        Orientation="Horizontal" 
-                        Margin="0 0 0 0" 
-                        HorizontalAlignment="Center">
-            </StackPanel>
-            
-        </ScrollViewer>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Name="movieListCoverFlow"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="0 0 0 0"
+                                Background="{Binding Path=MovieListItemTemplateBackgroundColor}">
+                        <Image Source="{Binding MoviePoster, Converter={StaticResource binaryConverter}}" 
+                               Width="{Binding PosterWidth}"
+                               Height="{Binding PosterHeight}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
     </Grid>
 </Window>

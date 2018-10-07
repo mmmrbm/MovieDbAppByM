@@ -35,6 +35,30 @@ public class AutoMapperConfig
                 .ForMember(director => director.Name, opt => opt.MapFrom(dto => dto.Name))
                 .ForMember(director => director.ProfileImage, opt => opt.MapFrom(dto => GetImage(MovieImageTypes.Director, dto.ProfilePath)));
 
+            cfg.CreateMap<Movie, AppMovieDto>()
+                .ForMember(appMovieDto => appMovieDto.ImdbId, opt => opt.MapFrom(movie => movie.ImdbId))
+                .ForMember(appMovieDto => appMovieDto.ImdbVote, opt => opt.MapFrom(movie => movie.ImdbVote))
+                .ForMember(appMovieDto => appMovieDto.OriginalTitle, opt => opt.MapFrom(movie => movie.OriginalTitle))
+                .ForMember(appMovieDto => appMovieDto.Title, opt => opt.MapFrom(movie => movie.Title))
+                .ForMember(appMovieDto => appMovieDto.Tagline, opt => opt.MapFrom(movie => movie.Tagline))
+                .ForMember(appMovieDto => appMovieDto.ReleasedDate, opt => opt.MapFrom(movie => movie.ReleaseDate))
+                .ForMember(appMovieDto => appMovieDto.Overview, opt => opt.MapFrom(movie => movie.Overview))
+                .ForMember(appMovieDto => appMovieDto.Genres, opt => opt.MapFrom(movie => movie.Genres))
+                .ForMember(appMovieDto => appMovieDto.Runtime, opt => opt.MapFrom(movie => movie.Runtime))
+                .ForMember(appMovieDto => appMovieDto.BackdropImage, opt => opt.MapFrom(movie => movie.BackdropImage))
+                .ForMember(appMovieDto => appMovieDto.PosterImage, opt => opt.MapFrom(movie => movie.PosterImage))
+                .ForMember(appMovieDto => appMovieDto.Homepage, opt => opt.MapFrom(movie => movie.Homepage))
+                .ForMember(appMovieDto => appMovieDto.HasWatched, opt => opt.MapFrom(movie => movie.HasWatched))
+                .ForMember(appMovieDto => appMovieDto.PersonalComments, opt => opt.MapFrom(movie => movie.PersonalComments));
+
+            cfg.CreateMap<Director, AppMovieDirectorDto>()
+                .ForMember(appMovieDirectorDto => appMovieDirectorDto.Name, opt => opt.MapFrom(director => director.Name))
+                .ForMember(appMovieDirectorDto => appMovieDirectorDto.ProfileImage, opt => opt.MapFrom(director => director.ProfileImage));
+
+            cfg.CreateMap<Actor, AppMovieActorDto>()
+                .ForMember(appMovieActorDto => appMovieActorDto.Name, opt => opt.MapFrom(actor => actor.Name))
+                .ForMember(appMovieActorDto => appMovieActorDto.ProfileImage, opt => opt.MapFrom(actor => actor.ProfileImage));
+
         });
 
         IMapper mapper = config.CreateMapper();

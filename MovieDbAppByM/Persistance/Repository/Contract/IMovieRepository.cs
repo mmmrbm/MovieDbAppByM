@@ -10,6 +10,8 @@ namespace MovieDbAppByM.Persistance.Repository.Contract
     {
         IEnumerable<Movie> GetMovies();
 
+        IEnumerable<dynamic> GetMoviesForScrollView();
+
         Movie GetMovieById(int id);
 
         void PersistMovie(Movie movieToBePersisted);

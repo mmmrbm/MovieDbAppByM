@@ -1,9 +1,6 @@
 ﻿namespace MovieDbAppByM.Dto
 {
-    /// <summary>
-    /// Dto to represent actor data to be sent to client side.
-    /// </summary>
-    public class AppMovieActorDto
+    public class AppMovieDirectorDto
     {
         public string Name { get; set; }
 

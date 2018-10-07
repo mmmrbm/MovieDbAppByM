@@ -24,6 +24,15 @@ namespace MovieDbAppByM.Persistance.Repository.Implementation
             return movieAppDbContext.Movies;
         }
 
+        public IEnumerable<dynamic> GetMoviesForScrollView()
+        {
+            IEnumerable<dynamic> result = movieAppDbContext.Movies
+                .Select(movie => new { movie.Id, movie.PosterImage })
+                .Distinct()
+                .ToList();
+            return result;
+        }
+
         public void PersistMovie(Movie movieToBePersisted)
         {
             movieAppDbContext.Movies.Add(movieToBePersisted);

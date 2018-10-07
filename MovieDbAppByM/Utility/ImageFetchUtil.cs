@@ -17,13 +17,11 @@ namespace MovieDbAppByM.Utility
             switch (imageType)
             {
                 case MovieImageTypes.Actor:
-                    url = imageBaseUrl + crewImageUrlPath + imageName;
+                    url = imageBaseUrl + thumbnailImageUrlPath + imageName;
                     break;
                 case MovieImageTypes.Director:
-                    url = imageBaseUrl + crewImageUrlPath + imageName;
-                    break;
-                case MovieImageTypes.Thumbnail:
                     url = imageBaseUrl + thumbnailImageUrlPath + imageName;
+                    break;
                     break;
                 case MovieImageTypes.Poster:
                     url = imageBaseUrl + posterImageUrlPath + imageName;

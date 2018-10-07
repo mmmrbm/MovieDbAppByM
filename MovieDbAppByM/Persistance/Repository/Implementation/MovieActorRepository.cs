@@ -16,7 +16,9 @@ namespace MovieDbAppByM.Persistance.Repository.Implementation
 
         public IEnumerable<MovieActor> GetMovieActorsByMovieId(int movieId)
         {
-            return movieAppDbContext.MovieActors.Where(movieActor => movieActor.MovieId == movieId);
+            return movieAppDbContext.MovieActors
+                .Where(movieActor => movieActor.MovieId == movieId)
+                .OrderBy(movieActor=> movieActor.CastOrder);
         }
 
         public void PersistMovieActor(MovieActor movieActorToBePersisted)
