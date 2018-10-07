@@ -4,6 +4,7 @@ using MovieDbAppByM.DependencyInjection;
 using MovieDbAppByM.Dto;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
+using MovieDbAppByM.View.Helpers;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -14,24 +15,13 @@ namespace MovieDbAppByM.ViewModel
     public class MainWindowViewModel : BindableBase
     {
         #region Constants
-        private static readonly string redDeep = "#642424";
-        private static readonly string redLight = "#E7B7B7";
-        private static readonly string blueDeep = "#102540";
-        private static readonly string blueLight = "#8BB4E2";
-        private static readonly string greenDeep = "#4F6328";
-        private static readonly string greenLight = "#D7E3BF";
-        private static readonly string greyDeep = "#000000";
-        private static readonly string greyLight = "#D9D9D9";
-        private static readonly string purpleDeep = "#3F3152";
-        private static readonly string purpleLight = "#CDBFD8";
-        private static readonly string orangeDeep = "#984907";
-        private static readonly string orangeLight = "#FCD4B1";
-
         private static readonly string homepagePlaceHolderText = "Homepage";
         private static readonly string runtimeUnitText = " mins";
         #endregion
 
         #region Class variables
+        private IContainer iocContainer;
+
         private string titleTextValue;
         private string directorTextValue;
         private string taglineTextValue;
@@ -96,6 +86,8 @@ namespace MovieDbAppByM.ViewModel
 
         public MainWindowViewModel()
         {
+            this.iocContainer = IocContainerSingleton.Instance.Container;
+
             this.WindowLoadedCommand = new RelayCommand(this.WindowLoadedCommandHandler);
             this.CloseCommand = new RelayCommand<IClosable>(this.CloseCommandHandler);
             this.MinimizeCommand = new RelayCommand<IMinimizable>(this.MinimizeCommandHandler);
@@ -510,10 +502,8 @@ namespace MovieDbAppByM.ViewModel
 
         private void ToolCommandHandler()
         {
-            //this.DisplayToolWindow();
-            IContainer continer = IocContainerSingleton.Instance.Container;
-            MoviePersistanceService service = continer.Resolve<MoviePersistanceService>();
-            service.PersistMoive();
+            View.ScraperWindow scraperDialog = new View.ScraperWindow();
+            scraperDialog.ShowDialog();
         }
 
         private void SettingCommandHandler()
@@ -548,37 +538,8 @@ namespace MovieDbAppByM.ViewModel
         #region Implementation Methods
         private void SetupApplicationTheme()
         {
-            string selectedTheme = new AppSettings()["Theme"].ToString();
-            switch (selectedTheme)
-            {
-                case "Red":
-                    SetMainWindowElements(redLight, redDeep);
-                    break;
-
-                case "Green":
-                    SetMainWindowElements(greenLight, greenDeep);
-                    break;
-
-                case "Blue":
-                    SetMainWindowElements(blueLight, blueDeep);
-                    break;
-
-                case "Grey":
-                    SetMainWindowElements(greyLight, greyDeep);
-                    break;
-
-                case "Purple":
-                    SetMainWindowElements(purpleLight, purpleDeep);
-                    break;
-
-                case "Orange":
-                    SetMainWindowElements(orangeLight, orangeDeep);
-                    break;
-
-                default:
-                    SetMainWindowElements(greyLight, greyDeep);
-                    break;
-            }
+            ThemeColorHolder themeColors = this.iocContainer.Resolve<SettingManagementService>().GetThemeAscent();
+            SetMainWindowElements(themeColors.ForegroundColor, themeColors.BackgroundColor);
         }
 
         private void SetMainWindowElements(string lightColor, string deepColor)

@@ -22,7 +22,6 @@ namespace MovieDbAppByM.Utility
                 case MovieImageTypes.Director:
                     url = imageBaseUrl + thumbnailImageUrlPath + imageName;
                     break;
-                    break;
                 case MovieImageTypes.Poster:
                     url = imageBaseUrl + posterImageUrlPath + imageName;
                     break;

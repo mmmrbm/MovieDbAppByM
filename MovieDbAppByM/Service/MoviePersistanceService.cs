@@ -42,18 +42,22 @@ namespace MovieDbAppByM.Service
             this.mapper = mapper;
         }
 
-        public void PersistMoive()
+        public void PersistMoive(string movieId)
         {
             IContainer continer = IocContainerSingleton.Instance.Container;
 
             IMovieRepository movieRepository = continer.Resolve<IMovieRepository>();
+
+            if (movieRepository.CheckMovieExist(movieId))
+            {
+                return;
+            }
+
             IActorRepository actorRepository = continer.Resolve<IActorRepository>();
             IDirectorRepository directorRepository = continer.Resolve<IDirectorRepository>();
             IMovieActorRepository movieActorRepository = continer.Resolve<IMovieActorRepository>();
             IMovieDirectorRepository movieDirectorRepository = continer.Resolve<IMovieDirectorRepository>();
             IUnitOfWork unitOfWork = continer.Resolve<IUnitOfWork>();
-
-            string movieId = "tt1590193";
 
             TmdbMovieInformatonDto movieFromApi = movieInfoFetchService.GetMovieAsync(movieId);
             TmdbMovieCastInfoDto movieCastFromApi = movieInfoFetchService.GetMovieCreditsAsync(movieId);

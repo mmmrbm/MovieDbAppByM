@@ -25,7 +25,7 @@ namespace MovieDbAppByM.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Grey")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Purple")]
         public string Theme {
             get {
                 return ((string)(this["Theme"]));

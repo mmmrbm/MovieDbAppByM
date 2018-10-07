@@ -12,6 +12,8 @@ namespace MovieDbAppByM.Persistance.Repository.Contract
 
         IEnumerable<dynamic> GetMoviesForScrollView();
 
+        bool CheckMovieExist(string imdbId);
+
         Movie GetMovieById(int id);
 
         void PersistMovie(Movie movieToBePersisted);

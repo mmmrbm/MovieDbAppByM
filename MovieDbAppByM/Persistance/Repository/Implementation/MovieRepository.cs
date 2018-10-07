@@ -14,11 +14,6 @@ namespace MovieDbAppByM.Persistance.Repository.Implementation
             this.movieAppDbContext = movieAppDbContext;
         }
 
-        public Movie GetMovieById(int id)
-        {
-            return movieAppDbContext.Movies.Where(movie => movie.Id == id).FirstOrDefault();
-        }
-
         public IEnumerable<Movie> GetMovies()
         {
             return movieAppDbContext.Movies;
@@ -31,6 +26,16 @@ namespace MovieDbAppByM.Persistance.Repository.Implementation
                 .Distinct()
                 .ToList();
             return result;
+        }
+
+        public bool CheckMovieExist(string imdbId)
+        {
+            return (movieAppDbContext.Movies.Where(movie => movie.ImdbId == imdbId).FirstOrDefault() != null);
+        }
+
+        public Movie GetMovieById(int id)
+        {
+            return movieAppDbContext.Movies.Where(movie => movie.Id == id).FirstOrDefault();
         }
 
         public void PersistMovie(Movie movieToBePersisted)

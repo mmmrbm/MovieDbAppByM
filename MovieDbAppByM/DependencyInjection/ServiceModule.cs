@@ -9,6 +9,7 @@ namespace MovieDbAppByM.DependencyInjection
         {
             builder.RegisterType<MoviePersistanceService>();
             builder.RegisterType<MovieRetrieveService>();
+            builder.RegisterType<SettingManagementService>();
 
             base.Load(builder);
         }

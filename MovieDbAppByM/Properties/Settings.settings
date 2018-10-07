@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Theme" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Grey</Value>
+      <Value Profile="(Default)">Purple</Value>
     </Setting>
   </Settings>
 </SettingsFile>
