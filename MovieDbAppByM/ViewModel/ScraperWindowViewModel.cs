@@ -2,12 +2,13 @@
 using Microsoft.Win32;
 using MovieDbAppByM.Core;
 using MovieDbAppByM.DependencyInjection;
+using MovieDbAppByM.Persistance;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -31,16 +32,22 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush progressBarBackgroundColor;
         private SolidColorBrush processInfoLabelFillColor;
         private SolidColorBrush processResultBackgroundColor;
+
+        private Visibility shouldProgressVisible;
         #endregion
 
         #region Constants
         private IContainer iocContainer;
+
+        private MovieAppDbContext dbContext;
         #endregion
 
 
         public ScraperWindowViewModel()
         {
             this.iocContainer = IocContainerSingleton.Instance.Container;
+            dbContext = this.iocContainer.Resolve<MovieAppDbContext>();
+
             this.LoadedMovieIdCollection = new ObservableCollection<LoadedMovieItem>();
             this.CurrentProgressValue = 0;
 
@@ -49,6 +56,8 @@ namespace MovieDbAppByM.ViewModel
             this.MinimizeCommand = new RelayCommand<IMinimizable>(this.MinimizeCommandHandler);
             this.BrowseCommand = new RelayCommand(this.BrowseCommandHandler);
             this.StartCommand = new RelayCommand(this.StartCommandHandler);
+
+            this.ShouldProgressVisible = Visibility.Hidden;
         }
 
         #region Properties
@@ -129,7 +138,12 @@ namespace MovieDbAppByM.ViewModel
             get { return this.processResultBackgroundColor; }
             set { this.SetProperty(ref this.processResultBackgroundColor, value); }
         }
-        
+
+        public Visibility ShouldProgressVisible
+        {
+            get { return this.shouldProgressVisible; }
+            set { this.SetProperty(ref this.shouldProgressVisible, value); }
+        }
         #endregion
 
         #region Commands
@@ -188,6 +202,7 @@ namespace MovieDbAppByM.ViewModel
             }
 
             this.ProgressBarMaxValue = this.LoadedMovieIdCollection.Count;
+            this.ShouldProgressVisible = Visibility.Visible;
 
             foreach (LoadedMovieItem loadedMovieItem in LoadedMovieIdCollection)
             {
@@ -203,6 +218,7 @@ namespace MovieDbAppByM.ViewModel
                 catch (System.Exception ex)
                 {
                     loadedMovieItem.Background = failedBackground;
+                    throw;
                 }
 
                 this.CurrentProgressValue += 1;

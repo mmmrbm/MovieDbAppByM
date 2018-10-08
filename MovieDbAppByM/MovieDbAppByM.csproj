@@ -106,6 +106,7 @@
     <Compile Include="Persistance\Repository\Implementation\MovieRepository.cs" />
     <Compile Include="Persistance\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Persistance\UnitOfWork\UnitOfWork.cs" />
+    <Compile Include="Service\UserFileInfoPersistanceService.cs" />
     <Compile Include="Utility\AppSettings.cs" />
     <Compile Include="Service\SettingManagementService.cs" />
     <Compile Include="Utility\ImageFetchUtil.cs" />
@@ -211,13 +212,29 @@
     <Resource Include="Icons\Settings-02-128.png" />
     <Resource Include="Icons\Twitter-Bird-32.png" />
     <Resource Include="Icons\YouTube1-32.png" />
-    <Resource Include="Images\banner.png" />
-    <Resource Include="Images\empty_backdrop.png" />
-    <Resource Include="Images\empty_poster.png" />
-    <Resource Include="Images\empty_thumbnal.png" />
+    <Content Include="Images\banner.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\empty_backdrop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\empty_poster.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\empty_thumbnal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\hyperlink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\default-user-thumb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\default-user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

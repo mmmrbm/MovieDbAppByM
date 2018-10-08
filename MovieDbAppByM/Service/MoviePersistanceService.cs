@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using AutoMapper;
 using MovieDbAppByM.DependencyInjection;
 using MovieDbAppByM.Dto;
 using MovieDbAppByM.Model;
@@ -12,15 +11,15 @@ namespace MovieDbAppByM.Service
 {
     public class MoviePersistanceService
     {
-        private IMovieRepository movieRepository;
-        private IActorRepository actorRepository;
-        private IDirectorRepository directorRepository;
-        private IMovieActorRepository movieActorRepository;
-        private IMovieDirectorRepository movieDirectorRepository;
-        private IUnitOfWork unitOfWork;
+        private readonly IMovieRepository movieRepository;
+        private readonly IActorRepository actorRepository;
+        private readonly IDirectorRepository directorRepository;
+        private readonly IMovieActorRepository movieActorRepository;
+        private readonly IMovieDirectorRepository movieDirectorRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        private MovieInfoFetchUtil movieInfoFetchService;
-        private AutoMapperConfig mapper;
+        private readonly MovieInfoFetchUtil movieInfoFetchService;
+        private readonly AutoMapperConfig mapper;
 
         public MoviePersistanceService(
             IMovieRepository movieRepository,
@@ -67,9 +66,12 @@ namespace MovieDbAppByM.Service
 
             foreach (var castedActor in movieCastFromApi.Cast.Take(6))
             {
-                Actor actor = mapper.GetMapper().Map<Actor>(castedActor);
-                actorRepository.PersistActor(actor);
-
+                if (!actorRepository.CheckExistById(castedActor.Id))
+                {
+                    Actor actor = mapper.GetMapper().Map<Actor>(castedActor);
+                    actorRepository.PersistActor(actor);
+                }
+                
                 MovieActor movieActor = new MovieActor()
                 {
                     MovieId = movieCastFromApi.Id,
@@ -83,9 +85,12 @@ namespace MovieDbAppByM.Service
                 .Where(crew => crew.Job == "Director")
                 .FirstOrDefault();
 
-            Director director = mapper.GetMapper().Map<Director>(directorDtoFromApi);
-            directorRepository.PersistDirector(director);
-
+            if (!directorRepository.CheckExistById(directorDtoFromApi.Id))
+            {
+                Director director = mapper.GetMapper().Map<Director>(directorDtoFromApi);
+                directorRepository.PersistDirector(director);
+            }
+            
             MovieDirector movieDirector = new MovieDirector()
             {
                 MovieId = movieCastFromApi.Id,

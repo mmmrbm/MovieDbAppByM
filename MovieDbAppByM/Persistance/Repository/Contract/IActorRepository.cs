@@ -11,5 +11,7 @@ namespace MovieDbAppByM.Persistance.Repository.Contract
         Actor GetActorById(int id);
 
         void PersistActor(Actor actorToBePersisted);
+
+        bool CheckExistById(int id);
     }
 }

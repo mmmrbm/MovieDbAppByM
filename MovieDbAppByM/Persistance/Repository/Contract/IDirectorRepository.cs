@@ -11,5 +11,7 @@ namespace MovieDbAppByM.Persistance.Repository.Contract
         Director GetDirectorById(int id);
 
         void PersistDirector(Director directorToBePersisted);
+
+        bool CheckExistById(int id);
     }
 }

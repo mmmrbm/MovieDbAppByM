@@ -22,5 +22,10 @@ namespace MovieDbAppByM.Persistance.Repository.Implementation
         {
             movieAppDbContext.Directors.Add(directorToBePersisted);
         }
+
+        public bool CheckExistById(int id)
+        {
+            return (movieAppDbContext.Directors.Where(director => director.Id == id).FirstOrDefault() != null);
+        }
     }
 }

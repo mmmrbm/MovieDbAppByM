@@ -7,12 +7,13 @@
         xmlns:local="clr-namespace:MovieDbAppByM.View"
         xmlns:viewModel="clr-namespace:MovieDbAppByM.ViewModel"
         mc:Ignorable="d"
-        Title="ScraperWindow" 
         Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         BorderThickness="2"
         ResizeMode="NoResize"
+        Title="Scraper Window" 
+        Icon="..\Icons\Media-Play-128.png"
         BorderBrush="{Binding Path=BorderLineColor}"
         Background="{Binding Path=BackgroundFillColor}">
     
@@ -136,6 +137,7 @@
                          Height="12" 
                          Margin="0 0 0 0" 
                          Minimum="0"
+                         Visibility="{Binding Path=ShouldProgressVisible}"
                          Maximum="{Binding Path=ProgressBarMaxValue}"
                          Value="{Binding Path=CurrentProgressValue}"
                          Background="{Binding Path=ProgressBarBackgroundColor}"/>
