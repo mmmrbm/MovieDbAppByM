@@ -26,6 +26,7 @@ namespace MovieDbAppByM.DependencyInjection
             builder.RegisterModule<UtilityModule>();
             builder.RegisterModule<ServiceModule>();
             builder.RegisterModule<MappingModule>();
+            builder.RegisterModule<ViewModule>();
 
             this.Container = builder.Build();
         }

@@ -84,6 +84,7 @@
     <Compile Include="DependencyInjection\RepositoryModule.cs" />
     <Compile Include="DependencyInjection\ServiceModule.cs" />
     <Compile Include="DependencyInjection\UtilityModule.cs" />
+    <Compile Include="DependencyInjection\ViewModule.cs" />
     <Compile Include="Dto\AppMovieDirectorDto.cs" />
     <Compile Include="Dto\AppMovieListItemDto.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />

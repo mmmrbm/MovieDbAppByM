@@ -8,12 +8,13 @@
         xmlns:viewModel="clr-namespace:MovieDbAppByM.ViewModel"
         xmlns:converter="clr-namespace:MovieDbAppByM.Converter"
         mc:Ignorable="d"
-        Title="Movie Collection" 
         Height="600" Width="800" 
         WindowState="Maximized" 
         WindowStyle="None" 
-        Background="{Binding Path=BackgroundFillColor}"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        Title="Movie Database by M"
+        Icon="..\Icons\Media-Play-128.png"
+        Background="{Binding Path=BackgroundFillColor}">
 
     <Window.DataContext>
         <viewModel:MainWindowViewModel />
