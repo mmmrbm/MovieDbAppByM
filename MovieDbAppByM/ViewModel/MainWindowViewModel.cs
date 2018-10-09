@@ -31,12 +31,6 @@ namespace MovieDbAppByM.ViewModel
         private string releaseYearTextValue;
         private string genreTextValue;
         private string overviewTextValue;
-        private string actorOneTextValue;
-        private string actorTwoTextValue;
-        private string actorThreeTextValue;
-        private string actorFourTextValue;
-        private string actorFiveTextValue;
-        private string actorSixTextValue;
         private string castTextValue;
         private string statusTextValue;
         private string homepageTextPlaceHolder;
@@ -68,18 +62,16 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush yearTextForegroundColor;
         private SolidColorBrush overviewTextForegroundColor;
         private SolidColorBrush castTextForegroundColor;
-        private SolidColorBrush actorOneTextForegroundColor;
-        private SolidColorBrush actorTwoTextForegroundColor;
-        private SolidColorBrush actorThreeTextForegroundColor;
-        private SolidColorBrush actorFourTextForegroundColor;
-        private SolidColorBrush actorFiveTextForegroundColor;
-        private SolidColorBrush actorSixTextForegroundColor;
+        private SolidColorBrush movieActorNameForegroundColor;
+        private SolidColorBrush movieCastBackgroundColor;
+        private SolidColorBrush movieCastForegroundColor;
         private SolidColorBrush genreTextForegroundColor;
         private SolidColorBrush movieListBackgroundColor;
         private SolidColorBrush movieListItemPanelBackgroundColor;
         private SolidColorBrush movieListItemTemplateBackgroundColor;
 
         private ObservableCollection<AppMovieListItemDto> appMovieListItemCollection;
+        private ObservableCollection<AppMovieActorDto> appMovieCastInfoCollection;
         private AppMovieListItemDto selectedMovie;
         private Visibility shouldDisplayHomepage;
         #endregion
@@ -153,42 +145,6 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.overviewTextValue; }
             set { this.SetProperty(ref this.overviewTextValue, value); }
-        }
-
-        public string ActorOneTextValue
-        {
-            get { return this.actorOneTextValue; }
-            set { this.SetProperty(ref this.actorOneTextValue, value); }
-        }
-
-        public string ActorTwoTextValue
-        {
-            get { return this.actorTwoTextValue; }
-            set { this.SetProperty(ref this.actorTwoTextValue, value); }
-        }
-
-        public string ActorThreeTextValue
-        {
-            get { return this.actorThreeTextValue; }
-            set { this.SetProperty(ref this.actorThreeTextValue, value); }
-        }
-
-        public string ActorFourTextValue
-        {
-            get { return this.actorFourTextValue; }
-            set { this.SetProperty(ref this.actorFourTextValue, value); }
-        }
-
-        public string ActorFiveTextValue
-        {
-            get { return this.actorFiveTextValue; }
-            set { this.SetProperty(ref this.actorFiveTextValue, value); }
-        }
-
-        public string ActorSixTextValue
-        {
-            get { return this.actorSixTextValue; }
-            set { this.SetProperty(ref this.actorSixTextValue, value); }
         }
 
         public string StatusTextValue
@@ -367,40 +323,21 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.castTextForegroundColor, value); }
         }
 
-        public SolidColorBrush ActorOneTextForegroundColor
+        public SolidColorBrush MovieActorNameForegroundColor
         {
-            get { return this.actorOneTextForegroundColor; }
-            set { this.SetProperty(ref this.actorOneTextForegroundColor, value); }
+            get { return this.movieActorNameForegroundColor; }
+            set { this.SetProperty(ref this.movieActorNameForegroundColor, value); }
         }
 
-        public SolidColorBrush ActorTwoTextForegroundColor
+        public SolidColorBrush MovieCastBackgroundColor
         {
-            get { return this.actorTwoTextForegroundColor; }
-            set { this.SetProperty(ref this.actorTwoTextForegroundColor, value); }
+            get { return this.movieCastBackgroundColor; }
+            set { this.SetProperty(ref this.movieCastBackgroundColor, value); }
         }
-
-        public SolidColorBrush ActorThreeTextForegroundColor
+        public SolidColorBrush MovieCastForegroundColor
         {
-            get { return this.actorThreeTextForegroundColor; }
-            set { this.SetProperty(ref this.actorThreeTextForegroundColor, value); }
-        }
-
-        public SolidColorBrush ActorFourTextForegroundColor
-        {
-            get { return this.actorFourTextForegroundColor; }
-            set { this.SetProperty(ref this.actorFourTextForegroundColor, value); }
-        }
-
-        public SolidColorBrush ActorFiveTextForegroundColor
-        {
-            get { return this.actorFiveTextForegroundColor; }
-            set { this.SetProperty(ref this.actorFiveTextForegroundColor, value); }
-        }
-
-        public SolidColorBrush ActorSixTextForegroundColor
-        {
-            get { return this.actorSixTextForegroundColor; }
-            set { this.SetProperty(ref this.actorSixTextForegroundColor, value); }
+            get { return this.movieCastForegroundColor; }
+            set { this.SetProperty(ref this.movieCastForegroundColor, value); }
         }
 
         public SolidColorBrush MovieListBackgroundColor
@@ -426,6 +363,12 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.appMovieListItemCollection; }
             set { this.SetProperty(ref this.appMovieListItemCollection, value); }
+        }
+
+        public ObservableCollection<AppMovieActorDto> AppMovieCastInfoCollection
+        {
+            get { return this.appMovieCastInfoCollection; }
+            set { this.SetProperty(ref this.appMovieCastInfoCollection, value); }
         }
 
         public AppMovieListItemDto SelectedMovie
@@ -556,12 +499,7 @@ namespace MovieDbAppByM.ViewModel
             this.DirectorTextForegroundColor = foregroundColor;
             this.GenreTextForegroundColor = foregroundColor;
 
-            this.ActorOneTextForegroundColor = foregroundColor;
-            this.ActorTwoTextForegroundColor = foregroundColor;
-            this.ActorThreeTextForegroundColor = foregroundColor;
-            this.ActorFourTextForegroundColor = foregroundColor;
-            this.ActorFiveTextForegroundColor = foregroundColor;
-            this.ActorSixTextForegroundColor = foregroundColor;
+            this.MovieActorNameForegroundColor = foregroundColor;
 
             this.SearchBoxBackgroundColor = foregroundColor;
 
@@ -577,6 +515,8 @@ namespace MovieDbAppByM.ViewModel
             this.MovieListBackgroundColor = Brushes.Transparent;
             this.MovieListItemPanelBackgroundColor = Brushes.Transparent;
             this.MovieListItemTemplateBackgroundColor = Brushes.Transparent;
+            this.MovieCastBackgroundColor = Brushes.Transparent;
+            this.MovieCastForegroundColor = Brushes.Transparent;
 
             this.TitleTextValue = "Welcome to your Movie Catalog";
             this.TaglineTextValue = "Let's get started...";
@@ -621,7 +561,6 @@ The tool will add your movies to the collection automatically.";
                 this.TaglineTextValue = selectedMovieInfo.Tagline;
                 this.ReleaseYearTextValue = selectedMovieInfo.ReleasedDate;
                 this.RatingTextValue = selectedMovieInfo.ImdbVote.ToString();
-                this.HomepageTextValue = selectedMovieInfo.Homepage;
                 this.HomepageTextPlaceHolder = homepagePlaceHolderText;
                 this.GenreTextValue = selectedMovieInfo.Genres;
                 this.RuntimeTextValue = selectedMovieInfo.Runtime.ToString() + runtimeUnitText;
@@ -629,47 +568,17 @@ The tool will add your movies to the collection automatically.";
                 this.PosterImgRawData = selectedMovieInfo.PosterImage;
                 this.BackdropImgRawData = selectedMovieInfo.BackdropImage;
 
-                if (this.HomepageTextValue != null || this.HomepageTextValue != string.Empty)
+                this.HomepageTextValue = selectedMovieInfo.Homepage;
+                if (this.HomepageTextValue != null)
                 {
                     this.ShouldDisplayHomepage = Visibility.Visible;
                 }
-
-                if (selectedMovieInfo.MovieActors[0] != null)
+                else
                 {
-                    this.ActorOneTextValue = selectedMovieInfo.MovieActors[0].Name;
-                    this.ActorOneImgRawData = selectedMovieInfo.MovieActors[0].ProfileImage;
+                    this.ShouldDisplayHomepage = Visibility.Hidden;
                 }
 
-                if (selectedMovieInfo.MovieActors[1] != null)
-                {
-                    this.ActorTwoTextValue = selectedMovieInfo.MovieActors[1].Name;
-                    this.ActorTwoImgRawData = selectedMovieInfo.MovieActors[1].ProfileImage;
-                }
-
-                if (selectedMovieInfo.MovieActors[2] != null)
-                {
-                    this.ActorThreeTextValue = selectedMovieInfo.MovieActors[2].Name;
-                    this.ActorThreeImgRawData = selectedMovieInfo.MovieActors[2].ProfileImage;
-                }
-
-                if (selectedMovieInfo.MovieActors[3] != null)
-                {
-                    this.ActorFourTextValue = selectedMovieInfo.MovieActors[3].Name;
-                    this.ActorFourImgRawData = selectedMovieInfo.MovieActors[3].ProfileImage;
-                }
-
-                if (selectedMovieInfo.MovieActors[4] != null)
-                {
-                    this.ActorFiveTextValue = selectedMovieInfo.MovieActors[4].Name;
-                    this.ActorFiveImgRawData = selectedMovieInfo.MovieActors[4].ProfileImage;
-                }
-
-
-                if (selectedMovieInfo.MovieActors[5] != null)
-                {
-                    this.ActorSixTextValue = selectedMovieInfo.MovieActors[5].Name;
-                    this.ActorSixImgRawData = selectedMovieInfo.MovieActors[5].ProfileImage;
-                }
+                this.AppMovieCastInfoCollection = new ObservableCollection<AppMovieActorDto>(selectedMovieInfo.MovieActors);
             }
         }
         #endregion
