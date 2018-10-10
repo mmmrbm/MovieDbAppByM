@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:MovieDbAppByM.View"
         xmlns:viewModel="clr-namespace:MovieDbAppByM.ViewModel"
         xmlns:converter="clr-namespace:MovieDbAppByM.Converter"
+        xmlns:custcontrol="clr-namespace:MovieDbAppByM.CustomControl"
         mc:Ignorable="d"
         Height="600" Width="800" 
         WindowState="Maximized" 
@@ -40,6 +41,103 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TransparentItemContainer" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border Background="Transparent"
+                                x:Name="IconBorder"
+                                Margin="8,4,8,4">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <converter:AngleToPointConverter x:Key="prConverter"/>
+        <converter:AngleToIsLargeConverter x:Key="isLargeConverter"/>
+        <converter:RadiusToSizeConverter x:Key="sizeConverter"/>
+        <converter:StrokeToStartPointConverter x:Key="spconverter"/>
+        <converter:RadiusToCenterConverter x:Key="rtocConverter"/>
+        <converter:RadiusToDiameter x:Key="radtodia"/>
+        <converter:InnerRadiusConverter x:Key="innerRadConverter"/>
+        <converter:RatingValueToColorConverter x:Key="ratingValueConverter"/>
+        <Style x:Key="CircularProgressBarStyle" TargetType="custcontrol:CircularProgressBar">
+            <Setter Property="Value" Value="50"/>
+            <Setter Property="StrokeThickness" Value="5"/>
+            <Setter Property="Radius" Value="25"/>
+            <Setter Property="Background" Value="{Binding Path=ProgressValue, Converter={StaticResource ratingValueConverter}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="custcontrol:CircularProgressBar">
+                        <Grid
+                                Width="{Binding Path=Radius, Converter={StaticResource radtodia},RelativeSource={RelativeSource AncestorType=ProgressBar}}"
+                                Height="{Binding Path=Radius, Converter={StaticResource radtodia}, RelativeSource={RelativeSource AncestorType=ProgressBar}}">
+                            <Path Stroke="{Binding Path=BackgroundFillColor}" StrokeThickness="1" Fill="#34495E">
+                                <Path.Data>
+                                    <EllipseGeometry 
+                                        Center="{Binding Path=Radius,Converter={StaticResource rtocConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=ProgressBar}}"
+                                            >
+                                        <EllipseGeometry.RadiusX>
+                                            <MultiBinding Converter="{StaticResource innerRadConverter}">
+                                                <Binding Path="Radius"
+                                                         RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=ProgressBar}"/>
+                                                <Binding Path="StrokeThickness"
+                                                         RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=ProgressBar}"/>
+                                            </MultiBinding>
+                                        </EllipseGeometry.RadiusX>
+                                        <EllipseGeometry.RadiusY>
+                                            <Binding Path="RadiusX" RelativeSource="{RelativeSource Self}"/>
+                                        </EllipseGeometry.RadiusY>
+                                    </EllipseGeometry>
+                                </Path.Data>
+                            </Path>
+
+                            <Path Stroke="{TemplateBinding Background}" 
+                                      StrokeThickness="{TemplateBinding StrokeThickness}">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure>
+                                            <PathFigure.StartPoint>
+                                                <MultiBinding Converter="{StaticResource spconverter}">
+                                                    <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                </MultiBinding>
+                                            </PathFigure.StartPoint>
+
+                                            <ArcSegment RotationAngle="0" SweepDirection="Clockwise"
+                                                            IsLargeArc="{Binding Path=Angle, Converter={StaticResource isLargeConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=ProgressBar}}">
+                                                <ArcSegment.Point>
+                                                    <MultiBinding Converter="{StaticResource prConverter}">
+                                                        <Binding Path="Angle" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                        <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                        <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    </MultiBinding>
+                                                </ArcSegment.Point>
+                                                <ArcSegment.Size>
+                                                    <MultiBinding Converter="{StaticResource sizeConverter}">
+                                                        <Binding Path="Radius" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                        <Binding Path="StrokeThickness" RelativeSource="{RelativeSource FindAncestor, AncestorType=ProgressBar}"/>
+                                                    </MultiBinding>
+                                                </ArcSegment.Size>
+                                            </ArcSegment>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+
+                            <TextBlock Foreground="{Binding Path=RatingTextForegroundColor}" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}"
+                                       FontSize="{TemplateBinding FontSize}"/>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -199,20 +297,33 @@
                    Foreground="{Binding Path=YearTextForegroundColor}">
         </TextBlock>
 
-        <!--Rating and Homepage-->
-        <TextBlock Name="txtRating" 
-                   Grid.Column="6" Grid.ColumnSpan="7" Grid.Row="4" 
-                   VerticalAlignment="Center"
-                   FontFamily="Segoe UI Light" 
-                   FontSize="20" 
-                   Text="{Binding Path=RatingTextValue}" 
-                   Foreground="{Binding Path=RatingTextForegroundColor}">
-        </TextBlock>
+        <!--Rating and Imdb Page and Homepage-->
+        <custcontrol:CircularProgressBar 
+            HorizontalAlignment="Left"
+            Grid.Column="6" Grid.ColumnSpan="7" Grid.Row="4"
+            Visibility="{Binding ShouldRatingBarVisible}"
+            Value="{Binding ProgressValue}" 
+            Text="{Binding RatingTextValue, Mode=OneWay}"
+            Style="{StaticResource CircularProgressBarStyle}"/>
 
-        <Button Name="btnNavigateToHomepage" 
+        <Button Name="btnNavigateToImdb" 
                 Grid.Column="13" Grid.Row="4" 
-                Width="32" Height="32" 
+                Width="45" Height="45" 
+                HorizontalAlignment="Left"
+                ToolTip="Navigate to movie IMDB page"
+                Padding="10 0 0 0"
+                Visibility="{Binding Path=ShouldDisplayImdbpage}"
+                Style="{DynamicResource EmptyButtonStyle}" 
+                Command="{Binding NavigateToMovieImdbpageCommand}">
+            <Image Source="/Icons/imdb.png" Cursor="Hand"/>
+        </Button>
+        
+        <Button Name="btnNavigateToHomepage" 
+                Grid.Column="14" Grid.Row="4" 
+                Width="40" Height="40" 
+                HorizontalAlignment="Left"
                 ToolTip="Navigate to movie homepage"
+                Padding="10 0 0 0"
                 Visibility="{Binding Path=ShouldDisplayHomepage}"
                 Style="{DynamicResource EmptyButtonStyle}" 
                 Command="{Binding NavigateToMovieHomepageCommand}">
@@ -263,6 +374,7 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.CanContentScroll="False" 
                  SnapsToDevicePixels="True"
+                 ItemContainerStyle="{StaticResource TransparentItemContainer}"
                  Background="{Binding Path=MovieCastBackgroundColor}"
                  Foreground="{Binding Path=MovieCastForegroundColor}"
                  ItemsSource="{Binding AppMovieCastInfoCollection}">
@@ -273,6 +385,7 @@
                                  HorizontalAlignment="Center"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
+            
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Name="movieCastInfo"
@@ -285,6 +398,7 @@
 	                            VerticalAlignment="Center" 
                                 HorizontalAlignment="Left"
                                 Margin="0 0 0 0"
+                                Width="50" Height="100"
                                 Source="{Binding ProfileImage, Converter={StaticResource binaryConverter}}"></Image>
                         <TextBlock  Name="tbActorName" 
                                     FontFamily="Segoe UI Light" FontSize="15" 
@@ -292,10 +406,11 @@
                                     VerticalAlignment="Center"
 		                            Margin="10 0 0 0"
                                     Text="{Binding Name}" 
-                                    Foreground="{Binding Path=MovieActorNameForegroundColor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}} }"/>
+                                    Foreground="{Binding Path=DataContext.MovieActorNameForegroundColor, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+           
         </ListBox>
 
         <!--Status and actions buttons-->
@@ -360,7 +475,6 @@
                  ScrollViewer.CanContentScroll="True" 
                  SnapsToDevicePixels="True"
                  Background="{Binding Path=MovieListBackgroundColor}"
-                 Foreground="{Binding Path=MovieListBackgroundColor}"
                  ItemsSource="{Binding AppMovieListItemCollection}"
                  SelectedItem="{Binding SelectedMovie}">
             <ListBox.ItemsPanel>
@@ -380,12 +494,25 @@
                                 VerticalAlignment="Center"
                                 Margin="0 0 0 0"
                                 Background="{Binding Path=MovieListItemTemplateBackgroundColor}">
-                        <Image Source="{Binding MoviePoster, Converter={StaticResource binaryConverter}}" 
-                               Width="{Binding PosterWidth}"
-                               Height="{Binding PosterHeight}"/>
+                        <Image Source="{Binding MoviePoster, Converter={StaticResource binaryConverter}}"  />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Style.Triggers>
+                        <Trigger Property="ListBoxItem.IsSelected" Value="True">
+                            <Setter Property="ListBoxItem.Height" Value="150"></Setter>
+                            <Setter Property="ListBoxItem.Width" Value="100"></Setter>
+                        </Trigger>
+                        <Trigger Property="ListBoxItem.IsSelected" Value="False">
+                            <Setter Property="ListBoxItem.Height" Value="90"></Setter>
+                            <Setter Property="ListBoxItem.Width" Value="60"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
 
     </Grid>

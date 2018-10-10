@@ -6,6 +6,7 @@ using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -15,25 +16,27 @@ namespace MovieDbAppByM.ViewModel
     public class MainWindowViewModel : BindableBase
     {
         #region Constants
-        private static readonly string homepagePlaceHolderText = "Homepage";
         private static readonly string runtimeUnitText = " mins";
+        private static readonly string imdbBaseUrl = "https://www.imdb.com/title/";
         #endregion
 
         #region Class variables
         private IContainer iocContainer;
+
+        private float progressValue;
 
         private string titleTextValue;
         private string directorTextValue;
         private string taglineTextValue;
         private string runtimeTextValue;
         private string ratingTextValue;
+        private string imdbpageTextValue;
         private string homepageTextValue;
         private string releaseYearTextValue;
         private string genreTextValue;
         private string overviewTextValue;
         private string castTextValue;
         private string statusTextValue;
-        private string homepageTextPlaceHolder;
 
         private byte[] backdropImgRawData;
         private byte[] posterImgRawData;
@@ -73,7 +76,9 @@ namespace MovieDbAppByM.ViewModel
         private ObservableCollection<AppMovieListItemDto> appMovieListItemCollection;
         private ObservableCollection<AppMovieActorDto> appMovieCastInfoCollection;
         private AppMovieListItemDto selectedMovie;
+        private Visibility shouldDisplayImdbpage;
         private Visibility shouldDisplayHomepage;
+        private Visibility shouldRatingBarVisible;
         #endregion
 
         public MainWindowViewModel()
@@ -89,10 +94,17 @@ namespace MovieDbAppByM.ViewModel
             this.SettingCommand = new RelayCommand(this.SettingCommandHandler);
             this.ScrollRightCommand = new RelayCommand(this.ScrollRightCommandHandler);
             this.ScrollLeftCommand = new RelayCommand(this.ScrollLeftCommandHandler);
+            this.NavigateToMovieImdbpageCommand = new RelayCommand(this.NavigateToMovieImdbpageCommandHandler);
             this.NavigateToMovieHomepageCommand = new RelayCommand(this.NavigateToMovieHomepageCommandHandler);
         }
 
         #region Properties
+        public float ProgressValue
+        {
+            get { return this.progressValue; }
+            set { this.SetProperty(ref this.progressValue, value); }
+        }
+
         public string TitleTextValue
         {
             get { return this.titleTextValue; }
@@ -129,6 +141,12 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.releaseYearTextValue, value); }
         }
 
+        public string ImdbpageTextValue
+        {
+            get { return this.imdbpageTextValue; }
+            set { this.SetProperty(ref this.imdbpageTextValue, value); }
+        }
+        
         public string HomepageTextValue
         {
             get { return this.homepageTextValue; }
@@ -151,12 +169,6 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.statusTextValue; }
             set { this.SetProperty(ref this.statusTextValue, value); }
-        }
-
-        public string HomepageTextPlaceHolder
-        {
-            get { return this.homepageTextPlaceHolder; }
-            set { this.SetProperty(ref this.homepageTextPlaceHolder, value); }
         }
 
         public string CastTextValue
@@ -334,6 +346,7 @@ namespace MovieDbAppByM.ViewModel
             get { return this.movieCastBackgroundColor; }
             set { this.SetProperty(ref this.movieCastBackgroundColor, value); }
         }
+
         public SolidColorBrush MovieCastForegroundColor
         {
             get { return this.movieCastForegroundColor; }
@@ -375,16 +388,27 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.selectedMovie; }
             set {
-                this.ResizePreivouslySelectedPosted();
                 this.SetProperty(ref this.selectedMovie, value);
                 this.PopulateSelectedMovieInfo();
             }
+        }
+
+        public Visibility ShouldDisplayImdbpage
+        {
+            get { return this.shouldDisplayImdbpage; }
+            set { this.SetProperty(ref this.shouldDisplayImdbpage, value); }
         }
 
         public Visibility ShouldDisplayHomepage
         {
             get { return this.shouldDisplayHomepage; }
             set { this.SetProperty(ref this.shouldDisplayHomepage, value); }
+        }
+
+        public Visibility ShouldRatingBarVisible
+        {
+            get { return this.shouldRatingBarVisible; }
+            set { this.SetProperty(ref this.shouldRatingBarVisible, value); }
         }
         #endregion
 
@@ -406,6 +430,8 @@ namespace MovieDbAppByM.ViewModel
         public ICommand ScrollRightCommand { get; private set; }
 
         public ICommand ScrollLeftCommand { get; private set; }
+
+        public ICommand NavigateToMovieImdbpageCommand { get; private set; }
 
         public ICommand NavigateToMovieHomepageCommand { get; private set; }
         #endregion
@@ -472,6 +498,11 @@ namespace MovieDbAppByM.ViewModel
             }
         }
 
+        private void NavigateToMovieImdbpageCommandHandler()
+        {
+            System.Diagnostics.Process.Start(this.ImdbpageTextValue);
+        }
+
         private void NavigateToMovieHomepageCommandHandler()
         {
             System.Diagnostics.Process.Start(this.HomepageTextValue);
@@ -487,6 +518,9 @@ namespace MovieDbAppByM.ViewModel
 
         private void SetMainWindowElements(string lightColor, string deepColor)
         {
+            // Ideally one can use fewer variables in XAML to set the color for all these items.
+            // But this approach was used to make it easy for someone who has better UI / UX perspective,
+            // so that if needed these values can be set in more UX friendly manner.
             SolidColorBrush foregroundColor = (SolidColorBrush)(new BrushConverter().ConvertFrom(lightColor));
             this.TitleTextForegroundColor = foregroundColor;
             this.TaglineTextForegroundColor = foregroundColor;
@@ -498,9 +532,7 @@ namespace MovieDbAppByM.ViewModel
             this.CastTextForegroundColor = foregroundColor;
             this.DirectorTextForegroundColor = foregroundColor;
             this.GenreTextForegroundColor = foregroundColor;
-
             this.MovieActorNameForegroundColor = foregroundColor;
-
             this.SearchBoxBackgroundColor = foregroundColor;
 
             SolidColorBrush backgroundColor = (SolidColorBrush)(new BrushConverter().ConvertFrom(deepColor));
@@ -525,7 +557,9 @@ Click + below to launch Scraper Tool add movies to your collection.
 Load the file containing IMDB IDs of the movie and click on Start button.
 The tool will add your movies to the collection automatically.";
 
+            this.ShouldDisplayImdbpage = Visibility.Hidden;
             this.ShouldDisplayHomepage = Visibility.Hidden;
+            this.ShouldRatingBarVisible = Visibility.Hidden;
         }
 
         private void PopulateScrollviewWithMovies()
@@ -535,22 +569,10 @@ The tool will add your movies to the collection automatically.";
             this.AppMovieListItemCollection = service.GetScrollViewInfo();
         }
 
-        private void ResizePreivouslySelectedPosted()
-        {
-            if (this.selectedMovie != null)
-            {
-                this.selectedMovie.PosterWidth = 60;
-                this.selectedMovie.PosterHeight = 120;
-            }
-        }
-
         private void PopulateSelectedMovieInfo()
         {
             if (this.selectedMovie != null)
             {
-                this.selectedMovie.PosterWidth = 100;
-                this.selectedMovie.PosterHeight = 200;
-
                 IContainer continer = IocContainerSingleton.Instance.Container;
                 MovieRetrieveService service = continer.Resolve<MovieRetrieveService>();
                 AppMovieDto selectedMovieInfo = service.GetSelectedMovieInfo(this.selectedMovie.MovieId);
@@ -560,8 +582,10 @@ The tool will add your movies to the collection automatically.";
                 this.DirectorTextValue = selectedMovieInfo.Director.Name;
                 this.TaglineTextValue = selectedMovieInfo.Tagline;
                 this.ReleaseYearTextValue = selectedMovieInfo.ReleasedDate;
+
+                this.ProgressValue = (selectedMovieInfo.ImdbVote * 10);
                 this.RatingTextValue = selectedMovieInfo.ImdbVote.ToString();
-                this.HomepageTextPlaceHolder = homepagePlaceHolderText;
+
                 this.GenreTextValue = selectedMovieInfo.Genres;
                 this.RuntimeTextValue = selectedMovieInfo.Runtime.ToString() + runtimeUnitText;
                 this.OverviewTextValue = selectedMovieInfo.Overview;
@@ -577,6 +601,21 @@ The tool will add your movies to the collection automatically.";
                 {
                     this.ShouldDisplayHomepage = Visibility.Hidden;
                 }
+
+                StringBuilder imdbUrlBuilder = new StringBuilder();
+                imdbUrlBuilder.Append(imdbBaseUrl);
+                imdbUrlBuilder.Append(selectedMovieInfo.ImdbId);
+                this.ImdbpageTextValue = imdbUrlBuilder.ToString();
+                if (this.ImdbpageTextValue != null)
+                {
+                    this.ShouldDisplayImdbpage = Visibility.Visible;
+                }
+                else
+                {
+                    this.ShouldDisplayImdbpage = Visibility.Hidden;
+                }
+
+                this.ShouldRatingBarVisible = Visibility.Visible;
 
                 this.AppMovieCastInfoCollection = new ObservableCollection<AppMovieActorDto>(selectedMovieInfo.MovieActors);
             }

@@ -77,7 +77,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\AngleToPointConverter.cs" />
     <Compile Include="Converter\ByteToImageConverter.cs" />
+    <Compile Include="Converter\RatingValueToColorConverter.cs" />
+    <Compile Include="CustomControl\CircularProgressBar.cs" />
     <Compile Include="DependencyInjection\IocContainerSingleton.cs" />
     <Compile Include="DependencyInjection\MappingModule.cs" />
     <Compile Include="DependencyInjection\PersistanceModule.cs" />
@@ -212,6 +215,7 @@
     <Resource Include="Icons\Settings-02-128.png" />
     <Resource Include="Icons\Twitter-Bird-32.png" />
     <Resource Include="Icons\YouTube1-32.png" />
+    <Resource Include="Icons\imdb.png" />
     <Content Include="Images\banner.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
