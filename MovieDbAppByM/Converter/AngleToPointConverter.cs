@@ -9,7 +9,6 @@ namespace MovieDbAppByM.Converter
     /// </summary>
     public class AngleToPointConverter : IMultiValueConverter
     {
-
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             double angle = (double)values[0];

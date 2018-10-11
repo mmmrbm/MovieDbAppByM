@@ -5,8 +5,12 @@ using System.Windows.Media;
 
 namespace MovieDbAppByM.Converter
 {
+    /// <summary>
+    /// Converter for <see cref="float"> to <see cref="SolidColorBrush"> to be used in Circular Progress Bar.
+    /// </summary>
     public class RatingValueToColorConverter : IValueConverter
     {
+        /// <inheritdoc <see cref="IMultiValueConverter"/> />
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             SolidColorBrush lowestRatingColor = Brushes.Red;
@@ -31,6 +35,7 @@ namespace MovieDbAppByM.Converter
             return lowestRatingColor;
         }
 
+        /// <inheritdoc <see cref="IMultiValueConverter"/> />
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return null;

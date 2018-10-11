@@ -1,17 +1,20 @@
 ﻿using Newtonsoft.Json;
 
-namespace MovieDbAppByM.Dto
+namespace MovieDbAppByM.Dto.TmdbApi
 {
     /// <summary>
-    /// Dto to represent movie crew information obtained via TMDB API.
+    /// Dto to represent movie actor information obtained via TMDB API.
     /// </summary>
-    public class TmdbCrewDto
+    public class TmdbCastDto
     {
+        [JsonProperty(PropertyName = "cast_id")]
+        public int CastId { get; set; }
+
+        [JsonProperty(PropertyName = "character")]
+        public string Character { get; set; }
+
         [JsonProperty(PropertyName = "credit_id")]
         public string CreditId { get; set; }
-
-        [JsonProperty(PropertyName = "department")]
-        public string Department { get; set; }
 
         [JsonProperty(PropertyName = "gender")]
         public int Gender { get; set; }
@@ -19,11 +22,11 @@ namespace MovieDbAppByM.Dto
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 
-        [JsonProperty(PropertyName = "job")]
-        public string Job { get; set; }
-
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "order")]
+        public int Order { get; set; }
 
         [JsonProperty(PropertyName = "profile_path")]
         public string ProfilePath { get; set; }

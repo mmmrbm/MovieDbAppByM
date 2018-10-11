@@ -5,6 +5,9 @@ namespace MovieDbAppByM.Service
 {
     public class SettingManagementService
     {
+        /// <summary>
+        /// The theme color codes.
+        /// </summary>
         #region Constants
         private static readonly string redDeep = "#642424";
         private static readonly string redLight = "#E7B7B7";
@@ -20,6 +23,10 @@ namespace MovieDbAppByM.Service
         private static readonly string orangeLight = "#FCD4B1";
         #endregion
 
+        /// <summary>
+        /// Responsible to produce the theme colors as per the settings selected by user.
+        /// </summary>
+        /// <returns></returns>
         public ThemeColorHolder GetThemeAscent()
         {
             string selectedTheme = new AppSettings()["Theme"].ToString();
@@ -66,6 +73,10 @@ namespace MovieDbAppByM.Service
             return themeColorHolder;
         }
 
+        /// <summary>
+        /// Reponsible to persist the theme selected by user.
+        /// </summary>
+        /// <param name="theme">Theme selected by user.</param>
         public void SetApplicationTheme(string theme)
         {
             new AppSettings()["Theme"] = theme;

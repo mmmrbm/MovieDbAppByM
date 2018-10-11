@@ -5,8 +5,14 @@ using MovieDbAppByM.Persistance.UnitOfWork;
 
 namespace MovieDbAppByM.DependencyInjection
 {
+    /// <summary>
+    /// <see cref="Module"> managing injectable classes of <see cref="Repository" /> namespace
+    /// </summary>
     public class RepositoryModule : Module
     {
+        /// <summary>
+        /// <inheritdoc <see cref="Module"/> />
+        /// </summary>
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ActorRepository>().As<IActorRepository>();

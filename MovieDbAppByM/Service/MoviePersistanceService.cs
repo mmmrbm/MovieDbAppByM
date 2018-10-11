@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using MovieDbAppByM.DependencyInjection;
-using MovieDbAppByM.Dto;
+using MovieDbAppByM.Dto.TmdbApi;
+using MovieDbAppByM.Mapping;
 using MovieDbAppByM.Model;
 using MovieDbAppByM.Persistance.Repository.Contract;
 using MovieDbAppByM.Persistance.UnitOfWork;
@@ -11,16 +12,59 @@ namespace MovieDbAppByM.Service
 {
     public class MoviePersistanceService
     {
+        #region Class Variables
+        /// <summary>
+        /// Reference to hold <see cref="IMovieRepository"/>
+        /// </summary>
         private readonly IMovieRepository movieRepository;
+
+        /// <summary>
+        /// Reference to hold <see cref="IActorRepository"/>
+        /// </summary>
         private readonly IActorRepository actorRepository;
+
+        /// <summary>
+        /// Reference to hold <see cref="IDirectorRepository"/>
+        /// </summary>
         private readonly IDirectorRepository directorRepository;
+
+        /// <summary>
+        /// Reference to hold <see cref="IMovieActorRepository"/>
+        /// </summary>
         private readonly IMovieActorRepository movieActorRepository;
+
+        /// <summary>
+        /// Reference to hold <see cref="IMovieDirectorRepository"/>
+        /// </summary>
         private readonly IMovieDirectorRepository movieDirectorRepository;
+
+        /// <summary>
+        /// Reference to hold <see cref="IUnitOfWork"/>
+        /// </summary>
         private readonly IUnitOfWork unitOfWork;
 
+        /// <summary>
+        /// Reference to hold <see cref="MovieInfoFetchUtil"/>
+        /// </summary>
         private readonly MovieInfoFetchUtil movieInfoFetchService;
-        private readonly AutoMapperConfig mapper;
 
+        /// <summary>
+        /// Reference to hold <see cref="AutoMapperConfig"/>
+        /// </summary>
+        private readonly AutoMapperConfig mapper;
+        #endregion
+
+        /// <summary>
+        /// Constructs <see cref="MoviePersistanceService"/>
+        /// </summary>
+        /// <param name="movieRepository"><see cref="IMovieRepository"/> injected via Autofac.</param>
+        /// <param name="actorRepository"><see cref="IActorRepository"/> injected via Autofac.</param>
+        /// <param name="directorRepository"><see cref="IDirectorRepository"/> injected via Autofac.</param>
+        /// <param name="movieActorRepository"><see cref="IMovieActorRepository"/> injected via Autofac.</param>
+        /// <param name="movieDirectorRepository"><see cref="IMovieDirectorRepository"/> injected via Autofac.</param>
+        /// <param name="unitOfWork"><see cref="IUnitOfWork"/> injected via Autofac.</param>
+        /// <param name="movieInfoFetchService"><see cref="MovieInfoFetchUtil"/> injected via Autofac.</param>
+        /// <param name="mapper"><see cref="AutoMapperConfig"/> injected via Autofac.</param>
         public MoviePersistanceService(
             IMovieRepository movieRepository,
             IActorRepository actorRepository,
@@ -41,6 +85,10 @@ namespace MovieDbAppByM.Service
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Responsible for persisting movie information after fetching information from TMDB endpoint.
+        /// </summary>
+        /// <param name="movieId">The Imdb movie id for the movie needs to be persisted.</param>
         public void PersistMoive(string movieId)
         {
             IContainer continer = IocContainerSingleton.Instance.Container;

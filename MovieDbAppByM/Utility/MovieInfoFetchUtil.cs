@@ -1,4 +1,4 @@
-﻿using MovieDbAppByM.Dto;
+﻿using MovieDbAppByM.Dto.TmdbApi;
 using Newtonsoft.Json;
 using System.Net;
 

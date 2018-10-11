@@ -2,9 +2,9 @@
 
 namespace MovieDbAppByM.Persistance.UnitOfWork
 {
-    /*
-    // Contract for Unit Of Work for the application.
-    */
+    /// <summary>
+    /// Unit of work contract.
+    /// </summary>
     public interface IUnitOfWork
     {
         void Complete();

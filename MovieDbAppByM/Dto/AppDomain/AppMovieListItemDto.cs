@@ -1,7 +1,10 @@
 ﻿using MovieDbAppByM.Core;
 
-namespace MovieDbAppByM.Dto
+namespace MovieDbAppByM.Dto.AppDomain
 {
+    /// <summary>
+    /// Dto to represent movie poster data to be sent to client side to be displayed in navigational list.
+    /// </summary>
     public class AppMovieListItemDto : BindableBase
     {
         public AppMovieListItemDto(

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MovieDbAppByM.Dto
+namespace MovieDbAppByM.Dto.TmdbApi
 {
     /// <summary>
     /// Dto to represent movie language information obtained via TMDB API.

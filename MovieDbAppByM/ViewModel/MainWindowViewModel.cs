@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using MovieDbAppByM.Core;
 using MovieDbAppByM.DependencyInjection;
-using MovieDbAppByM.Dto;
+using MovieDbAppByM.Dto.AppDomain;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;

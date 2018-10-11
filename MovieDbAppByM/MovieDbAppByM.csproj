@@ -87,8 +87,8 @@
     <Compile Include="DependencyInjection\RepositoryModule.cs" />
     <Compile Include="DependencyInjection\ServiceModule.cs" />
     <Compile Include="DependencyInjection\UtilityModule.cs" />
-    <Compile Include="Dto\AppMovieDirectorDto.cs" />
-    <Compile Include="Dto\AppMovieListItemDto.cs" />
+    <Compile Include="Dto\AppDomain\AppMovieDirectorDto.cs" />
+    <Compile Include="Dto\AppDomain\AppMovieListItemDto.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Migrations\201810051250248_MovieDB_V1.0.cs" />
     <Compile Include="Migrations\201810051250248_MovieDB_V1.0.Designer.cs">
@@ -97,6 +97,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Director.cs" />
     <Compile Include="Model\MovieDirector.cs" />
+    <Compile Include="Persistance\Repository\Contract\IImdbMovieRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\ActorRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\DirectorRepository.cs" />
     <Compile Include="Persistance\Repository\Contract\IActorRepository.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Persistance\Repository\Contract\IMovieActorRepository.cs" />
     <Compile Include="Persistance\Repository\Contract\IMovieDirectorRepository.cs" />
     <Compile Include="Persistance\Repository\Contract\IMovieRepository.cs" />
+    <Compile Include="Persistance\Repository\Implementation\ImdbMovieRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\MovieActorRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\MovieDirectorRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\MovieRepository.cs" />
@@ -132,11 +134,11 @@
     <Compile Include="Core\BindableBase.cs" />
     <Compile Include="Core\RelayCommand.cs" />
     <Compile Include="Core\RelayCommand{T}.cs" />
-    <Compile Include="Dto\AppMovieActorDto.cs" />
-    <Compile Include="Dto\AppMovieDto.cs" />
-    <Compile Include="Dto\TmdbCastDto.cs" />
-    <Compile Include="Dto\TmdbCrewDto.cs" />
-    <Compile Include="Dto\TmdbMovieCastInfoDto.cs" />
+    <Compile Include="Dto\AppDomain\AppMovieActorDto.cs" />
+    <Compile Include="Dto\AppDomain\AppMovieDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbCastDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbCrewDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbMovieCastInfoDto.cs" />
     <Compile Include="Service\MoviePersistanceService.cs" />
     <Compile Include="Service\MovieRetrieveService.cs" />
     <Compile Include="View\Contract\IClosable.cs" />
@@ -152,12 +154,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\TmdbBelongsToCollectionDto.cs" />
-    <Compile Include="Dto\TmdbGenreDto.cs" />
-    <Compile Include="Dto\TmdbMovieInformatonDto.cs" />
-    <Compile Include="Dto\TmdbProductionCompanyDto.cs" />
-    <Compile Include="Dto\TmdbProductionCountryDto.cs" />
-    <Compile Include="Dto\TmdbSpokenLanguageDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbBelongsToCollectionDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbGenreDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbMovieInformatonDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbProductionCompanyDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbProductionCountryDto.cs" />
+    <Compile Include="Dto\TmdbApi\TmdbSpokenLanguageDto.cs" />
     <Compile Include="Model\Actor.cs" />
     <Compile Include="Model\ImdbMovie.cs" />
     <Compile Include="Model\MovieActor.cs" />

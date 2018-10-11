@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace MovieDbAppByM.Dto
+namespace MovieDbAppByM.Dto.AppDomain
 {
     /// <summary>
-    /// Dto to represent movie data to be sent to client side.
+    /// Dto to represent movie data to be sent to client side holding complete information.
     /// </summary>
     public class AppMovieDto
     {

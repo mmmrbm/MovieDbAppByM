@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace MovieDbAppByM.Dto
+namespace MovieDbAppByM.Dto.TmdbApi
 {
     /// <summary>
     /// Dto to represent movie information obtained via TMDB API.
