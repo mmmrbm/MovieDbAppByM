@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDbAppByM.Model
@@ -9,6 +10,15 @@ namespace MovieDbAppByM.Model
     [Table("Movie")]
     public class Movie
     {
+        /// <summary>
+        /// Constructs <see cref="Movie"/>
+        /// </summary>
+        public Movie()
+        {
+            Actors = new HashSet<Actor>();
+            Directors = new HashSet<Director>();
+        }
+
         /// <summary>
         /// Identifier for the Movie.
         /// </summary>
@@ -30,6 +40,12 @@ namespace MovieDbAppByM.Model
         public float ImdbVote { get; set; }
 
         /// <summary>
+        /// Popularity for the Movie.
+        /// </summary>
+        [Required]
+        public int Popularity { get; set; }
+
+        /// <summary>
         /// Original Title of the Movie.
         /// </summary>
         [Required]
@@ -46,34 +62,29 @@ namespace MovieDbAppByM.Model
         /// <summary>
         /// Tagline of the Movie.
         /// </summary>
-        [Required]
         [MaxLength(1000)]
         public string Tagline { get; set; }
 
         /// <summary>
         /// Overview of the Movie.
         /// </summary>
-        [Required]
         [MaxLength(4000)]
         public string Overview { get; set; }
 
         /// <summary>
         /// Genres of the Movie.
         /// </summary>
-        [Required]
         [MaxLength(200)]
         public string Genres { get; set; }
 
         /// <summary>
         /// Runtime of the Movie.
         /// </summary>
-        [Required]
         public int Runtime { get; set; }
 
         /// <summary>
         /// ReleaseDate of the Movie.
         /// </summary>
-        [Required]
         public string ReleaseDate { get; set; }
 
         /// <summary>
@@ -132,5 +143,15 @@ namespace MovieDbAppByM.Model
         /// </summary>
         [MaxLength(4000)]
         public string FreeText5 { get; set; }
+
+        /// <summary>
+        /// The set of <see cref="Actor"/> associated with the movie.
+        /// </summary>
+        public ICollection<Actor> Actors { get; set; }
+
+        /// <summary>
+        /// The set of <see cref="Director"/> associated with the movie.
+        /// </summary>
+        public ICollection<Director> Directors { get; set; }
     }
 }

@@ -17,8 +17,6 @@ namespace MovieDbAppByM.DependencyInjection
         {
             builder.RegisterType<ActorRepository>().As<IActorRepository>();
             builder.RegisterType<DirectorRepository>().As<IDirectorRepository>();
-            builder.RegisterType<MovieActorRepository>().As<IMovieActorRepository>();
-            builder.RegisterType<MovieDirectorRepository>().As<IMovieDirectorRepository>();
             builder.RegisterType<MovieRepository>().As<IMovieRepository>();
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();

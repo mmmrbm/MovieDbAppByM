@@ -29,7 +29,9 @@ namespace MovieDbAppByM.Persistance.Repository.Implementation
         /// </summary>
         public IEnumerable<Movie> GetMovies()
         {
-            return movieAppDbContext.Movies;
+            return movieAppDbContext.Movies
+                .Include("Actors")
+                .Include("Directors");
         }
 
         /// <summary>
@@ -57,7 +59,11 @@ namespace MovieDbAppByM.Persistance.Repository.Implementation
         /// </summary>
         public Movie GetMovieById(int id)
         {
-            return movieAppDbContext.Movies.Where(movie => movie.Id == id).FirstOrDefault();
+            return movieAppDbContext.Movies
+                .Include("Actors")
+                .Include("Directors")
+                .Where(movie => movie.Id == id)
+                .FirstOrDefault();
         }
 
         /// <summary>

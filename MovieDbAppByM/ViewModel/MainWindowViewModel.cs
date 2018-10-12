@@ -30,6 +30,7 @@ namespace MovieDbAppByM.ViewModel
         private string taglineTextValue;
         private string runtimeTextValue;
         private string ratingTextValue;
+        private string popularityTextValue;
         private string imdbpageTextValue;
         private string homepageTextValue;
         private string releaseYearTextValue;
@@ -62,6 +63,7 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush homepageTextForegroundColor;
         private SolidColorBrush runtimeTextForegroundColor;
         private SolidColorBrush ratingTextForegroundColor;
+        private SolidColorBrush popularityTextForegroundColor;
         private SolidColorBrush yearTextForegroundColor;
         private SolidColorBrush overviewTextForegroundColor;
         private SolidColorBrush castTextForegroundColor;
@@ -79,6 +81,7 @@ namespace MovieDbAppByM.ViewModel
         private Visibility shouldDisplayImdbpage;
         private Visibility shouldDisplayHomepage;
         private Visibility shouldRatingBarVisible;
+        private Visibility shouldDisplayPopularity;
         #endregion
 
         public MainWindowViewModel()
@@ -133,6 +136,12 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.ratingTextValue; }
             set { this.SetProperty(ref this.ratingTextValue, value); }
+        }
+
+        public string PopularityTextValue
+        {
+            get { return this.popularityTextValue; }
+            set { this.SetProperty(ref this.popularityTextValue, value); }
         }
 
         public string ReleaseYearTextValue
@@ -305,6 +314,12 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.ratingTextForegroundColor, value); }
         }
 
+        public SolidColorBrush PopularityTextForegroundColor
+        {
+            get { return this.popularityTextForegroundColor; }
+            set { this.SetProperty(ref this.popularityTextForegroundColor, value); }
+        }
+
         public SolidColorBrush YearTextForegroundColor
         {
             get { return this.yearTextForegroundColor; }
@@ -410,6 +425,12 @@ namespace MovieDbAppByM.ViewModel
             get { return this.shouldRatingBarVisible; }
             set { this.SetProperty(ref this.shouldRatingBarVisible, value); }
         }
+
+        public Visibility ShouldDisplayPopularity
+        {
+            get { return this.shouldDisplayPopularity; }
+            set { this.SetProperty(ref this.shouldDisplayPopularity, value); }
+        }
         #endregion
 
         #region Commands
@@ -466,7 +487,7 @@ namespace MovieDbAppByM.ViewModel
 
         private void RefreshCommandHandler()
         {
-            //this.RefreshInfo();
+            this.PopulateScrollviewWithMovies();
         }
 
         private void ToolCommandHandler()
@@ -525,6 +546,7 @@ namespace MovieDbAppByM.ViewModel
             this.TitleTextForegroundColor = foregroundColor;
             this.TaglineTextForegroundColor = foregroundColor;
             this.RatingTextForegroundColor = foregroundColor;
+            this.PopularityTextForegroundColor = foregroundColor;
             this.YearTextForegroundColor = foregroundColor;
             this.HomepageTextForegroundColor = foregroundColor;
             this.RuntimeTextForegroundColor = foregroundColor;
@@ -560,6 +582,7 @@ The tool will add your movies to the collection automatically.";
             this.ShouldDisplayImdbpage = Visibility.Hidden;
             this.ShouldDisplayHomepage = Visibility.Hidden;
             this.ShouldRatingBarVisible = Visibility.Hidden;
+            this.ShouldDisplayPopularity = Visibility.Hidden;
         }
 
         private void PopulateScrollviewWithMovies()
@@ -585,6 +608,8 @@ The tool will add your movies to the collection automatically.";
 
                 this.ProgressValue = (selectedMovieInfo.ImdbVote * 10);
                 this.RatingTextValue = selectedMovieInfo.ImdbVote.ToString();
+
+                this.PopularityTextValue = selectedMovieInfo.Popularity.ToString();
 
                 this.GenreTextValue = selectedMovieInfo.Genres;
                 this.RuntimeTextValue = selectedMovieInfo.Runtime.ToString() + runtimeUnitText;
@@ -616,6 +641,7 @@ The tool will add your movies to the collection automatically.";
                 }
 
                 this.ShouldRatingBarVisible = Visibility.Visible;
+                this.ShouldDisplayPopularity = Visibility.Visible;
 
                 this.AppMovieCastInfoCollection = new ObservableCollection<AppMovieActorDto>(selectedMovieInfo.MovieActors);
             }

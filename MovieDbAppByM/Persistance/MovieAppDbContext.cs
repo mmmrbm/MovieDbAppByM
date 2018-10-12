@@ -8,17 +8,42 @@ namespace MovieDbAppByM.Persistance
     /// </summary>
     public class MovieAppDbContext : DbContext
     {
+        /// <summary>
+        /// Constructs <see cref="MovieAppDbContext"/>
+        /// </summary>
         public MovieAppDbContext()
             : base("name=MovieDbEntities")
         {
 
         }
 
+        /// <summary>
+        /// <see cref="DbSet"/> for <see cref="Movie"/>
+        /// </summary>
         public DbSet<Movie> Movies { get; set; }
-        public DbSet<Actor> Actors { get; set; }
-        public DbSet<MovieActor> MovieActors { get; set; }
+
+        /// <summary>
+        /// <see cref="DbSet"/> for <see cref="ImdbMovie"/>
+        /// </summary>
         public DbSet<ImdbMovie> ImdbMovies { get; set; }
+
+        /// <summary>
+        /// <see cref="DbSet"/> for <see cref="Actor"/>
+        /// </summary>
+        public DbSet<Actor> Actors { get; set; }
+
+        /// <summary>
+        /// <see cref="DbSet"/> for <see cref="Director"/>
+        /// </summary>
         public DbSet<Director> Directors { get; set; }
-        public DbSet<MovieDirector> MovieDirectors { get; set; }
+
+        /// <summary>
+        /// < inheritdoc />
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

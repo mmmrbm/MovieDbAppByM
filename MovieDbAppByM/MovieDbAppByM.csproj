@@ -90,24 +90,19 @@
     <Compile Include="Dto\AppDomain\AppMovieDirectorDto.cs" />
     <Compile Include="Dto\AppDomain\AppMovieListItemDto.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
-    <Compile Include="Migrations\201810051250248_MovieDB_V1.0.cs" />
-    <Compile Include="Migrations\201810051250248_MovieDB_V1.0.Designer.cs">
-      <DependentUpon>201810051250248_MovieDB_V1.0.cs</DependentUpon>
+    <Compile Include="Migrations\201810121028436_MovieDb-V1.0.cs" />
+    <Compile Include="Migrations\201810121028436_MovieDb-V1.0.Designer.cs">
+      <DependentUpon>201810121028436_MovieDb-V1.0.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Director.cs" />
-    <Compile Include="Model\MovieDirector.cs" />
     <Compile Include="Persistance\Repository\Contract\IImdbMovieRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\ActorRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\DirectorRepository.cs" />
     <Compile Include="Persistance\Repository\Contract\IActorRepository.cs" />
     <Compile Include="Persistance\Repository\Contract\IDirectorRepository.cs" />
-    <Compile Include="Persistance\Repository\Contract\IMovieActorRepository.cs" />
-    <Compile Include="Persistance\Repository\Contract\IMovieDirectorRepository.cs" />
     <Compile Include="Persistance\Repository\Contract\IMovieRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\ImdbMovieRepository.cs" />
-    <Compile Include="Persistance\Repository\Implementation\MovieActorRepository.cs" />
-    <Compile Include="Persistance\Repository\Implementation\MovieDirectorRepository.cs" />
     <Compile Include="Persistance\Repository\Implementation\MovieRepository.cs" />
     <Compile Include="Persistance\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Persistance\UnitOfWork\UnitOfWork.cs" />
@@ -162,7 +157,6 @@
     <Compile Include="Dto\TmdbApi\TmdbSpokenLanguageDto.cs" />
     <Compile Include="Model\Actor.cs" />
     <Compile Include="Model\ImdbMovie.cs" />
-    <Compile Include="Model\MovieActor.cs" />
     <Compile Include="Model\Movie.cs" />
     <Compile Include="Persistance\MovieAppDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -178,8 +172,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\201810051250248_MovieDB_V1.0.resx">
-      <DependentUpon>201810051250248_MovieDB_V1.0.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810121028436_MovieDb-V1.0.resx">
+      <DependentUpon>201810121028436_MovieDb-V1.0.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -217,7 +211,10 @@
     <Resource Include="Icons\Settings-02-128.png" />
     <Resource Include="Icons\Twitter-Bird-32.png" />
     <Resource Include="Icons\YouTube1-32.png" />
-    <Resource Include="Icons\imdb.png" />
+    <Resource Include="Icons\homepage.png" />
+    <Resource Include="Icons\imdb-icon.png" />
+    <Resource Include="Icons\in-love.png" />
+    <Resource Include="Icons\line-chart.png" />
     <Content Include="Images\banner.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -230,9 +227,6 @@
     <Content Include="Images\empty_thumbnal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\hyperlink.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\default-user-thumb.png">

@@ -1,7 +1,9 @@
 ﻿using MovieDbAppByM.Dto.AppDomain;
 using MovieDbAppByM.Mapping;
+using MovieDbAppByM.Model;
 using MovieDbAppByM.Persistance.Repository.Contract;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MovieDbAppByM.Service
 {
@@ -24,16 +26,6 @@ namespace MovieDbAppByM.Service
         private readonly IDirectorRepository directorRepository;
 
         /// <summary>
-        /// Reference to hold <see cref="IMovieActorRepository"/>
-        /// </summary>
-        private readonly IMovieActorRepository movieActorRepository;
-
-        /// <summary>
-        /// Reference to hold <see cref="IMovieDirectorRepository"/>
-        /// </summary>
-        private readonly IMovieDirectorRepository movieDirectorRepository;
-
-        /// <summary>
         /// Reference to hold <see cref="AutoMapperConfig"/>
         /// </summary>
         private readonly AutoMapperConfig mapper;
@@ -52,15 +44,11 @@ namespace MovieDbAppByM.Service
             IMovieRepository movieRepository,
             IActorRepository actorRepository,
             IDirectorRepository directorRepository,
-            IMovieActorRepository movieActorRepository,
-            IMovieDirectorRepository movieDirectorRepository,
             AutoMapperConfig mapper)
         {
             this.movieRepository = movieRepository;
             this.actorRepository = actorRepository;
             this.directorRepository = directorRepository;
-            this.movieActorRepository = movieActorRepository;
-            this.movieDirectorRepository = movieDirectorRepository;
             this.mapper = mapper;
         }
 
@@ -89,21 +77,11 @@ namespace MovieDbAppByM.Service
         /// <returns>The information processed into <see cref="AppMovieDto"/>.</returns>
         public AppMovieDto GetSelectedMovieInfo(int movieId)
         {
-            AppMovieDto selectedMovie = mapper.GetMapper().Map<AppMovieDto>(movieRepository.GetMovieById(movieId));
+            Movie selectedMovie = movieRepository.GetMovieById(movieId);
+            AppMovieDto processedMovie = mapper.GetMapper().Map<AppMovieDto>(selectedMovie);
+            processedMovie.Director = processedMovie.MovieDirectors.First();
 
-            AppMovieDirectorDto director = 
-                mapper.GetMapper().Map <AppMovieDirectorDto>(
-                    directorRepository.GetDirectorById((movieDirectorRepository.GetMovieDirectorByMovieId(movieId)).DirectorId));
-            selectedMovie.Director = director;
-
-            foreach (var actor in movieActorRepository.GetMovieActorsByMovieId(movieId))
-            {
-                AppMovieActorDto movieActor = mapper.GetMapper().Map<AppMovieActorDto>(
-                    actorRepository.GetActorById(actor.ActorId));
-                selectedMovie.MovieActors.Add(movieActor);
-            }
-
-            return selectedMovie;
+            return processedMovie;
         }
     }
 }

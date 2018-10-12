@@ -7,13 +7,13 @@ namespace MovieDbAppByM.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class MovieDB_V10 : IMigrationMetadata
+    public sealed partial class MovieDbV10 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MovieDB_V10));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MovieDbV10));
         
         string IMigrationMetadata.Id
         {
-            get { return "201810051250248_MovieDB_V1.0"; }
+            get { return "201810121028436_MovieDb-V1.0"; }
         }
         
         string IMigrationMetadata.Source

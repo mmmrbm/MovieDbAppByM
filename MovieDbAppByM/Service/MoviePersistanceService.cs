@@ -6,6 +6,7 @@ using MovieDbAppByM.Model;
 using MovieDbAppByM.Persistance.Repository.Contract;
 using MovieDbAppByM.Persistance.UnitOfWork;
 using MovieDbAppByM.Utility;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MovieDbAppByM.Service
@@ -27,16 +28,6 @@ namespace MovieDbAppByM.Service
         /// Reference to hold <see cref="IDirectorRepository"/>
         /// </summary>
         private readonly IDirectorRepository directorRepository;
-
-        /// <summary>
-        /// Reference to hold <see cref="IMovieActorRepository"/>
-        /// </summary>
-        private readonly IMovieActorRepository movieActorRepository;
-
-        /// <summary>
-        /// Reference to hold <see cref="IMovieDirectorRepository"/>
-        /// </summary>
-        private readonly IMovieDirectorRepository movieDirectorRepository;
 
         /// <summary>
         /// Reference to hold <see cref="IUnitOfWork"/>
@@ -69,8 +60,6 @@ namespace MovieDbAppByM.Service
             IMovieRepository movieRepository,
             IActorRepository actorRepository,
             IDirectorRepository directorRepository,
-            IMovieActorRepository movieActorRepository,
-            IMovieDirectorRepository movieDirectorRepository,
             IUnitOfWork unitOfWork,
             MovieInfoFetchUtil movieInfoFetchService,
             AutoMapperConfig mapper)
@@ -78,8 +67,6 @@ namespace MovieDbAppByM.Service
             this.movieRepository = movieRepository;
             this.actorRepository = actorRepository;
             this.directorRepository = directorRepository;
-            this.movieActorRepository = movieActorRepository;
-            this.movieDirectorRepository = movieDirectorRepository;
             this.unitOfWork = unitOfWork;
             this.movieInfoFetchService = movieInfoFetchService;
             this.mapper = mapper;
@@ -102,8 +89,6 @@ namespace MovieDbAppByM.Service
 
             IActorRepository actorRepository = continer.Resolve<IActorRepository>();
             IDirectorRepository directorRepository = continer.Resolve<IDirectorRepository>();
-            IMovieActorRepository movieActorRepository = continer.Resolve<IMovieActorRepository>();
-            IMovieDirectorRepository movieDirectorRepository = continer.Resolve<IMovieDirectorRepository>();
             IUnitOfWork unitOfWork = continer.Resolve<IUnitOfWork>();
 
             TmdbMovieInformatonDto movieFromApi = movieInfoFetchService.GetMovieAsync(movieId);
@@ -114,37 +99,44 @@ namespace MovieDbAppByM.Service
 
             foreach (var castedActor in movieCastFromApi.Cast.Take(6))
             {
+                Actor actor = null;
+
                 if (!actorRepository.CheckExistById(castedActor.Id))
                 {
-                    Actor actor = mapper.GetMapper().Map<Actor>(castedActor);
+                    actor = mapper.GetMapper().Map<Actor>(castedActor);
+                    actor.Movies.Add(movie);
                     actorRepository.PersistActor(actor);
                 }
-                
-                MovieActor movieActor = new MovieActor()
+                else
                 {
-                    MovieId = movieCastFromApi.Id,
-                    ActorId = castedActor.Id,
-                    CastOrder = castedActor.Order
-                };
-                movieActorRepository.PersistMovieActor(movieActor);
+                    actor = actorRepository.GetActorById(castedActor.Id);
+                    actor.Movies.Add(movie);
+                }
+                
+                movie.Actors.Add(actor);
             }
 
-            TmdbCrewDto directorDtoFromApi = movieCastFromApi.Crew
-                .Where(crew => crew.Job == "Director")
-                .FirstOrDefault();
+            List<TmdbCrewDto> directorInfoFromApi = movieCastFromApi.Crew
+                .Where(crew => crew.Job == "Director").ToList();
 
-            if (!directorRepository.CheckExistById(directorDtoFromApi.Id))
+            foreach (TmdbCrewDto directorDtoFromApi in directorInfoFromApi)
             {
-                Director director = mapper.GetMapper().Map<Director>(directorDtoFromApi);
-                directorRepository.PersistDirector(director);
+                Director director = null;
+
+                if (!directorRepository.CheckExistById(directorDtoFromApi.Id))
+                {
+                    director = mapper.GetMapper().Map<Director>(directorDtoFromApi);
+                    director.Movies.Add(movie);
+                    directorRepository.PersistDirector(director);
+                }
+                else
+                {
+                    director = directorRepository.GetDirectorById(directorDtoFromApi.Id);
+                    director.Movies.Add(movie);
+                }
+                
+                movie.Directors.Add(director);
             }
-            
-            MovieDirector movieDirector = new MovieDirector()
-            {
-                MovieId = movieCastFromApi.Id,
-                DirectorId = directorDtoFromApi.Id
-            };
-            movieDirectorRepository.PersistMovieDirector(movieDirector);
 
             unitOfWork.Complete();
         }

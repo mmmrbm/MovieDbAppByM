@@ -30,6 +30,7 @@ namespace MovieDbAppByM.Mapping
                     .ForMember(movie => movie.Id, opt => opt.MapFrom(dto => dto.Id))
                     .ForMember(movie => movie.ImdbId, opt => opt.MapFrom(dto => dto.ImdbId))
                     .ForMember(movie => movie.ImdbVote, opt => opt.MapFrom(dto => dto.VoteAverage))
+                    .ForMember(movie => movie.Popularity, opt => opt.MapFrom(dto => dto.Popularity))
                     .ForMember(movie => movie.OriginalTitle, opt => opt.MapFrom(dto => dto.OriginalTitle))
                     .ForMember(movie => movie.Title, opt => opt.MapFrom(dto => dto.Title))
                     .ForMember(movie => movie.Tagline, opt => opt.MapFrom(dto => dto.Tagline))
@@ -49,6 +50,7 @@ namespace MovieDbAppByM.Mapping
                 cfg.CreateMap<Movie, AppMovieDto>()
                     .ForMember(appMovieDto => appMovieDto.ImdbId, opt => opt.MapFrom(movie => movie.ImdbId))
                     .ForMember(appMovieDto => appMovieDto.ImdbVote, opt => opt.MapFrom(movie => movie.ImdbVote))
+                    .ForMember(appMovieDto => appMovieDto.Popularity, opt => opt.MapFrom(movie => movie.Popularity))
                     .ForMember(appMovieDto => appMovieDto.OriginalTitle, opt => opt.MapFrom(movie => movie.OriginalTitle))
                     .ForMember(appMovieDto => appMovieDto.Title, opt => opt.MapFrom(movie => movie.Title))
                     .ForMember(appMovieDto => appMovieDto.Tagline, opt => opt.MapFrom(movie => movie.Tagline))
@@ -60,7 +62,9 @@ namespace MovieDbAppByM.Mapping
                     .ForMember(appMovieDto => appMovieDto.PosterImage, opt => opt.MapFrom(movie => movie.PosterImage))
                     .ForMember(appMovieDto => appMovieDto.Homepage, opt => opt.MapFrom(movie => movie.Homepage))
                     .ForMember(appMovieDto => appMovieDto.HasWatched, opt => opt.MapFrom(movie => movie.HasWatched))
-                    .ForMember(appMovieDto => appMovieDto.PersonalComments, opt => opt.MapFrom(movie => movie.PersonalComments));
+                    .ForMember(appMovieDto => appMovieDto.PersonalComments, opt => opt.MapFrom(movie => movie.PersonalComments))
+                    .ForMember(appMovieDto => appMovieDto.MovieActors, opt => opt.MapFrom(movie => movie.Actors))
+                    .ForMember(appMovieDto => appMovieDto.MovieDirectors, opt => opt.MapFrom(movie => movie.Directors));
 
                 cfg.CreateMap<Director, AppMovieDirectorDto>()
                     .ForMember(appMovieDirectorDto => appMovieDirectorDto.Name, opt => opt.MapFrom(director => director.Name))

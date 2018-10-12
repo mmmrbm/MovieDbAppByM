@@ -297,14 +297,34 @@
                    Foreground="{Binding Path=YearTextForegroundColor}">
         </TextBlock>
 
-        <!--Rating and Imdb Page and Homepage-->
+        <!--Rating, popularity, homepage and Imdb Page and Homepage-->
         <custcontrol:CircularProgressBar 
             HorizontalAlignment="Left"
-            Grid.Column="6" Grid.ColumnSpan="7" Grid.Row="4"
+            Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="4"
             Visibility="{Binding ShouldRatingBarVisible}"
             Value="{Binding ProgressValue}" 
             Text="{Binding RatingTextValue, Mode=OneWay}"
             Style="{StaticResource CircularProgressBarStyle}"/>
+
+        <Image Name="imgPopularity" 
+               Grid.Column="8" Grid.Row="4"
+               Opacity="0.5"
+               VerticalAlignment="Top" 
+               HorizontalAlignment="Right" 
+               Width="30" Height="30" 
+               Margin="0 10 0 0"
+               Source="/Icons/line-chart.png"
+               Visibility="{Binding Path=ShouldDisplayPopularity}">
+        </Image>
+
+        <TextBlock  Name="tbPopularity"
+                    HorizontalAlignment="Left"
+                    Grid.Column="9" Grid.ColumnSpan="3" Grid.Row="4"
+                    FontFamily="Segoe UI Light" 
+                    FontSize="15" 
+                    FontWeight="ExtraBold"
+                    Text="{Binding PopularityTextValue }"
+                    Foreground="{Binding Path=PopularityTextForegroundColor}"/>
 
         <Button Name="btnNavigateToImdb" 
                 Grid.Column="13" Grid.Row="4" 
@@ -315,7 +335,7 @@
                 Visibility="{Binding Path=ShouldDisplayImdbpage}"
                 Style="{DynamicResource EmptyButtonStyle}" 
                 Command="{Binding NavigateToMovieImdbpageCommand}">
-            <Image Source="/Icons/imdb.png" Cursor="Hand"/>
+            <Image Source="/Icons/imdb-icon.png" Cursor="Hand"/>
         </Button>
         
         <Button Name="btnNavigateToHomepage" 
@@ -327,7 +347,7 @@
                 Visibility="{Binding Path=ShouldDisplayHomepage}"
                 Style="{DynamicResource EmptyButtonStyle}" 
                 Command="{Binding NavigateToMovieHomepageCommand}">
-            <Image Source="/Icons/hyperlink.png" Cursor="Hand"/>
+            <Image Source="/Icons/homepage.png" Cursor="Hand"/>
         </Button>
 
 
