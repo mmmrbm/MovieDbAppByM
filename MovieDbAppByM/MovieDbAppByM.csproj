@@ -81,6 +81,7 @@
     <Compile Include="Converter\ByteToImageConverter.cs" />
     <Compile Include="Converter\RatingValueToColorConverter.cs" />
     <Compile Include="CustomControl\CircularProgressBar.cs" />
+    <Compile Include="CustomControl\SelectedFocusingListBox.cs" />
     <Compile Include="DependencyInjection\IocContainerSingleton.cs" />
     <Compile Include="DependencyInjection\MappingModule.cs" />
     <Compile Include="DependencyInjection\PersistanceModule.cs" />
