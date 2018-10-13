@@ -3,7 +3,7 @@ namespace MovieDbAppByM.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MovieDbV10 : DbMigration
+    public partial class MovieDbv10 : DbMigration
     {
         public override void Up()
         {
@@ -60,7 +60,6 @@ namespace MovieDbAppByM.Migrations
                 c => new
                     {
                         ImdbId = c.String(nullable: false, maxLength: 128),
-                        LoadedFileName = c.String(nullable: false, maxLength: 4000),
                         Status = c.String(nullable: false, maxLength: 10),
                         StatusText = c.String(nullable: false, maxLength: 4000),
                     })

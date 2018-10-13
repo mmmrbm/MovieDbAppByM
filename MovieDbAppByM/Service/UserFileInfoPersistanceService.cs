@@ -35,25 +35,25 @@ namespace MovieDbAppByM.Service
         /// Responsible for persisting process information for a movie uploaded by user.
         /// </summary>
         /// <param name="imdbId">Imdb ID for movie.</param>
-        /// <param name="loadedFileName">file name containing the information for loading movie.</param>
         /// <param name="status">Process status.</param>
         /// <param name="statusText">Description of process.</param>
         public void PersistMovieProcessInfo(
             string imdbId, 
-            string loadedFileName, 
             string status, 
             string statusText)
         {
-            ImdbMovie imdbMovie = new ImdbMovie()
+            if (!movieRepository.CheckMovieExist(imdbId))
             {
-                ImdbId = imdbId,
-                LoadedFileName = loadedFileName,
-                Status = status,
-                StatusText = statusText,
-            };
+                ImdbMovie imdbMovie = new ImdbMovie()
+                {
+                    ImdbId = imdbId,
+                    Status = status,
+                    StatusText = statusText,
+                };
 
-            this.movieRepository.PersistMovie(imdbMovie);
-            this.unitOfWork.Complete();
+                this.movieRepository.PersistMovie(imdbMovie);
+                this.unitOfWork.Complete();
+            }
         }
     }
 }

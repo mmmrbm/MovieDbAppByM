@@ -18,13 +18,6 @@ namespace MovieDbAppByM.Model
         public string ImdbId { get; set; }
 
         /// <summary>
-        /// The file name used to load the data.
-        /// </summary>
-        [Required]
-        [MaxLength(4000)]
-        public string LoadedFileName { get; set; }
-
-        /// <summary>
         /// Status of the process of fetching information from end point.
         /// Can have two values Success or Error.
         /// </summary>

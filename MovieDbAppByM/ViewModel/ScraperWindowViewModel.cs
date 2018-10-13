@@ -2,7 +2,7 @@
 using Microsoft.Win32;
 using MovieDbAppByM.Core;
 using MovieDbAppByM.DependencyInjection;
-using MovieDbAppByM.Persistance;
+using MovieDbAppByM.EventHub;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;
@@ -33,20 +33,24 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush processInfoLabelFillColor;
         private SolidColorBrush processResultBackgroundColor;
 
+        private SolidColorBrush successBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF008000"));
+        private SolidColorBrush failedBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFB22222"));
+
         private Visibility shouldProgressVisible;
-        #endregion
-
-        #region Constants
         private IContainer iocContainer;
-
-        private MovieAppDbContext dbContext;
+        private MovieProcessingService movieProcessingService;
         #endregion
 
 
         public ScraperWindowViewModel()
         {
             this.iocContainer = IocContainerSingleton.Instance.Container;
-            dbContext = this.iocContainer.Resolve<MovieAppDbContext>();
+
+            movieProcessingService = this.iocContainer.Resolve<MovieProcessingService>();
+            movieProcessingService.MovieSuccessfullyProcessed += new MovieSuccessfullyProcessedEventHandler(HandleMovieSuccessfullyProcessed);
+            movieProcessingService.MovieErrorneouslyProcessed += new MovieErrorneouslyProcessedEventHandler(this.HandleMovieErrorneouslyProcessed);
+            movieProcessingService.MovieProcessProgressChanged += new MovieProcessProgressChangedEventHandler(this.HandleMovieProcessProgressChanged);
+            movieProcessingService.MovieProcessingCompleted += new MovieProcessingCompletedEventHandler(this.HandleMovieProcessingCompleted);
 
             this.LoadedMovieIdCollection = new ObservableCollection<LoadedMovieItem>();
             this.CurrentProgressValue = 0;
@@ -59,7 +63,7 @@ namespace MovieDbAppByM.ViewModel
 
             this.ShouldProgressVisible = Visibility.Hidden;
         }
-
+        
         #region Properties
         public int CurrentProgressValue
         {
@@ -168,6 +172,7 @@ namespace MovieDbAppByM.ViewModel
         {
             if (window != null)
             {
+                DeregisterFromServiceEvents();
                 window.CloseWindow();
             }
         }
@@ -195,6 +200,7 @@ namespace MovieDbAppByM.ViewModel
         private void StartCommandHandler()
         {
             string[] movieIdsToPersist = File.ReadAllLines(SelectedFilePath);
+            this.LoadedMovieIdCollection.Clear();
 
             foreach (var movieId in movieIdsToPersist)
             {
@@ -204,25 +210,8 @@ namespace MovieDbAppByM.ViewModel
             this.ProgressBarMaxValue = this.LoadedMovieIdCollection.Count;
             this.ShouldProgressVisible = Visibility.Visible;
 
-            foreach (LoadedMovieItem loadedMovieItem in LoadedMovieIdCollection)
-            {
-                SolidColorBrush successBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF008000"));
-                SolidColorBrush failedBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFB22222"));
-
-                try
-                {
-                    MoviePersistanceService service = this.iocContainer.Resolve<MoviePersistanceService>();
-                    service.PersistMoive(loadedMovieItem.ImdbId);
-                    loadedMovieItem.Background = successBackground;
-                }
-                catch (System.Exception ex)
-                {
-                    loadedMovieItem.Background = failedBackground;
-                    throw;
-                }
-
-                this.CurrentProgressValue += 1;
-            }
+            Mouse.OverrideCursor = Cursors.Wait;
+            movieProcessingService.BackgroundWorker.RunWorkerAsync(this.LoadedMovieIdCollection);
         }
         #endregion
 
@@ -248,6 +237,49 @@ namespace MovieDbAppByM.ViewModel
             this.TitleTextFillColor = backgroundColor;
             this.ProcessInfoLabelFillColor = backgroundColor;
             this.FolderPathTextForegroundColor = backgroundColor;
+        }
+
+        private void HandleMovieSuccessfullyProcessed(LoadedMovieItem processedMovie)
+        {
+            LoadedMovieItem foundMovie = this.LoadedMovieIdCollection[this.LoadedMovieIdCollection.IndexOf(processedMovie)];
+            foundMovie.Background = successBackground;
+        }
+
+        private void HandleMovieErrorneouslyProcessed(LoadedMovieItem processedMovie)
+        {
+            LoadedMovieItem foundMovie = this.LoadedMovieIdCollection[this.LoadedMovieIdCollection.IndexOf(processedMovie)];
+            foundMovie.Background = failedBackground;
+        }
+
+        private void HandleMovieProcessProgressChanged(int progress)
+        {
+            this.CurrentProgressValue = progress;
+        }
+
+        
+        private void HandleMovieProcessingCompleted(int successfullyProcessedMovieCount, int errorneouslyProcessedMovieCount)
+        {
+            Mouse.OverrideCursor = Cursors.Arrow;
+            MessageBox.Show("It's Done");
+        }
+
+        private void DeregisterFromServiceEvents()
+        {
+            if (movieProcessingService != null)
+            {
+                movieProcessingService.MovieSuccessfullyProcessed -= new MovieSuccessfullyProcessedEventHandler(HandleMovieSuccessfullyProcessed);
+                movieProcessingService.MovieErrorneouslyProcessed -= new MovieErrorneouslyProcessedEventHandler(this.HandleMovieErrorneouslyProcessed);
+                movieProcessingService.MovieProcessProgressChanged -= new MovieProcessProgressChangedEventHandler(this.HandleMovieProcessProgressChanged);
+                movieProcessingService.MovieProcessingCompleted -= new MovieProcessingCompletedEventHandler(this.HandleMovieProcessingCompleted);
+                movieProcessingService = null;
+            }
+        }
+        #endregion
+
+        #region Finalizer
+        ~ScraperWindowViewModel()
+        {
+            DeregisterFromServiceEvents();
         }
         #endregion
     }
