@@ -1,4 +1,5 @@
-﻿using MovieDbAppByM.Utility;
+﻿using MovieDbAppByM.EventHub;
+using MovieDbAppByM.Utility;
 using MovieDbAppByM.View.Helpers;
 
 namespace MovieDbAppByM.Service
@@ -23,13 +24,22 @@ namespace MovieDbAppByM.Service
         private static readonly string orangeLight = "#FCD4B1";
         #endregion
 
+        public event AppThemeChangedEventHandler AppThemeChanged;
+
+        private AppSettings appSettings;
+
+        public SettingManagementService()
+        {
+            this.appSettings = new AppSettings();
+        }
+
         /// <summary>
         /// Responsible to produce the theme colors as per the settings selected by user.
         /// </summary>
         /// <returns></returns>
         public ThemeColorHolder GetThemeAscent()
         {
-            string selectedTheme = new AppSettings()["Theme"].ToString();
+            string selectedTheme = this.appSettings["Theme"].ToString();
             ThemeColorHolder themeColorHolder = new ThemeColorHolder();
 
             switch (selectedTheme)
@@ -79,7 +89,13 @@ namespace MovieDbAppByM.Service
         /// <param name="theme">Theme selected by user.</param>
         public void SetApplicationTheme(string theme)
         {
-            new AppSettings()["Theme"] = theme;
+            this.appSettings["Theme"] = theme;
+            this.AppThemeChanged();
+        }
+
+        public string GetCurrentTheme()
+        {
+            return this.appSettings["Theme"].ToString();
         }
     }
 }

@@ -6,4 +6,6 @@ namespace MovieDbAppByM.EventHub
     public delegate void MovieErrorneouslyProcessedEventHandler(LoadedMovieItem processedMovie);
     public delegate void MovieProcessProgressChangedEventHandler(int progress);
     public delegate void MovieProcessingCompletedEventHandler(int successfullyProcessedMovieCount, int errorneouslyProcessedMovieCount);
+
+    public delegate void AppThemeChangedEventHandler();
 }

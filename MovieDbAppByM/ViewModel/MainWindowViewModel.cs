@@ -2,6 +2,7 @@
 using MovieDbAppByM.Core;
 using MovieDbAppByM.DependencyInjection;
 using MovieDbAppByM.Dto.AppDomain;
+using MovieDbAppByM.EventHub;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;
@@ -22,6 +23,7 @@ namespace MovieDbAppByM.ViewModel
 
         #region Class variables
         private IContainer iocContainer;
+        private SettingManagementService settingManagementService;
 
         private float progressValue;
 
@@ -87,6 +89,8 @@ namespace MovieDbAppByM.ViewModel
         public MainWindowViewModel()
         {
             this.iocContainer = IocContainerSingleton.Instance.Container;
+            this.settingManagementService = this.iocContainer.Resolve<SettingManagementService>();
+            this.settingManagementService.AppThemeChanged += new AppThemeChangedEventHandler(this.HandleAppThemeChanged);
 
             this.WindowLoadedCommand = new RelayCommand(this.WindowLoadedCommandHandler);
             this.CloseCommand = new RelayCommand<IClosable>(this.CloseCommandHandler);
@@ -498,7 +502,8 @@ namespace MovieDbAppByM.ViewModel
 
         private void SettingCommandHandler()
         {
-            //this.DisplaySettingsWindow();
+            View.SettingsWindow settingsDialog = new View.SettingsWindow();
+            settingsDialog.ShowDialog();
         }
 
         private void ScrollRightCommandHandler()
@@ -533,7 +538,7 @@ namespace MovieDbAppByM.ViewModel
         #region Implementation Methods
         private void SetupApplicationTheme()
         {
-            ThemeColorHolder themeColors = this.iocContainer.Resolve<SettingManagementService>().GetThemeAscent();
+            ThemeColorHolder themeColors = this.settingManagementService.GetThemeAscent();
             SetMainWindowElements(themeColors.ForegroundColor, themeColors.BackgroundColor);
         }
 
@@ -647,6 +652,11 @@ The tool will add your movies to the collection automatically.";
             }
         }
         #endregion
+
+        private void HandleAppThemeChanged()
+        {
+            this.SetupApplicationTheme();
+        }
 
     }
 }

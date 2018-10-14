@@ -15,7 +15,7 @@ namespace MovieDbAppByM.DependencyInjection
         {
             builder.RegisterType<MoviePersistanceService>();
             builder.RegisterType<MovieRetrieveService>();
-            builder.RegisterType<SettingManagementService>();
+            builder.RegisterType<SettingManagementService>().SingleInstance();
             builder.RegisterType<UserFileInfoPersistanceService>();
             builder.RegisterType<MovieProcessingService>();
 

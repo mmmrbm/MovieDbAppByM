@@ -260,7 +260,6 @@ namespace MovieDbAppByM.ViewModel
         private void HandleMovieProcessingCompleted(int successfullyProcessedMovieCount, int errorneouslyProcessedMovieCount)
         {
             Mouse.OverrideCursor = Cursors.Arrow;
-            MessageBox.Show("It's Done");
         }
 
         private void DeregisterFromServiceEvents()

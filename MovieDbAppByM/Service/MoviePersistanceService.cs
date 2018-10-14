@@ -97,7 +97,7 @@ namespace MovieDbAppByM.Service
             Movie movie = mapper.GetMapper().Map<Movie>(movieFromApi);
             movieRepository.PersistMovie(movie);
 
-            foreach (var castedActor in movieCastFromApi.Cast.Take(6))
+            foreach (var castedActor in movieCastFromApi.Cast.Take(8))
             {
                 Actor actor = null;
 
