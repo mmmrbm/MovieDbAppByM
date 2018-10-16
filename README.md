@@ -7,6 +7,6 @@ I have recreated the backend of the application using a layered architecture and
 
 I am one of a good backend developer, but one of the worst UI / UX person in industry. Thus, UI can be improved a lot and I would really like some ideas from community.
 
-![Screenshot](https://ibb.co/cJHuML)
+![screenshot](https://user-images.githubusercontent.com/10805812/47024678-cd498780-d17f-11e8-9d8c-3a817ea8b104.png)
 
 This software is created by a movie enthusiast for other enthusiasts out there. This is free of cost and covered under [MIT License](https://en.wikipedia.org/wiki/MIT_License).
