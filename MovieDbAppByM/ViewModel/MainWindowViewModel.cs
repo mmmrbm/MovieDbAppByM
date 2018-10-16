@@ -653,10 +653,27 @@ The tool will add your movies to the collection automatically.";
         }
         #endregion
 
+        #region Event Handling
         private void HandleAppThemeChanged()
         {
             this.SetupApplicationTheme();
         }
 
+        private void DeregisterFromServiceEvents()
+        {
+            if (settingManagementService != null)
+            {
+                settingManagementService.AppThemeChanged -= new AppThemeChangedEventHandler(HandleAppThemeChanged);
+                settingManagementService = null;
+            }
+        }
+        #endregion
+
+        #region Finalizer
+        ~MainWindowViewModel()
+        {
+            this.DeregisterFromServiceEvents();
+        }
+        #endregion
     }
 }

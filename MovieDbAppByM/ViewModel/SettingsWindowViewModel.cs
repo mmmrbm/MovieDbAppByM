@@ -105,6 +105,7 @@ namespace MovieDbAppByM.ViewModel
         {
             if (window != null)
             {
+                this.DeregisterFromServiceEvents();
                 window.CloseWindow();
             }
         }
@@ -149,9 +150,27 @@ namespace MovieDbAppByM.ViewModel
         }
         #endregion
 
+        #region Event Handling
         private void HandleAppThemeChanged()
         {
             this.SetupApplicationTheme();
         }
+
+        private void DeregisterFromServiceEvents()
+        {
+            if (settingManagementService != null)
+            {
+                settingManagementService.AppThemeChanged -= new AppThemeChangedEventHandler(HandleAppThemeChanged);
+                settingManagementService = null;
+            }
+        }
+        #endregion
+
+        #region Finalizer
+        ~SettingsWindowViewModel()
+        {
+            this.DeregisterFromServiceEvents();
+        }
+        #endregion
     }
 }

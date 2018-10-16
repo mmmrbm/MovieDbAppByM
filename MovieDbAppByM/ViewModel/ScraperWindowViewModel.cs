@@ -16,6 +16,12 @@ namespace MovieDbAppByM.ViewModel
 {
     public class ScraperWindowViewModel : BindableBase
     {
+        #region Constants
+        private static readonly char spaceCharacter = ' ';
+        private static readonly SolidColorBrush successBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF008000"));
+        private static readonly SolidColorBrush failedBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFB22222"));
+        #endregion
+
         #region Class variabloes
         private int progressBarMaxValue;
         private int currentProgressValue;
@@ -32,10 +38,7 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush progressBarBackgroundColor;
         private SolidColorBrush processInfoLabelFillColor;
         private SolidColorBrush processResultBackgroundColor;
-
-        private SolidColorBrush successBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF008000"));
-        private SolidColorBrush failedBackground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFB22222"));
-
+        
         private Visibility shouldProgressVisible;
         private IContainer iocContainer;
         private MovieProcessingService movieProcessingService;
@@ -199,12 +202,16 @@ namespace MovieDbAppByM.ViewModel
 
         private void StartCommandHandler()
         {
-            string[] movieIdsToPersist = File.ReadAllLines(SelectedFilePath);
+            string[] movieIdLinesToPersist = File.ReadAllLines(SelectedFilePath);
             this.LoadedMovieIdCollection.Clear();
 
-            foreach (var movieId in movieIdsToPersist)
+            foreach (string fileLineWithMovieIds in movieIdLinesToPersist)
             {
-                this.LoadedMovieIdCollection.Add(new LoadedMovieItem(movieId));
+                string[] movieIds = fileLineWithMovieIds.Split(',');
+                foreach (string movieId in movieIds)
+                {
+                    this.LoadedMovieIdCollection.Add(new LoadedMovieItem(movieId.Trim(spaceCharacter)));
+                }
             }
 
             this.ProgressBarMaxValue = this.LoadedMovieIdCollection.Count;
@@ -238,7 +245,9 @@ namespace MovieDbAppByM.ViewModel
             this.ProcessInfoLabelFillColor = backgroundColor;
             this.FolderPathTextForegroundColor = backgroundColor;
         }
+        #endregion
 
+        #region Event Handling
         private void HandleMovieSuccessfullyProcessed(LoadedMovieItem processedMovie)
         {
             LoadedMovieItem foundMovie = this.LoadedMovieIdCollection[this.LoadedMovieIdCollection.IndexOf(processedMovie)];
@@ -256,7 +265,6 @@ namespace MovieDbAppByM.ViewModel
             this.CurrentProgressValue = progress;
         }
 
-        
         private void HandleMovieProcessingCompleted(int successfullyProcessedMovieCount, int errorneouslyProcessedMovieCount)
         {
             Mouse.OverrideCursor = Cursors.Arrow;
