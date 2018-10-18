@@ -120,7 +120,7 @@ namespace MovieDbAppByM.ViewModel
 
         private void PersistThemeCommandHandler()
         {
-            this.settingManagementService.SetApplicationTheme(this.SelectedThemeValueText);
+            this.settingManagementService.PersistApplicationTheme(this.SelectedThemeValueText);
         }
         #endregion
 

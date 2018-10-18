@@ -1,5 +1,4 @@
 ﻿using MovieDbAppByM.EventHub;
-using MovieDbAppByM.Utility;
 using MovieDbAppByM.View.Helpers;
 
 namespace MovieDbAppByM.Service
@@ -26,20 +25,14 @@ namespace MovieDbAppByM.Service
 
         public event AppThemeChangedEventHandler AppThemeChanged;
 
-        private AppSettings appSettings;
-
-        public SettingManagementService()
-        {
-            this.appSettings = new AppSettings();
-        }
-
+        #region Implementaion Methods
         /// <summary>
         /// Responsible to produce the theme colors as per the settings selected by user.
         /// </summary>
         /// <returns></returns>
         public ThemeColorHolder GetThemeAscent()
         {
-            string selectedTheme = this.appSettings["Theme"].ToString();
+            string selectedTheme = Properties.Settings.Default.Theme;
             ThemeColorHolder themeColorHolder = new ThemeColorHolder();
 
             switch (selectedTheme)
@@ -87,15 +80,21 @@ namespace MovieDbAppByM.Service
         /// Reponsible to persist the theme selected by user.
         /// </summary>
         /// <param name="theme">Theme selected by user.</param>
-        public void SetApplicationTheme(string theme)
+        public void PersistApplicationTheme(string theme)
         {
-            this.appSettings["Theme"] = theme;
+            Properties.Settings.Default.Theme = theme;
+            Properties.Settings.Default.Save();
             this.AppThemeChanged();
         }
 
+        /// <summary>
+        /// Gets application theme currently used by end user.
+        /// </summary>
+        /// <returns></returns>
         public string GetCurrentTheme()
         {
-            return this.appSettings["Theme"].ToString();
+            return Properties.Settings.Default.Theme;
         }
+        #endregion
     }
 }

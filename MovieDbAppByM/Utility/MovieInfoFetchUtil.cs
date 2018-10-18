@@ -12,23 +12,24 @@ namespace MovieDbAppByM.Utility
         private const string creditFetchUrl = @"http://api.themoviedb.org/3/movie/{0}/credits?api_key={1}";
         private const string apiKey = "37aec05da628be043091f9639c579d7e";
 
-        public MovieInfoFetchUtil()
-        {
-            webClient = new WebClient();
-        }
-
         public TmdbMovieInformatonDto GetMovieAsync(string imdbId)
         {
-            string apiUrl = string.Format(infoFetchUrl, imdbId, apiKey);
-            TmdbMovieInformatonDto movie = JsonConvert.DeserializeObject<TmdbMovieInformatonDto>(webClient.DownloadString(apiUrl));
-            return movie;
+            using (webClient = new WebClient())
+            {
+                string apiUrl = string.Format(infoFetchUrl, imdbId, apiKey);
+                TmdbMovieInformatonDto movie = JsonConvert.DeserializeObject<TmdbMovieInformatonDto>(webClient.DownloadString(apiUrl));
+                return movie;
+            }
         }
 
         public TmdbMovieCastInfoDto GetMovieCreditsAsync(string imdbId)
         {
-            string apiUrl = string.Format(creditFetchUrl, imdbId, apiKey);
-            TmdbMovieCastInfoDto movieCast = JsonConvert.DeserializeObject<TmdbMovieCastInfoDto>(webClient.DownloadString(apiUrl));
-            return movieCast;
+            using (webClient = new WebClient())
+            {
+                string apiUrl = string.Format(creditFetchUrl, imdbId, apiKey);
+                TmdbMovieCastInfoDto movieCast = JsonConvert.DeserializeObject<TmdbMovieCastInfoDto>(webClient.DownloadString(apiUrl));
+                return movieCast;
+            }
         }
     }
 }
