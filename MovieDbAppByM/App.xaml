@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:MovieDbAppByM"
              StartupUri="View\MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles\ClearButtonStyle.xaml"/>
+                <ResourceDictionary Source="Styles\CircularProgressBarStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
