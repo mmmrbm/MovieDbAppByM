@@ -198,10 +198,14 @@
         <Rectangle Name="rectSearchBar" Grid.Column="9" Grid.ColumnSpan="1" Height="24"
                    Fill="{Binding Path=SearchBarFillColor}"></Rectangle>
         <StackPanel Grid.Column="9" Grid.ColumnSpan="5" Orientation="Horizontal">
-            <TextBox Name="txtSearchBox" HorizontalAlignment="Left" Margin="0 0 10 0" VerticalContentAlignment="Center"
-             BorderThickness="0" Height="24" Width="200" 
+            <TextBox Name="txtSearchBox" 
+                     HorizontalAlignment="Left" 
+                     Margin="0 0 10 0" 
+                     VerticalContentAlignment="Center"
+                     BorderThickness="0" Height="24" Width="200" 
                      Background="{Binding Path=SearchBoxBackgroundColor}"
-                     Foreground="{Binding Path=SearchBoxForegroundColor}"></TextBox>
+                     Foreground="{Binding Path=SearchBoxForegroundColor}"
+                     Text="{Binding Path=SearchQueryTextValue}"></TextBox>
             <Button Name="btnSearch" Width="32" Height="32" Command="{Binding SearchCommand}"
                 Style="{DynamicResource EmptyButtonStyle}">
                 <Image Source="/Icons/Search-128.png"/>

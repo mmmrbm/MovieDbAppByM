@@ -9,13 +9,17 @@ namespace MovieDbAppByM.Dto.AppDomain
     {
         public AppMovieListItemDto(
             int movieId,
+            string movieTitle,
             byte[] moviePoster)
         {
             this.MovieId = movieId;
+            this.MovieTitle = movieTitle;
             this.MoviePoster = moviePoster;
         }
 
         public int MovieId { get; }
+
+        public string MovieTitle { get; }
 
         public byte[] MoviePoster { get; }
     }

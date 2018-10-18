@@ -2,6 +2,7 @@
 using MovieDbAppByM.Mapping;
 using MovieDbAppByM.Model;
 using MovieDbAppByM.Persistance.Repository.Contract;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -57,13 +58,13 @@ namespace MovieDbAppByM.Service
         /// required to populate the movie list in the bottom slider in the UI.
         /// </summary>
         /// <returns>The collection of <see cref="AppMovieListItemDto"/> returned from database.</returns>
-        public ObservableCollection<AppMovieListItemDto> GetScrollViewInfo()
+        public List<AppMovieListItemDto> GetScrollViewInfo()
         {
-            ObservableCollection<AppMovieListItemDto> scrollViewItemCollection = new ObservableCollection<AppMovieListItemDto>();
+            List<AppMovieListItemDto> scrollViewItemCollection = new List<AppMovieListItemDto>();
 
             foreach (var movieItem in movieRepository.GetMoviesForScrollView())
             {
-                AppMovieListItemDto movieListItem = new AppMovieListItemDto(movieItem.Id, movieItem.PosterImage);
+                AppMovieListItemDto movieListItem = new AppMovieListItemDto(movieItem.Id, movieItem.Title, movieItem.PosterImage);
                 scrollViewItemCollection.Add(movieListItem);
             }
 

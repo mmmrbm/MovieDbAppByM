@@ -40,7 +40,7 @@ namespace MovieDbAppByM.Persistance.Repository.Implementation
         public IEnumerable<dynamic> GetMoviesForScrollView()
         {
             IEnumerable<dynamic> result = movieAppDbContext.Movies
-                .Select(movie => new { movie.Id, movie.PosterImage })
+                .Select(movie => new { movie.Id, movie.Title, movie.PosterImage })
                 .Distinct()
                 .ToList();
             return result;

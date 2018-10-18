@@ -6,7 +6,9 @@ using MovieDbAppByM.EventHub;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -28,6 +30,7 @@ namespace MovieDbAppByM.ViewModel
         private float progressValue;
 
         private string titleTextValue;
+        private string searchQueryTextValue;
         private string directorTextValue;
         private string taglineTextValue;
         private string runtimeTextValue;
@@ -77,6 +80,7 @@ namespace MovieDbAppByM.ViewModel
         private SolidColorBrush movieListItemPanelBackgroundColor;
         private SolidColorBrush movieListItemTemplateBackgroundColor;
 
+        private List<AppMovieListItemDto> simpleMovieListFromServer;
         private ObservableCollection<AppMovieListItemDto> appMovieListItemCollection;
         private ObservableCollection<AppMovieActorDto> appMovieCastInfoCollection;
         private AppMovieListItemDto selectedMovie;
@@ -116,6 +120,12 @@ namespace MovieDbAppByM.ViewModel
         {
             get { return this.titleTextValue; }
             set { this.SetProperty(ref this.titleTextValue, value); }
+        }
+
+        public string SearchQueryTextValue
+        {
+            get { return this.searchQueryTextValue; }
+            set { this.SetProperty(ref this.searchQueryTextValue, value); }
         }
 
         public string DirectorTextValue
@@ -486,7 +496,7 @@ namespace MovieDbAppByM.ViewModel
 
         private void SearchCommandHandler()
         {
-            //this.SearchMovieInfo();
+            this.DisplayFilteredMoviesForSearch();
         }
 
         private void RefreshCommandHandler()
@@ -594,7 +604,8 @@ The tool will add your movies to the collection automatically.";
         {
             IContainer continer = IocContainerSingleton.Instance.Container;
             MovieRetrieveService service = continer.Resolve<MovieRetrieveService>();
-            this.AppMovieListItemCollection = service.GetScrollViewInfo();
+            this.simpleMovieListFromServer = service.GetScrollViewInfo();
+            this.AppMovieListItemCollection = new ObservableCollection<AppMovieListItemDto>(this.simpleMovieListFromServer);
         }
 
         private void PopulateSelectedMovieInfo()
@@ -650,6 +661,15 @@ The tool will add your movies to the collection automatically.";
 
                 this.AppMovieCastInfoCollection = new ObservableCollection<AppMovieActorDto>(selectedMovieInfo.MovieActors);
             }
+        }
+
+        private void DisplayFilteredMoviesForSearch()
+        {
+            this.SelectedMovie = null;
+
+            this.AppMovieListItemCollection =
+                new ObservableCollection<AppMovieListItemDto>(this.simpleMovieListFromServer
+                .Where(movieDto => movieDto.MovieTitle.ToUpper().Contains(this.SearchQueryTextValue.ToUpper())));
         }
         #endregion
 
