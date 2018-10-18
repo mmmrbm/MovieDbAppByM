@@ -84,7 +84,12 @@ namespace MovieDbAppByM.Service
         {
             Properties.Settings.Default.Theme = theme;
             Properties.Settings.Default.Save();
-            this.AppThemeChanged();
+
+            AppThemeChangedEventArgs eventArgs = new AppThemeChangedEventArgs()
+            {
+                SelectedTheme = theme
+            };
+            this.AppThemeChanged(this, eventArgs);
         }
 
         /// <summary>

@@ -1,11 +1,9 @@
-﻿using MovieDbAppByM.View.Helpers;
-
-namespace MovieDbAppByM.EventHub
+﻿namespace MovieDbAppByM.EventHub
 {
-    public delegate void MovieSuccessfullyProcessedEventHandler(LoadedMovieItem processedMovie);
-    public delegate void MovieErrorneouslyProcessedEventHandler(LoadedMovieItem processedMovie);
-    public delegate void MovieProcessProgressChangedEventHandler(int progress);
-    public delegate void MovieProcessingCompletedEventHandler(int successfullyProcessedMovieCount, int errorneouslyProcessedMovieCount);
+    public delegate void MovieSuccessfullyProcessedEventHandler(object sender, MovieSuccessfullyProcessedEventArgs e);
+    public delegate void MovieErrorneouslyProcessedEventHandler(object sender, MovieErrorneouslyProcessedEventArgs e);
+    public delegate void MovieProcessProgressChangedEventHandler(object sender, MovieProcessProgressChangedEventArgs e);
+    public delegate void MovieProcessingCompletedEventHandler(object sender, MovieProcessingCompletedEventArgs e);
 
-    public delegate void AppThemeChangedEventHandler();
+    public delegate void AppThemeChangedEventHandler(object sender, AppThemeChangedEventArgs e);
 }

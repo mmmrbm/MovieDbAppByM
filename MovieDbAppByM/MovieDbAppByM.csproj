@@ -91,6 +91,11 @@
     <Compile Include="Dto\AppDomain\AppMovieDirectorDto.cs" />
     <Compile Include="Dto\AppDomain\AppMovieListItemDto.cs" />
     <Compile Include="EventHub\AppEventHandlerDelegate.cs" />
+    <Compile Include="EventHub\AppThemeChangedEventArgs.cs" />
+    <Compile Include="EventHub\MovieErrorneouslyProcessedEventArgs.cs" />
+    <Compile Include="EventHub\MovieProcessProgressChangedEventArgs.cs" />
+    <Compile Include="EventHub\MovieSuccessfullyProcessedEventArgs.cs" />
+    <Compile Include="EventHub\MovieProcessingCompletedEventArgs.cs" />
     <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Migrations\201810131223421_MovieDb-v1.0.cs" />
     <Compile Include="Migrations\201810131223421_MovieDb-v1.0.Designer.cs">

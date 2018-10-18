@@ -55,16 +55,11 @@ namespace MovieDbAppByM.ViewModel
             movieProcessingService.MovieProcessProgressChanged += new MovieProcessProgressChangedEventHandler(this.HandleMovieProcessProgressChanged);
             movieProcessingService.MovieProcessingCompleted += new MovieProcessingCompletedEventHandler(this.HandleMovieProcessingCompleted);
 
-            this.LoadedMovieIdCollection = new ObservableCollection<LoadedMovieItem>();
-            this.CurrentProgressValue = 0;
-
             this.WindowLoadedCommand = new RelayCommand(this.WindowLoadedCommandHandler);
             this.CloseCommand = new RelayCommand<IClosable>(this.CloseCommandHandler);
             this.MinimizeCommand = new RelayCommand<IMinimizable>(this.MinimizeCommandHandler);
             this.BrowseCommand = new RelayCommand(this.BrowseCommandHandler);
             this.StartCommand = new RelayCommand(this.StartCommandHandler);
-
-            this.ShouldProgressVisible = Visibility.Hidden;
         }
         
         #region Properties
@@ -203,7 +198,8 @@ namespace MovieDbAppByM.ViewModel
         private void StartCommandHandler()
         {
             string[] movieIdLinesToPersist = File.ReadAllLines(SelectedFilePath);
-            this.LoadedMovieIdCollection.Clear();
+            this.LoadedMovieIdCollection = new ObservableCollection<LoadedMovieItem>();
+            this.CurrentProgressValue = 0;
 
             foreach (string fileLineWithMovieIds in movieIdLinesToPersist)
             {
@@ -244,28 +240,30 @@ namespace MovieDbAppByM.ViewModel
             this.TitleTextFillColor = backgroundColor;
             this.ProcessInfoLabelFillColor = backgroundColor;
             this.FolderPathTextForegroundColor = backgroundColor;
+
+            this.ShouldProgressVisible = Visibility.Hidden;
         }
         #endregion
 
         #region Event Handling
-        private void HandleMovieSuccessfullyProcessed(LoadedMovieItem processedMovie)
+        private void HandleMovieSuccessfullyProcessed(object sender, MovieSuccessfullyProcessedEventArgs e)
         {
-            LoadedMovieItem foundMovie = this.LoadedMovieIdCollection[this.LoadedMovieIdCollection.IndexOf(processedMovie)];
+            LoadedMovieItem foundMovie = this.LoadedMovieIdCollection[this.LoadedMovieIdCollection.IndexOf(e.ProcessedMovie)];
             foundMovie.Background = successBackground;
         }
 
-        private void HandleMovieErrorneouslyProcessed(LoadedMovieItem processedMovie)
+        private void HandleMovieErrorneouslyProcessed(object sender, MovieErrorneouslyProcessedEventArgs e)
         {
-            LoadedMovieItem foundMovie = this.LoadedMovieIdCollection[this.LoadedMovieIdCollection.IndexOf(processedMovie)];
+            LoadedMovieItem foundMovie = this.LoadedMovieIdCollection[this.LoadedMovieIdCollection.IndexOf(e.ProcessedMovie)];
             foundMovie.Background = failedBackground;
         }
 
-        private void HandleMovieProcessProgressChanged(int progress)
+        private void HandleMovieProcessProgressChanged(object sender, MovieProcessProgressChangedEventArgs e)
         {
-            this.CurrentProgressValue = progress;
+            this.CurrentProgressValue = e.Progress;
         }
 
-        private void HandleMovieProcessingCompleted(int successfullyProcessedMovieCount, int errorneouslyProcessedMovieCount)
+        private void HandleMovieProcessingCompleted(object sender, MovieProcessingCompletedEventArgs e)
         {
             Mouse.OverrideCursor = Cursors.Arrow;
         }

@@ -13,6 +13,9 @@ namespace MovieDbAppByM.Service
         private static readonly string successDescText = "SUCCESS";
         private static readonly string errorFlagText = "ERROR";
 
+        private int successfullyProcessedMovieCount;
+        private int errorneouslyProcessedMovieCount;
+
         private UserFileInfoPersistanceService userFileInfoPersistanceService;
         private MoviePersistanceService moviePersistanceService;
 
@@ -67,7 +70,11 @@ namespace MovieDbAppByM.Service
                     successFlagText,
                     successDescText);
 
-                this.MovieSuccessfullyProcessed(loadedMovieItem);
+                this.MovieSuccessfullyProcessed(this, new MovieSuccessfullyProcessedEventArgs()
+                {
+                    ProcessedMovie = loadedMovieItem
+                });
+                this.successfullyProcessedMovieCount += 1;
             }
             catch (Exception ex)
             {
@@ -76,18 +83,31 @@ namespace MovieDbAppByM.Service
                     errorFlagText,
                     ex.Message);
 
-                this.MovieErrorneouslyProcessed(loadedMovieItem);
+                this.MovieErrorneouslyProcessed(this, new MovieErrorneouslyProcessedEventArgs()
+                {
+                    ProcessedMovie = loadedMovieItem
+                });
+                this.errorneouslyProcessedMovieCount += 1;
             }
         }
 
         private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            this.MovieProcessProgressChanged(e.ProgressPercentage);
+            this.MovieProcessProgressChanged(
+                this, 
+                new MovieProcessProgressChangedEventArgs()
+                {
+                    Progress = e.ProgressPercentage
+                });
         }
 
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.MovieProcessingCompleted(0, 0);
+            this.MovieProcessingCompleted(this, new MovieProcessingCompletedEventArgs()
+            {
+                SuccessfullyProcessedMovieCount = this.successfullyProcessedMovieCount,
+                ErrorneouslyProcessedMovieCount = this.errorneouslyProcessedMovieCount
+            });
         }
     }
 }

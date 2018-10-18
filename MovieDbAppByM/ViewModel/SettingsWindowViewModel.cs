@@ -151,7 +151,7 @@ namespace MovieDbAppByM.ViewModel
         #endregion
 
         #region Event Handling
-        private void HandleAppThemeChanged()
+        private void HandleAppThemeChanged(object sender, AppThemeChangedEventArgs e)
         {
             this.SetupApplicationTheme();
         }
