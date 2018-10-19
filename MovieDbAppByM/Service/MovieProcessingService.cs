@@ -19,10 +19,12 @@ namespace MovieDbAppByM.Service
         private UserFileInfoPersistanceService userFileInfoPersistanceService;
         private MoviePersistanceService moviePersistanceService;
 
-        public event MovieSuccessfullyProcessedEventHandler MovieSuccessfullyProcessed;
-        public event MovieErrorneouslyProcessedEventHandler MovieErrorneouslyProcessed;
-        public event MovieProcessProgressChangedEventHandler MovieProcessProgressChanged;
-        public event MovieProcessingCompletedEventHandler MovieProcessingCompleted;
+        // Initializing events with an empty delegate as per 
+        // https://www.codeproject.com/Articles/738109/The-NET-weak-event-pattern-in-Csharp
+        public event EventHandler<MovieSuccessfullyProcessedEventArgs> MovieSuccessfullyProcessed = delegate { };
+        public event EventHandler<MovieErrorneouslyProcessedEventArgs> MovieErrorneouslyProcessed = delegate { };
+        public event EventHandler<MovieProcessProgressChangedEventArgs> MovieProcessProgressChanged = delegate { };
+        public event EventHandler<MovieProcessingCompletedEventArgs> MovieProcessingCompleted = delegate { };
 
         public MovieProcessingService(
             UserFileInfoPersistanceService userFileInfoPersistanceService,

@@ -6,6 +6,7 @@ using MovieDbAppByM.EventHub;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -50,10 +51,10 @@ namespace MovieDbAppByM.ViewModel
             this.iocContainer = IocContainerSingleton.Instance.Container;
 
             movieProcessingService = this.iocContainer.Resolve<MovieProcessingService>();
-            movieProcessingService.MovieSuccessfullyProcessed += new MovieSuccessfullyProcessedEventHandler(HandleMovieSuccessfullyProcessed);
-            movieProcessingService.MovieErrorneouslyProcessed += new MovieErrorneouslyProcessedEventHandler(this.HandleMovieErrorneouslyProcessed);
-            movieProcessingService.MovieProcessProgressChanged += new MovieProcessProgressChangedEventHandler(this.HandleMovieProcessProgressChanged);
-            movieProcessingService.MovieProcessingCompleted += new MovieProcessingCompletedEventHandler(this.HandleMovieProcessingCompleted);
+            movieProcessingService.MovieSuccessfullyProcessed += new EventHandler<MovieSuccessfullyProcessedEventArgs>(HandleMovieSuccessfullyProcessed);
+            movieProcessingService.MovieErrorneouslyProcessed += new EventHandler<MovieErrorneouslyProcessedEventArgs>(this.HandleMovieErrorneouslyProcessed);
+            movieProcessingService.MovieProcessProgressChanged += new EventHandler<MovieProcessProgressChangedEventArgs>(this.HandleMovieProcessProgressChanged);
+            movieProcessingService.MovieProcessingCompleted += new EventHandler<MovieProcessingCompletedEventArgs>(this.HandleMovieProcessingCompleted);
 
             this.WindowLoadedCommand = new RelayCommand(this.WindowLoadedCommandHandler);
             this.CloseCommand = new RelayCommand<IClosable>(this.CloseCommandHandler);
@@ -272,10 +273,10 @@ namespace MovieDbAppByM.ViewModel
         {
             if (movieProcessingService != null)
             {
-                movieProcessingService.MovieSuccessfullyProcessed -= new MovieSuccessfullyProcessedEventHandler(HandleMovieSuccessfullyProcessed);
-                movieProcessingService.MovieErrorneouslyProcessed -= new MovieErrorneouslyProcessedEventHandler(this.HandleMovieErrorneouslyProcessed);
-                movieProcessingService.MovieProcessProgressChanged -= new MovieProcessProgressChangedEventHandler(this.HandleMovieProcessProgressChanged);
-                movieProcessingService.MovieProcessingCompleted -= new MovieProcessingCompletedEventHandler(this.HandleMovieProcessingCompleted);
+                movieProcessingService.MovieSuccessfullyProcessed -= new EventHandler<MovieSuccessfullyProcessedEventArgs>(HandleMovieSuccessfullyProcessed);
+                movieProcessingService.MovieErrorneouslyProcessed -= new EventHandler<MovieErrorneouslyProcessedEventArgs>(this.HandleMovieErrorneouslyProcessed);
+                movieProcessingService.MovieProcessProgressChanged -= new EventHandler<MovieProcessProgressChangedEventArgs>(this.HandleMovieProcessProgressChanged);
+                movieProcessingService.MovieProcessingCompleted -= new EventHandler<MovieProcessingCompletedEventArgs>(this.HandleMovieProcessingCompleted);
                 movieProcessingService = null;
             }
         }

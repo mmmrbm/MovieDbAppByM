@@ -1,5 +1,6 @@
 ﻿using MovieDbAppByM.EventHub;
 using MovieDbAppByM.View.Helpers;
+using System;
 
 namespace MovieDbAppByM.Service
 {
@@ -23,7 +24,7 @@ namespace MovieDbAppByM.Service
         private static readonly string orangeLight = "#FCD4B1";
         #endregion
 
-        public event AppThemeChangedEventHandler AppThemeChanged;
+        public event EventHandler<AppThemeChangedEventArgs> AppThemeChanged = delegate { };
 
         #region Implementaion Methods
         /// <summary>

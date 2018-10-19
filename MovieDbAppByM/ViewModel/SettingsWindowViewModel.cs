@@ -5,6 +5,7 @@ using MovieDbAppByM.EventHub;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;
+using System;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -30,7 +31,7 @@ namespace MovieDbAppByM.ViewModel
         {
             this.iocContainer = IocContainerSingleton.Instance.Container;
             this.settingManagementService = this.iocContainer.Resolve<SettingManagementService>();
-            this.settingManagementService.AppThemeChanged += new AppThemeChangedEventHandler(this.HandleAppThemeChanged);
+            this.settingManagementService.AppThemeChanged += new EventHandler<AppThemeChangedEventArgs>(this.HandleAppThemeChanged);
 
             this.WindowLoadedCommand = new RelayCommand(this.WindowLoadedCommandHandler);
             this.CloseCommand = new RelayCommand<IClosable>(this.CloseCommandHandler);
@@ -79,20 +80,17 @@ namespace MovieDbAppByM.ViewModel
             set { this.SetProperty(ref this.themeSelectorFillColor, value); }
         }
 
-
         public SolidColorBrush ThemeSelectorLabelForegroundColor
         {
             get { return this.themeSelectorLabelForegroundColor; }
             set { this.SetProperty(ref this.themeSelectorLabelForegroundColor, value); }
         }
 
-
         public SolidColorBrush ThemeSelectorComboBoxBackgroundColor
         {
             get { return this.themeSelectorComboBoxBackgroundColor; }
             set { this.SetProperty(ref this.themeSelectorComboBoxBackgroundColor, value); }
         }
-        
         #endregion
 
         #region Command Handlers
@@ -160,7 +158,7 @@ namespace MovieDbAppByM.ViewModel
         {
             if (settingManagementService != null)
             {
-                settingManagementService.AppThemeChanged -= new AppThemeChangedEventHandler(HandleAppThemeChanged);
+                settingManagementService.AppThemeChanged -= new EventHandler<AppThemeChangedEventArgs>(HandleAppThemeChanged);
                 settingManagementService = null;
             }
         }

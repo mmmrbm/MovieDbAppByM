@@ -6,6 +6,7 @@ using MovieDbAppByM.EventHub;
 using MovieDbAppByM.Service;
 using MovieDbAppByM.View.Contract;
 using MovieDbAppByM.View.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -94,7 +95,7 @@ namespace MovieDbAppByM.ViewModel
         {
             this.iocContainer = IocContainerSingleton.Instance.Container;
             this.settingManagementService = this.iocContainer.Resolve<SettingManagementService>();
-            this.settingManagementService.AppThemeChanged += new AppThemeChangedEventHandler(this.HandleAppThemeChanged);
+            this.settingManagementService.AppThemeChanged += new EventHandler<AppThemeChangedEventArgs>(this.HandleAppThemeChanged);
 
             this.WindowLoadedCommand = new RelayCommand(this.WindowLoadedCommandHandler);
             this.CloseCommand = new RelayCommand<IClosable>(this.CloseCommandHandler);
@@ -683,7 +684,7 @@ The tool will add your movies to the collection automatically.";
         {
             if (settingManagementService != null)
             {
-                settingManagementService.AppThemeChanged -= new AppThemeChangedEventHandler(HandleAppThemeChanged);
+                settingManagementService.AppThemeChanged -= new EventHandler<AppThemeChangedEventArgs>(HandleAppThemeChanged);
                 settingManagementService = null;
             }
         }
